@@ -1,1 +1,0 @@
-# adam-coates.github.io
