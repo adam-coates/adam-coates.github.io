@@ -8,9 +8,6 @@ comments:
     mapping: "title"
 date: 2024-03-04
 categories: [R, "test"] # self-defined categories
-# citation: 
-#   url: https://jimgrange.github.io/posts/2023-03-30-hello-world/
-# image: preview_image.jpg
 draft: false # setting this to `true` will prevent your post from appearing on your listing page until you're ready
 ---
 
