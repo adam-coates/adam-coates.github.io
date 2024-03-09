@@ -1,6 +1,6 @@
 ---
 title: "What's the best notebook"
-description: "Why I started this blog?"
+description: "and why I started this blog?"
 #image: "feature.gif"
 comments:
   giscus:
