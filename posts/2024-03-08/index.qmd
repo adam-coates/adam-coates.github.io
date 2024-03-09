@@ -34,7 +34,7 @@ But I feel I have a workflow that works better and works well especially for me.
 
 ### Neovim and the configuration
 
-Perhaps I started this whole rabbit-hole journey around 4th October 2023 with the first commit: <a href="https://github.com/adam-coates/dotfiles/commits/main/?since=2023-10-04&until=2023-10-04" class="button">97ca162</a>  But since then my whole configuration has altered and changed many times and in that process I have moved away from jupyter notebooks to quarto documents. Quarto documents I found much *much* easier to be able to do inline coding of any language by just specifying the tag I need 'r','python','bash','html'. I have also moved away from editing quarto documents in Rstudio and now solely edit files using neovim which looks like this: 
+Perhaps I started this whole rabbit-hole journey around 4th October 2023 with the first commit: <a href="https://github.com/adam-coates/dotfiles/commits/main/?since=2023-10-04&until=2023-10-04" class="button">97ca162</a>  But since then my whole configuration has altered and changed many times and in that process I have moved away from jupyter notebooks to quarto documents. Quarto documents I found much *much* easier to be able to do inline coding of any language by just specifying the tag I need 'R','python','bash','html'. I have also moved away from editing quarto documents in Rstudio and now solely edit files using neovim which looks like this: 
 
 ![](./nvim_eg.png)
 
