@@ -1,8 +1,8 @@
 {
-  "hash": "c5061431a44b0fc2590f76139ddcaba2",
+  "hash": "0c277056c6ddbefe8546d71720971c87",
   "result": {
     "engine": "jupyter",
-    "markdown": "---\ntitle: \"test\"\ndescription: \"test\"\n#image: \"feature.gif\"\ncomments:\n  giscus:\n    repo: \"adam-coates/adam-coates.github.io\"\n    mapping: \"title\"\ndate: 2024-03-04\ncategories: [R, \"test\"] # self-defined categories\n# citation: \n#   url: https://jimgrange.github.io/posts/2023-03-30-hello-world/\n# image: preview_image.jpg\ndraft: false # setting this to `true` will prevent your post from appearing on your listing page until you're ready\n---\n\n### test\n\n::: {#b8612c0d .cell execution_count=1}\n``` {.python .cell-code}\nimport os\n\nprint(os.name)\n```\n\n::: {.cell-output .cell-output-stdout}\n```\nposix\n```\n:::\n:::\n\n\n",
+    "markdown": "---\ntitle: \"test\"\ndescription: \"test\"\n#image: \"feature.gif\"\ncomments:\n  giscus:\n    repo: \"adam-coates/adam-coates.github.io\"\n    mapping: \"title\"\ndate: 2024-03-04\ncategories: [R, \"test\"] # self-defined categories\ndraft: false # setting this to `true` will prevent your post from appearing on your listing page until you're ready\n---\n\n### test\n\n::: {#923a2d6e .cell execution_count=1}\n``` {.python .cell-code}\nimport os\n\nprint(os.name)\n```\n\n::: {.cell-output .cell-output-stdout}\n```\nposix\n```\n:::\n:::\n\n\n",
     "supporting": [
       "index_files"
     ],

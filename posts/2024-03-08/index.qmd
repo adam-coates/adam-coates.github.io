@@ -1,0 +1,56 @@
+---
+title: "What's the best notebook"
+description: "Why I started this blog?"
+#image: "feature.gif"
+comments:
+  giscus:
+    repo: "adam-coates/adam-coates.github.io"
+    mapping: "title"
+date: 2024-03-09
+categories: ["coding", "neovim", "quarto"] # self-defined categories
+draft: false # setting this to `true` will prevent your post from appearing on your listing page until you're ready
+css: style.css
+---
+
+### What are quarto documents and jupyter notebooks?
+
+Quarto documents are a way to preview raw html of jupyter notebooks. But so much more. 
+
+Jupyter notebooks (I used for quite some time) are a way to have in-line code, split into cells that can be rendered one cell at a time. Typically jupyter notebooks are used with python and some text written in markdown. Despite this I find jupyter notebooks and its sister program jupyter labs to be great if you want to get started and learn python. Beyond this, jupyter lab offers a useful gui that aids almost any data scientist (or anyone who wishes to write python code for that matter) to process data in a more interactive way than just writing python code in the terminal. For example: 
+
+![](./cmd_eg.png){fig-align="center" width="75%"}
+
+Here I show my first (slightly laughable) attempt at importing matplotlib. Of course, on my windows machine I didn't have it. So I thought this was a great example of how terminal based coding really goes like. 
+
+There is not much to see only really the raw code entered line-by-line. Whereas in a jupyter notebook that line plot can be created much more easily, with in-built syntax highlighting and code suggestions, it means that your less likely to find yourself in a situation as I found myself in above. (where you *really* don't have a library or package installed before trying to import it!) 
+
+![](./jupyter_eg.png){fig-align="center" width="70%"}
+
+Here above I show that those 6 or so lines can be executed in a 'cell' whereby the whole block of code can be run instead of typing the code line by line. 
+
+The above is great and it just works. I'm not going to bash jupyter lab or jupyter notebooks, you can find many videos online of people doing that; it's also true and likely that I will still use them. 
+
+But I feel I have a workflow that works better and works well especially for me. If you're like me and want to customise a coding editor to make it what your use case is, then keep reading. 
+
+### Neovim and the configuration
+
+Perhaps I started this whole rabbit-hole journey around 4th October 2023 with the first commit: <a href="https://github.com/adam-coates/dotfiles/commits/main/?since=2023-10-04&until=2023-10-04" class="button">97ca162</a>  But since then my whole configuration has altered and changed many times and in that process I have moved away from jupyter notebooks to quarto documents. Quarto documents I found much *much* easier to be able to do inline coding of any language by just specifying the tag I need 'r','python','bash','html'. I have also moved away from editing quarto documents in Rstudio and now solely edit files using neovim which looks like this: 
+
+![](./nvim_eg.png)
+
+My configuration allows for multiple things. So now everything I do, I do in neovim. 
+
+So why I chose quarto over jupyter notebooks, probably isn't too clear at this point. However, the neovim configuration I have set up allows for all the things that can be offered from all text editors like vscode, Rstudio, jupyter notebooks but without a gui getting in the way and full customisability. There truly are a myriad of benefits (the biggest one if the keybindings, movements and gestures that let you edit and write code very **fast**) and I wish anyone who would like something that they can call their "own" to go and explore neovim.
+
+
+Although the customisability took several months (this is probably the only downside, it is a **lot** of tinkering), I feel it is worth it and along the way all this tinkering has helped me to begin to learn more about coding languages such as lua, python and JavaScript and shell scripting languages. 
+
+### The purpose of this blog 
+
+The purpose of this blog is to really document these things. The things that have led me to the point I'm at right now. To start to write down coding notes about this particular configuration journey. 
+
+I'd also like to dabble a bit of coding regarding data analysis in R and Python and to the mix too. And also to document data analysis of fMRI data. I think this would be the perfect place to do this. 
+
+### Suggestions?
+
+If you have any suggestions how I can make this useful to you or would like to reach out to me please feel free to do so. I hope this blog will inform others', if at least inform myself 😂.
