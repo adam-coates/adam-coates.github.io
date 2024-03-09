@@ -1,0 +1,29 @@
+---
+title: "Adam Coates"
+image: images/pr.jpg
+about: 
+  template: trestles
+  image-shape: rounded
+  image-width: 14em
+  links:
+    - icon: book 
+      text: Google Scholar
+      href: https://scholar.google.com/citations?user=xhPfahYAAAAJ&hl=en
+    - icon: github 
+      text: GitHub
+      href: https://github.com/adam-coates
+    - icon: globe
+      text: Uni Graz
+      href: https://neurovision.uni-graz.at
+---
+
+### About
+
+<p class="topbr">
+
+Hello, I'm Adam a PhD student in Cognitive Psychology at the University of Graz, Austria.
+
+</p>
+
+------------------------------------------------------------------------
+:::

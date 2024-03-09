@@ -1,0 +1,155 @@
+/*-- scss:defaults --*/
+
+// Import fonts (define mainfont in _quarto.yml)
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito:wght@300&family=Roboto+Mono:wght@300&display=swap');
+
+// Colors
+$dark_gray: #1e2020;
+$off-white: #FDFBF7;
+$gray: #64605f;
+$light-gray: #949799;
+$purple: #d3859b;// #AE8BD1;
+$black: #000000;
+$dark-orange: #d8a656; //#ad7237;
+$orange: #e68c4e;
+$green: #a7b666;
+$bluegreen: #89b582;
+$r-studio: #f2f2f2;
+$light_black: #191a1c;
+$red: #eb6862;
+$blue: #7eada2;
+$lightblue: #3ec5ff;
+$off-white-yellow: #ebdab3;
+
+
+// Base document colors
+$navbar-bg: $dark_gray;
+$navbar-fg: $off-white-yellow;
+$navbar-hl: $green; 
+$body-bg: $light_black;
+$body-color: $off-white;
+$footer-bg: $dark_gray;
+$footer-color: $off-white;
+$link-color: $purple;
+
+// Inline code
+$code-bg: $off-white;
+$code-color: $dark-orange; //$purple; 
+
+// Code blocks
+//$code-block-bg: $gray; // #ffffff;
+/*-- scss:rules --*/
+
+/* ELEMENT SELECTORS */
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: 5px;
+  font-weight: 700;
+  color: $off-white-yellow;
+}
+
+h3 {
+  font-size: 35px;
+}
+
+body {
+  line-height: 1.5; // min 1.5 suggested for assistive tech
+  font-size: 19.5px;
+}
+
+/* CLASS SELECTORS (self-defined) */
+
+.custom-subtitle {
+  font-size: 22px;
+  margin-bottom: 0.15em;
+}
+
+.custom-subtitle2 {
+  font-size: 20px;
+}
+
+.large-text {
+  font-size: 20px;
+}
+
+.topbr {
+    display: block;
+    margin-top: 1em;
+}
+
+.center {
+  text-align: center;
+  left: 50%;
+}
+
+.container {
+  display: flex;
+}
+
+.button-styling {
+  background: $dark_gray;
+  border-color: $gray;
+  color: $gray;
+  border-radius: 0.6rem;
+  border-width: thin;
+  font-size: 18px;
+  letter-spacing: 3px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-right: 6px;
+  padding-left: 6px;
+  transition-duration: 0.4s;
+}
+
+.button-styling:hover {
+  background-color: $off-white; 
+}
+
+.gray-italic {
+  color: $gray;
+  font-style: italic;
+  font-size: 17px;
+}
+
+.quote-text-bg {
+  background-color: rgba(166, 164, 161, 0.4);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  padding-left: 8px;
+  border-radius: 15px;
+}
+
+/* CLASS SELECTORS (copied from inspecting site -- Quarto defined?) */
+
+.navbar-brand img { // see https://github.com/robertmitchellv/robertmitchellv.github.io/blob/main/custom-dark.scss
+  max-height: 60px;
+  width: auto;
+}
+
+.rounded { // headshot shape
+    border-radius: 50px 20px 50px 20px !important;
+}
+
+.about-link-text { // button text size (landing page)
+  font-size: 18px;
+}
+
+.bi { // button icon size (landing page)
+  font-size: 18px;
+}
+
+.card {
+  color: $off-white;
+  background-color: $light-gray;
+  //border-radius: 5.25em;
+}
+
+/* .card-attribution {
+  //padding-top: 5em;
+  padding-bottom: 3em;
+} */
+
+.description {
+  font-size: 25px;
+}
