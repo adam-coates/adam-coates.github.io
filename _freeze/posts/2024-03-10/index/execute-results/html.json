@@ -1,0 +1,12 @@
+{
+  "hash": "83350b10c4f51b6c380a00ccb026b4d1",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"The script that makes the website\"\ndescription: \"Here I'll write about the script that I've written to make posting to this blog easier\"\n#image: \"preview.png\"\ncomments:\n  giscus:\n    repo: \"adam-coates/adam-coates.github.io\"\n    mapping: \"title\"\ndate: \"2024-03-10\"\ncategories: [\"bash\"]\ndraft: false \nformat:\n  html:\n    code-fold: true\n    code-tools: true\n---\n\n### Blogging is hard\n\nWithout helpful scripts writing a blog can be hard to do. There is a lot of things to remember! \n\n1. The structure of a yaml header\n2. How to save the document\n3. How to properly render in-line code\n4. The command needed to render the quarto markdown to html (its true, this blog is written using quarto)\n5. The usual git commit and push commands (the website is all open source on github)\n6. ... and many other things I care not to remember \n7. oh wait even remembering to write a blog post can be hard! \n\nSo, I've made it easier for myself. I recently wrote a bash script that does everything I need to get started writing a blog post. \n\nThe whole blog is structured around quarto markdown format and so this alone makes life much easier to do. \n\n### The script \n\n#### The shebang\n\nLets start at the top of the script and work our way down. First I define 6 variables these are mainly colours (Yes I'm one of those people that like colour in the bash script😂 for me its easier to show yes (in green) and no (in red) that way it's a subconscious thing. If I see something written in red I might be entering the danger zone).\n\n\n```{sh}\nrepo=\"https://github.com/adam-coates/adam-coates.github.io\"\nblogdir=~/adam-coates.github.io/posts\ngreen='\\e[32m'\nred='\\e[31m'\npurple='\\033[0;35m'\nclear='\\e[0m'\n\nColorGreen(){\n    echo -ne $green$1$clear\n}\n\nColorRed(){\n    echo -ne $red$1$clear\n}\n\nColorPurple(){\n    echo -ne $purple$1$clear\n}\n\nget_info() {\n\tread -p \"Enter a title: \" title\n\n    read -p \"Enter a description: \" description\n}\n```\n\n",
+    "supporting": [
+      "index_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}
