@@ -81,7 +81,7 @@ This will be clear later on in the code.
 
 This spinner works by getting the process ID otherwise known as PID of a process and outputs these characters ⣾,⣽,⣻,⢿,⡿,⣟,⣯,⣷. The hardest part is actually how to display these characters to replace the character before it. Otherwise the bash output might look a bit something like this: 
 
-![](./spin_fail.png){fig-align="center" width=50%}
+![](./spin_fail.png){fig-align="center" width=75%}
 
 So after a character is printed out, there is a special unicode character that actually moves the cursor back one place on the screen (*almost* acting like a backspace). This deletes the current visible character and places the new one in its place. 
 

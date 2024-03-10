@@ -40,7 +40,7 @@ Perhaps I started this whole rabbit-hole journey around 4th October 2023 with th
 
 My configuration allows for multiple things. So now everything I do, I do in neovim. 
 
-So why I chose quarto over jupyter notebooks, probably isn't too clear at this point. However, the neovim configuration I have set up allows for all the things that can be offered from all text editors like vscode, Rstudio, jupyter notebooks but without a gui getting in the way and full customisability. There truly are a myriad of benefits (the biggest one if the keybindings, movements and gestures that let you edit and write code very **fast**) and I wish anyone who would like something that they can call their "own" to go and explore neovim.
+So why I chose quarto over jupyter notebooks, probably isn't too clear at this point. However, the neovim configuration I have set up allows for all the things that can be offered from all text editors like vscode, Rstudio, jupyter notebooks but without a gui getting in the way and full customisability. There truly are a myriad of benefits (the biggest one is the keybindings, movements and gestures that let you edit and write code very **fast**) and I wish anyone who would like something that they can call their "own" to go and explore neovim.
 
 
 Although the customisability took several months (this is probably the only downside, it is a **lot** of tinkering), I feel it is worth it and along the way all this tinkering has helped me to begin to learn more about coding languages such as lua, python and JavaScript and shell scripting languages. 
