@@ -7,6 +7,7 @@ comments:
     repo: "adam-coates/adam-coates.github.io"
     mapping: "title"
 date: "2024-03-10"
+css: style.css 
 categories: ["bash"]
 draft: false 
 format:
@@ -81,7 +82,7 @@ This will be clear later on in the code.
 
 This spinner works by getting the process ID otherwise known as PID of a process and outputs these characters ⣾,⣽,⣻,⢿,⡿,⣟,⣯,⣷. The hardest part is actually how to display these characters to replace the character before it. Otherwise the bash output might look a bit something like this: 
 
-![](./spin_fail.png){fig-align="center" width=75%}
+![](./spin_fail.png){fig-align="center" width=50%}
 
 So after a character is printed out, there is a special unicode character that actually moves the cursor back one place on the screen (*almost* acting like a backspace). This deletes the current visible character and places the new one in its place. 
 
@@ -124,9 +125,9 @@ function spinner() {
 
 Next I created a function to actually generate a template of the quarto markdown document needed to write a blog post such as this one you're reading right now. 
 
-I start by getting helpful info. Todays date and date and time. I then make a new directory in the blog local directory and the create the '.qmd' document called index. 
+I start by getting helpful info. Todays date and date and time. I then make a new directory in the blog local directory and then create the '.qmd' document called index. 
 
-Next comes the boilerplate yaml header for every blog post. The title, description, (if I want githug comments enabled at the bottom of the post), date, categories and any other additional .css that I might need. 
+Next comes the boilerplate yaml header for every blog post. The title, description, (if I want github comments enabled at the bottom of the post), date, categories and any other additional .css that I might need. 
 
 There is a whole myriad of yaml header options that are described on the quarto website. But for a basic, get-going, blog the yaml below is all I need. 
 
@@ -188,7 +189,7 @@ I then create a function that checks if files stored locally are the same as fil
 
 3. Checks the contents of the files. Its true that the bytes of two files may be identical but with differing content. The script uses the md5sum command to get the checksum of the files. If the content differs so will the check sum.
 
-This will all be apparent later. But lets hint for now that this function is used to backup only when local changes are made. 
+This will all be apparent later. But basically this function is used to backup only when local changes are made. 
 
 
 <details>
@@ -306,7 +307,7 @@ esac
 
 Finally the script does a backup if I did not use "backup" as the first argument to the script. This is something I learnt the hard way. Always backup. Backup many times, to the cloud ☁, to a usb, to another hard drive. No matter how you do it back up 💾💿. Its so important. 
 
-So in this script this section always runs!! It first asks the user if they would really want to back up. If the user says (YES, yes, Y or y) then it will proceed. First it does the handy file check to see if a backup is even needed. i.e if the difference between my mounted drive and locally stored files is found then it will backup else, nothing will happen. 
+So in this script this section always runs!! It first asks the user if they would really want to back up. If the user says (YES, yes, Y or y) then it will proceed. First it does the handy file check to see if a backup is even needed. i.e if there is a difference between my mounted drive and locally stored files is found then it will backup else, nothing will happen. 
 
 Here the visual spinner comes in handy since it helps show me that something really is happening and backing up. I like this and it puts me at ease (not to mention it looks kinda cool) 
 
@@ -343,4 +344,6 @@ fi
 
 </details>
 
-And that's about it. I'll put the full script available on GitHub and please feel free if you have questions to write them below, or on GitHub itself. 
+And that's about it. I'll put the full script available on GitHub and please feel free if you have questions to write them below, or on GitHub itself.
+
+<a href="https://github.com/adam-coates/dotfiles/blob/main/scripts/blog.sh" class="button">Script available here</a>
