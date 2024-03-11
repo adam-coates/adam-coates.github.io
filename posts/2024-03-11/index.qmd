@@ -1,0 +1,72 @@
+---
+title: "Easy way to make a gif"
+description: "A screen recorder-y way to make gifs on the screen"
+image: "./brain_ax.gif"
+comments:
+  giscus:
+    repo: "adam-coates/adam-coates.github.io"
+    mapping: "title"
+date: "2024-03-11"
+categories: ["tools", "windows", "cross-platform"]
+draft: false #  setting this to  will prevent your post from appearing on your listing page until you're ready
+css: style.css
+---
+
+### Gifs are handy
+
+Gifs or jifs (however you pronounce it) 
+
+<center>
+ ![gif](./gif.mp3) 
+
+ ![jif](./jif.mp3) 
+</center>
+
+are very handy because they're essentially mini videos and can be useful to explain or depict <u>anything</u> you'd like them to.
+
+For example, the gif in the previous blog was used to show what the 'spinner' I made looks like in bash e.g: ![](./spin.gif){width=2%} 
+
+Without the gif it perhaps wouldn't be so obvious what I really meant by this spinner. And the code didn't really give too much of an indication of what the spinner looked like. 
+
+Take this other example. 
+
+> Showing slice-by-slice in the axial view of the brain, one can see the diverse changes in grey and white matter. 
+
+Now you might say that okay you can depict this using images and thats true you can (and of course in an fMRI article you should definitely not use a gif but images). A gif on the other hand can just be a bit more visually appealing. (For this blog I'm kinda aiming for some visual appeal, no matter how cheesy it looks). 
+
+<center>
+![my brain](./brain_ax.gif)
+</center>
+
+### How to easily create a gif of anything you see on the screen.
+
+Recently I came across this tool that allows you to capture anything visible on your screen and turn it into a gif and I'm ashamed I never knew something like this existed. 
+
+The great thing about this is that it avoids opening a tool like obs to create a video of the screen, then using FFmpeg to convert the .mp4 to .gif. 
+
+All this used to take quite a bit of time before. Whereas now I can create a gif, in as much time as it takes for the program to load and for me to click record. 
+
+### Whats this tool
+
+The tool is open source at GitHub <a href="https://github.com/NickeManarin/ScreenToGif" class="button">ScreenToGif</a> 
+
+The only downside of it, as far as I can tell it is only available for windows (so far). But it seems that the maintainer of the project wants to port this to MacOS and Linux. 
+
+
+Here's how it looks like 
+
+![](./screen_to_gif.png){width=75%}
+
+And here's the output from above (its in black and white here because the editor allows you to export without colours to save render times and storage)
+
+![](./screen_to_gifEG.gif){width=75%}
+
+
+
+### Windows's fun .NET assembly
+
+As far as I can tell Windows .NET assembly really lacks compatibility. I think linux's OS is slowly becoming more attractive with greater extensibility. In the future I would aim to drop my windows machine entirely in favour for linux. But for now windows still just works and the GUI of windows 10 will always be 'enough for my productivity'. 
+
+As is often the case, you come across a great tool that works splendid in one OS but it doesn't exist in another. I hope that with time there will be greater projects that aim at bridging the gap between cross platformability so that programs like this can be easily ported to other OS's.
+
+Here's just one example of a tool that does cross platform development in all OS's <a href="https://github.com/AvaloniaUI/Avalonia/" class="button">Avolonia</a>  so it seems we are getting there slowly. 
