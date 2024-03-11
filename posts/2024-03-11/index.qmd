@@ -14,13 +14,8 @@ css: style.css
 
 ### Gifs are handy
 
-Gifs or jifs (however you pronounce it) 
+<center>Gifs or jifs (however you pronounce it) </center> 
 
-<center>
- ![gif](./gif.mp3) 
-
- ![jif](./jif.mp3) 
-</center>
 
 are very handy because they're essentially mini videos and can be useful to explain or depict <u>anything</u> you'd like them to.
 
@@ -55,11 +50,11 @@ The only downside of it, as far as I can tell it is only available for windows (
 
 Here's how it looks like 
 
-![](./screen_to_gif.png){width=75%}
+![](./screen_to_gif.png)
 
 And here's the output from above (its in black and white here because the editor allows you to export without colours to save render times and storage)
 
-![](./screen_to_gifEG.gif){width=75%}
+![](./screen_to_gifEG.gif)
 
 
 
