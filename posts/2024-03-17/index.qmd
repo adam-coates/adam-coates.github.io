@@ -51,6 +51,9 @@ The full script will be available on my GitHub <a href="https://github.com/adam-
 
 - In the interest of keeping this blog short, I want to avoid talking about how arguments are parsed in the script but instead about what the script really does and the output.
 
+#### The steps
+
+##### Step 1
 ```bash
 #!/usr/bin/env bash
 # ... the code runs as a function and before this there is only a case statement and some variables are predefined, please see full script on my GitHub
@@ -67,7 +70,24 @@ convert "$input_file" txt:- > "$temp_textfile"
 
 # Find all coordinates of the specified color
 coordinates=$(grep "srgb($color)" "$temp_textfile" | cut -d ':' -f 1)
+```
 
+
+First the script converts the image into a temporary text file. The text file is essentially coordinates of the pixel plus what the pixel represents in RGB, hex and sRGB format. So a typical row might look like: 
+
+<center>
+
+`201,0: (2,2,2)  #020202  srgb(2,2,2)`
+
+</center>
+
+- The script allows the user to specify what colour to search for by using the following flag `-c` plus the colour in RGB format without spaces i.e. `-c 255,0,0`
+
+---
+
+##### Step 2
+
+```bash
 # ---------------------
 # STEP:         2
 # ---------------------
@@ -84,6 +104,35 @@ max_x=$((max_x + padding))
 min_y=$((min_y - padding))
 max_y=$((max_y + padding))
 
+```
+
+The script uses this in order to find the pixels with a particular colour and saves the coordinates. Coordinates are first split into x and y by a comma
+
+Here's an example of the coordinates variable output:
+
+> ...976,497 977,497 978,497 979,497 980,497 981,497 982,497 983,497 984,497 985,497 986,497 987,497 988,497 989,497 990,497 991,497 992,497 993,497 994,497 995,497 952,498 953,498 954,498 955,498...
+
+
+The `head` and `tail` commands are used to get the highest and the lowest coordinate. These coordinates are then the 'bounding box' in which we want to cut out or draw a box around. 
+
+Here's an example maximum and minimum x and y coordinates with the padding: 
+
+<center>
+
+`min x = 947
+max x = 1014
+min y = 452
+max y = 562`
+
+</center>
+
+- Note the padding can be altered by using the flag `-p ` plus a number of pixels (the default is 5)
+
+---
+
+##### Step 3
+
+```bash
 # ---------------------
 # STEP:         3
 # ---------------------
@@ -98,7 +147,31 @@ if [ "$type" == "crop" ]; then
     # remove temp file
     rm "$temp_file"
 else
+#...
+```
 
+The easiest way for imagemagick to cut out a rectangle from an image is to create a mask first. So here we create a mask of the first image that was used to get the coordinates from. The mask is a black and white image that shows the region to cut out. The second command uses the mask to cut out the original image.
+
+<center>
+
+![An example mask created](./temp.STaPWa.png){fig-align='center' width=75%}
+
+</center>
+
+The region is then used to cut out from the original image as such: 
+
+<center>
+
+![The image is now cropped](./crop.png){fig-align='center' width=50%}
+
+
+</center>
+
+---
+
+##### Step 4
+
+```bash
 # ---------------------
 # STEP:         4
 # ---------------------
@@ -111,60 +184,8 @@ fi
 
 # Remove the temporary text file
 rm "$temp_textfile"
+
 ```
-#### The steps
-
-1. First the script converts the image into a temporary text file. The text file is essentially coordinates of the pixel plus what the pixel represents in RGB, hex and sRGB format. So a typical row might look like: 
-
-<center>
-
-`201,0: (2,2,2)  #020202  srgb(2,2,2)`
-
-</center>
-
-- Here the user can specify what colour to search for by using the following flag `-c` plus the colour in RGB format without spaces i.e. `-c 255,0,0`
-
-2. The script uses this in order to find the pixels with a particular colour and saves the coordinates. Coordinates are first split into x and y by a comma
-
-Here's an example of the coordinates:
-
-> ...976,497 977,497 978,497 979,497 980,497 981,497 982,497 983,497 984,497 985,497 986,497 987,497 988,497 989,497 990,497 991,497 992,497 993,497 994,497 995,497 952,498 953,498 954,498 955,498...
-
-
-The `head` and `tail` commands are used to get the lowest coordinate and the highest coordinate. These coordinates are then the 'bounding box' in which we want to cut out or draw a box around. 
-
-Here's the maximum and minimum x and y coordinates with the padding: 
-
-<center>
-
-`min x 947
-max x 1014
-min y 452
-max y 562`
-
-</center>
-
-- Note the padding can be altered by using the flag `-p ` plus a number of pixels (the default is 5)
-
-
-3. The easiest way for imagemagick to cut out a rectangle from an image is to create a mask first. So here we create a mask of the first image that was used to get the coordinates from. The mask is a black and white image that shows region to cut out. The second command uses the mask to cut out the original image.
-
-<center>
-
-![An example mask created](./temp.STaPWa.png){fig-align='center' width=75%}
-
-</center>
-
-The region is then used to cut out from the original image as such: 
-
-<center>
-
-![The image is now cropped](./crop.png){fig-align='center' width=75%}
-
-
-</center>
-
-
 4. I added another option in the script since sometimes we only want to draw an outline of the region on the original image this outputs the following image: 
 
 <center>
@@ -173,6 +194,10 @@ The region is then used to cut out from the original image as such:
 
 
 </center>
+
+--- 
+
+#### How to edit the command
 
 - To edit some of the options in the script the user might want to pay attention to the following commands: 
 
@@ -188,6 +213,6 @@ convert "$input_file" -fill none -stroke white -strokewidth 3 \
 
 - Especially the third command in which we use the `stroke-dasharray` this essentially creates the white dashed line. Of course the stroke and the width can also be changed to what the user desires. 
 
-- In the future I will perhaps add options when running the command in order to change how the output will look like. 
+- In the future, I will perhaps add options when running the command in order to change how the output will look like without having to edit the 3 convert commands above. 
 
 
