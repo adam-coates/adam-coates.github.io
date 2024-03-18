@@ -1,5 +1,5 @@
 ---
-title: "simple plotting in r and python"
+title: "Simple plotting in r and python"
 description: "I show simple basic plotting methods using ggplot2 and matplotlib"
 #image: "preview.png"
 comments:
