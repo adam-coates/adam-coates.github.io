@@ -186,7 +186,7 @@ fi
 rm "$temp_textfile"
 
 ```
-4. I added another option in the script since sometimes we only want to draw an outline of the region on the original image this outputs the following image: 
+I added another option in the script since sometimes we only want to draw an outline of the region on the original image this outputs the following image: 
 
 <center>
 
