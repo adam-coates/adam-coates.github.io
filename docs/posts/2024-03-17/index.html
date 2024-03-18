@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2024-03-11">
-<meta name="description" content="A screen recorder-y way to make gifs on the screen">
+<meta name="dcterms.date" content="2024-03-17">
+<meta name="description" content="Here I show how to crop an image using imagemagick covert function">
 
-<title>Adam Coates - Easy way to make a gif</title>
+<title>Adam Coates - Cropping an image using a bash script</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -126,16 +160,14 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-page-left">
-      <h1 class="title">Easy way to make a gif</h1>
+      <h1 class="title">Cropping an image using a bash script</h1>
                   <div>
         <div class="description">
-          A screen recorder-y way to make gifs on the screen
+          Here I show how to crop an image using imagemagick covert function
         </div>
       </div>
                           <div class="quarto-categories">
-                <div class="quarto-category">tools</div>
-                <div class="quarto-category">windows</div>
-                <div class="quarto-category">cross-platform</div>
+                <div class="quarto-category">bash</div>
               </div>
                   </div>
   </div>
@@ -147,7 +179,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">March 11, 2024</p>
+        <p class="date">March 17, 2024</p>
       </div>
     </div>
     
@@ -163,10 +195,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#gifs-are-handy" id="toc-gifs-are-handy" class="nav-link active" data-scroll-target="#gifs-are-handy">Gifs are handy</a></li>
-  <li><a href="#how-to-easily-create-a-gif-of-anything-you-see-on-the-screen." id="toc-how-to-easily-create-a-gif-of-anything-you-see-on-the-screen." class="nav-link" data-scroll-target="#how-to-easily-create-a-gif-of-anything-you-see-on-the-screen.">How to easily create a gif of anything you see on the screen.</a></li>
-  <li><a href="#whats-this-tool" id="toc-whats-this-tool" class="nav-link" data-scroll-target="#whats-this-tool">Whats this tool</a></li>
-  <li><a href="#windowss-fun-.net-assembly" id="toc-windowss-fun-.net-assembly" class="nav-link" data-scroll-target="#windowss-fun-.net-assembly">Windows’s fun .NET assembly</a></li>
+  <li><a href="#why" id="toc-why" class="nav-link active" data-scroll-target="#why">Why?</a></li>
+  <li><a href="#theres-many-ways-to-tackle-this-issue" id="toc-theres-many-ways-to-tackle-this-issue" class="nav-link" data-scroll-target="#theres-many-ways-to-tackle-this-issue">Theres many ways to tackle this issue</a></li>
+  <li><a href="#how-to-make-run-the-script" id="toc-how-to-make-run-the-script" class="nav-link" data-scroll-target="#how-to-make-run-the-script">How to make/ run the script</a></li>
+  <li><a href="#the-bash-script" id="toc-the-bash-script" class="nav-link" data-scroll-target="#the-bash-script">The bash script</a></li>
   </ul>
 </nav>
     </div>
@@ -177,50 +209,171 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<section id="gifs-are-handy" class="level3">
-<h3 class="anchored" data-anchor-id="gifs-are-handy">Gifs are handy</h3>
-<center>
-Gifs or jifs (however you pronounce it)
-</center>
-<p>are very handy because they’re essentially mini videos and can be useful to explain or depict <u>anything</u> you’d like them to.</p>
-<p>For example, the gif in the previous blog was used to show what the ‘spinner’ I made looks like in bash e.g: <img src="./spin.gif" class="img-fluid" style="width:2.0%"></p>
-<p>Without the gif it perhaps wouldn’t be so obvious what I really meant by this spinner. And the code didn’t really give too much of an indication of what the spinner looked like.</p>
-<p>Take this other example.</p>
-<blockquote class="blockquote">
-<p>Showing slice-by-slice in the axial view of the brain, one can see the diverse changes in grey and white matter.</p>
-</blockquote>
-<p>Now you might say that okay you can depict this using images and thats true you can (and of course in an fMRI article you should definitely not use a gif but images). A gif on the other hand can just be a bit more visually appealing. (For this blog I’m kinda aiming for some visual appeal, no matter how cheesy it looks).</p>
+<section id="why" class="level3">
+<h3 class="anchored" data-anchor-id="why">Why?</h3>
+<p>If you’re like me and have a lot of images to crop regularly then a more efficient way to crop is probably something that you need!</p>
+<p>I used to do all my cropping manually with the mouse, and I will probably still do some cropping with the mouse. But when I often have a set of images that all need to be cropped then I always try to find the fastest way to do this in bulk.</p>
+</section>
+<section id="theres-many-ways-to-tackle-this-issue" class="level3">
+<h3 class="anchored" data-anchor-id="theres-many-ways-to-tackle-this-issue">Theres many ways to tackle this issue</h3>
+<p>Of course there are pre-made software that will do this for you, and there are Python ways, C and C++ ways, using PowerPoint, Paint, PhotoShop (dare I say it) even MATLAB ways to achieve this. Yet <a href="https://imagemagick.org/index.php">ImageMagick</a> has always been around! In fact it was made way back in 1987 and now can easily read and write over 200 image file formats <a href="https://en.wikipedia.org/wiki/ImageMagick">according to Wikipedia</a>.</p>
+<p>But aside from the extensive functionality, you can create images directly from the command line in bash. This means that you quite easily loop over all files in a directory and subject each file to the exact same editing options that you want them to have.</p>
+<p>And this is great, especially for scientific papers since having a figure x number of pixels too big for some journals won’t cut the mustard.</p>
+</section>
+<section id="how-to-make-run-the-script" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-make-run-the-script">How to make/ run the script</h3>
+<p>So since I always need to crop fMRI images in particular ways, (i.e.&nbsp;maybe I want to crop and only show a particular region for each participant), it would be relatively easy to achieve this.</p>
+<p>Take the following example.</p>
 <center>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./brain_ax.gif" class="img-fluid figure-img"></p>
-<figcaption>my brain</figcaption>
+<p><img src="./eg.png" class="img-fluid figure-img"></p>
+<figcaption>Here I have manually drawn a segmentation on my own brain and we see the coronal view of the brain</figcaption>
 </figure>
 </div>
 </center>
+<p>Let’s suppose I want to crop this region out and make a zoomed in part of this to get a closer look at the activation in this region.</p>
+<p>I <em>could</em> do this in PowerPoint but now imagine I have 100 participants all with the same coloured region.</p>
 </section>
-<section id="how-to-easily-create-a-gif-of-anything-you-see-on-the-screen." class="level3">
-<h3 class="anchored" data-anchor-id="how-to-easily-create-a-gif-of-anything-you-see-on-the-screen.">How to easily create a gif of anything you see on the screen.</h3>
-<p>Recently I came across this tool that allows you to capture anything visible on your screen and turn it into a gif and I’m ashamed I never knew something like this existed.</p>
-<p>The great thing about this is that it avoids opening a tool like obs to create a video of the screen, then using FFmpeg to convert the .mp4 to .gif.</p>
-<p>All this used to take quite a bit of time before. Whereas now I can create a gif, in as much time as it takes for the program to load and for me to click record.</p>
-</section>
-<section id="whats-this-tool" class="level3">
-<h3 class="anchored" data-anchor-id="whats-this-tool">Whats this tool</h3>
-<p>The tool is open source at GitHub <a href="https://github.com/NickeManarin/ScreenToGif" class="button">ScreenToGif</a></p>
-<p>The only downside of it, as far as I can tell it is only available for windows (so far). But it seems that the maintainer of the project wants to port this to MacOS and Linux.</p>
-<p>Here’s how it looks like</p>
-<p><img src="./screen_to_gif.png" class="img-fluid"></p>
-<p>And here’s the output from above (its in black and white here because the editor allows you to export without colours to save render times and storage)</p>
-<p><img src="./screen_to_gifEG.gif" class="img-fluid"></p>
-</section>
-<section id="windowss-fun-.net-assembly" class="level3">
-<h3 class="anchored" data-anchor-id="windowss-fun-.net-assembly">Windows’s fun .NET assembly</h3>
-<p>As far as I can tell Windows .NET assembly really lacks compatibility. I think linux’s OS is slowly becoming more attractive with greater extensibility. In the future I would aim to drop my windows machine entirely in favour for linux. But for now windows still just works and the GUI of windows 10 will always be ‘enough for my productivity’.</p>
-<p>As is often the case, you come across a great tool that works splendid in one OS but it doesn’t exist in another. I hope that with time there will be greater projects that aim at bridging the gap between cross platformability so that programs like this can be easily ported to other OS’s.</p>
-<p>Here’s just one example of a tool that does cross platform development in all OS’s <a href="https://github.com/AvaloniaUI/Avalonia/" class="button">Avolonia</a> so it seems we are getting there slowly.</p>
+<section id="the-bash-script" class="level3">
+<h3 class="anchored" data-anchor-id="the-bash-script">The bash script</h3>
+<p>The full script will be available on my GitHub <a href="https://github.com/adam-coates/imgCrop" class="button">here</a></p>
+<ul>
+<li>In the interest of keeping this blog short, I want to avoid talking about how arguments are parsed in the script but instead about what the script really does and the output.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/usr/bin/env bash</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ... the code runs as a function and before this there is only a case statement and some variables are predefined, please see full script on my GitHub</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ---------------------</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># STEP:         1</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># ---------------------</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a temporary text file</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="va">temp_textfile</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span> <span class="st">"</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">"</span><span class="va">$input_file</span><span class="st">"</span><span class="va">)</span><span class="st">/temp_file.XXXXXX.txt"</span><span class="va">)</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the image to a text file</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ex">convert</span> <span class="st">"</span><span class="va">$input_file</span><span class="st">"</span> txt:- <span class="op">&gt;</span> <span class="st">"</span><span class="va">$temp_textfile</span><span class="st">"</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Find all coordinates of the specified color</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="va">coordinates</span><span class="op">=</span><span class="va">$(</span><span class="fu">grep</span> <span class="st">"srgb(</span><span class="va">$color</span><span class="st">)"</span> <span class="st">"</span><span class="va">$temp_textfile</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">':'</span> <span class="at">-f</span> 1<span class="va">)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># ---------------------</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># STEP:         2</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co"># ---------------------</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Find the minimum and maximum x and y coordinates</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="va">min_x</span><span class="op">=</span><span class="va">$(</span><span class="bu">echo</span> <span class="st">"</span><span class="va">$coordinates</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">','</span> <span class="at">-f</span> 1 <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 1<span class="va">)</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="va">max_x</span><span class="op">=</span><span class="va">$(</span><span class="bu">echo</span> <span class="st">"</span><span class="va">$coordinates</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">','</span> <span class="at">-f</span> 1 <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n</span> 1<span class="va">)</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="va">min_y</span><span class="op">=</span><span class="va">$(</span><span class="bu">echo</span> <span class="st">"</span><span class="va">$coordinates</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">','</span> <span class="at">-f</span> 2 <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 1<span class="va">)</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="va">max_y</span><span class="op">=</span><span class="va">$(</span><span class="bu">echo</span> <span class="st">"</span><span class="va">$coordinates</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-d</span> <span class="st">','</span> <span class="at">-f</span> 2 <span class="kw">|</span> <span class="fu">sort</span> <span class="at">-n</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n</span> 1<span class="va">)</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Add padding to the minimum and maximum x and y coordinates</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="va">min_x</span><span class="op">=</span><span class="va">$((min_x</span> <span class="op">-</span> <span class="va">padding))</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="va">max_x</span><span class="op">=</span><span class="va">$((max_x</span> <span class="op">+</span> <span class="va">padding))</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="va">min_y</span><span class="op">=</span><span class="va">$((min_y</span> <span class="op">-</span> <span class="va">padding))</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="va">max_y</span><span class="op">=</span><span class="va">$((max_y</span> <span class="op">+</span> <span class="va">padding))</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># ---------------------</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co"># STEP:         3</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co"># ---------------------</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="st">"</span><span class="va">$type</span><span class="st">"</span> <span class="ot">==</span> <span class="st">"crop"</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"Crop"</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="va">temp_file</span><span class="op">=</span><span class="va">$(</span><span class="fu">mktemp</span> <span class="st">"</span><span class="va">$(</span><span class="fu">dirname</span> <span class="st">"</span><span class="va">$input_file</span><span class="st">"</span><span class="va">)</span><span class="st">/temp.XXXXXX.png"</span><span class="va">)</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="ex">convert</span> <span class="at">-size</span> <span class="va">$(</span><span class="ex">identify</span> <span class="at">-format</span> <span class="st">"%wx%h"</span> <span class="st">"</span><span class="va">$input_file</span><span class="st">"</span><span class="va">)</span> xc:black <span class="at">-fill</span> <span class="st">"white"</span> <span class="dt">\</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        <span class="at">-draw</span> <span class="st">"rectangle </span><span class="va">$min_x</span><span class="st">,</span><span class="va">$min_y</span><span class="st"> </span><span class="va">$max_x</span><span class="st">,</span><span class="va">$max_y</span><span class="st">"</span> png:- <span class="op">&gt;</span> <span class="st">"</span><span class="va">$temp_file</span><span class="st">"</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    <span class="ex">convert</span> <span class="st">"</span><span class="va">$input_file</span><span class="st">"</span> <span class="st">"</span><span class="va">$temp_file</span><span class="st">"</span> <span class="at">-alpha</span> off <span class="at">-compose</span> copy_opacity <span class="dt">\</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>        <span class="at">-composite</span> <span class="at">-trim</span> +repage <span class="at">-geometry</span> x<span class="va">$(</span><span class="ex">identify</span> <span class="at">-format</span> <span class="st">"%h"</span> <span class="st">"</span><span class="va">$temp_file</span><span class="st">"</span><span class="va">)</span> <span class="st">"</span><span class="va">$output_file</span><span class="st">"</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># remove temp file</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rm</span> <span class="st">"</span><span class="va">$temp_file</span><span class="st">"</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="co"># ---------------------</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="co"># STEP:         4</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co"># ---------------------</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"Box"</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Draw bounding box around all the identified coordinates</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>    <span class="ex">convert</span> <span class="st">"</span><span class="va">$input_file</span><span class="st">"</span> <span class="at">-fill</span> none <span class="at">-stroke</span> white <span class="at">-strokewidth</span> 3 <span class="dt">\</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>        <span class="at">-draw</span> <span class="st">"stroke-dasharray 10 10 rectangle </span><span class="va">$min_x</span><span class="st">,</span><span class="va">$min_y</span><span class="st"> </span><span class="va">$max_x</span><span class="st">,</span><span class="va">$max_y</span><span class="st">"</span> <span class="st">"</span><span class="va">$output_file</span><span class="st">"</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove the temporary text file</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="st">"</span><span class="va">$temp_textfile</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="the-steps" class="level4">
+<h4 class="anchored" data-anchor-id="the-steps">The steps</h4>
+<ol type="1">
+<li>First the script converts the image into a temporary text file. The text file is essentially coordinates of the pixel plus what the pixel represents in RGB, hex and sRGB format. So a typical row might look like:</li>
+</ol>
+<center>
+<p><code>201,0: (2,2,2)  #020202  srgb(2,2,2)</code></p>
+</center>
+<ul>
+<li>Here the user can specify what colour to search for by using the following flag <code>-c</code> plus the colour in RGB format without spaces i.e.&nbsp;<code>-c 255,0,0</code></li>
+</ul>
+<ol start="2" type="1">
+<li>The script uses this in order to find the pixels with a particular colour and saves the coordinates. Coordinates are first split into x and y by a comma</li>
+</ol>
+<p>Here’s an example of the coordinates:</p>
+<blockquote class="blockquote">
+<p>…976,497 977,497 978,497 979,497 980,497 981,497 982,497 983,497 984,497 985,497 986,497 987,497 988,497 989,497 990,497 991,497 992,497 993,497 994,497 995,497 952,498 953,498 954,498 955,498…</p>
+</blockquote>
+<p>The <code>head</code> and <code>tail</code> commands are used to get the lowest coordinate and the highest coordinate. These coordinates are then the ‘bounding box’ in which we want to cut out or draw a box around.</p>
+<p>Here’s the maximum and minimum x and y coordinates with the padding:</p>
+<center>
+<p><code>min x 947 max x 1014 min y 452 max y 562</code></p>
+</center>
+<ul>
+<li>Note the padding can be altered by using the flag <code>-p</code> plus a number of pixels (the default is 5)</li>
+</ul>
+<ol start="3" type="1">
+<li>The easiest way for imagemagick to cut out a rectangle from an image is to create a mask first. So here we create a mask of the first image that was used to get the coordinates from. The mask is a black and white image that shows region to cut out. The second command uses the mask to cut out the original image.</li>
+</ol>
+<center>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./temp.STaPWa.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></p>
+<figcaption>An example mask created</figcaption>
+</figure>
+</div>
+</center>
+<p>The region is then used to cut out from the original image as such:</p>
+<center>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./crop.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></p>
+<figcaption>The image is now cropped</figcaption>
+</figure>
+</div>
+</center>
+<ol start="4" type="1">
+<li>I added another option in the script since sometimes we only want to draw an outline of the region on the original image this outputs the following image:</li>
+</ol>
+<center>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./drawn.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:75.0%"></p>
+<figcaption>The image represents a white outline which is the region that could be cropped out</figcaption>
+</figure>
+</div>
+</center>
+<ul>
+<li>To edit some of the options in the script the user might want to pay attention to the following commands:</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">convert</span> <span class="at">-size</span> <span class="va">$(</span><span class="ex">identify</span> <span class="at">-format</span> <span class="st">"%wx%h"</span> <span class="st">"</span><span class="va">$input_file</span><span class="st">"</span><span class="va">)</span> xc:black <span class="at">-fill</span> <span class="st">"white"</span> <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">-draw</span> <span class="st">"rectangle </span><span class="va">$min_x</span><span class="st">,</span><span class="va">$min_y</span><span class="st"> </span><span class="va">$max_x</span><span class="st">,</span><span class="va">$max_y</span><span class="st">"</span> png:- <span class="op">&gt;</span> <span class="st">"</span><span class="va">$temp_file</span><span class="st">"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">convert</span> <span class="st">"</span><span class="va">$input_file</span><span class="st">"</span> <span class="st">"</span><span class="va">$temp_file</span><span class="st">"</span> <span class="at">-alpha</span> off <span class="at">-compose</span> copy_opacity <span class="dt">\</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">-composite</span> <span class="at">-trim</span> +repage <span class="at">-geometry</span> x<span class="va">$(</span><span class="ex">identify</span> <span class="at">-format</span> <span class="st">"%h"</span> <span class="st">"</span><span class="va">$temp_file</span><span class="st">"</span><span class="va">)</span> <span class="st">"</span><span class="va">$output_file</span><span class="st">"</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">convert</span> <span class="st">"</span><span class="va">$input_file</span><span class="st">"</span> <span class="at">-fill</span> none <span class="at">-stroke</span> white <span class="at">-strokewidth</span> 3 <span class="dt">\</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">-draw</span> <span class="st">"stroke-dasharray 10 10 rectangle </span><span class="va">$min_x</span><span class="st">,</span><span class="va">$min_y</span><span class="st"> </span><span class="va">$max_x</span><span class="st">,</span><span class="va">$max_y</span><span class="st">"</span> <span class="st">"</span><span class="va">$output_file</span><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ul>
+<li><p>Especially the third command in which we use the <code>stroke-dasharray</code> this essentially creates the white dashed line. Of course the stroke and the width can also be changed to what the user desires.</p></li>
+<li><p>In the future I will perhaps add options when running the command in order to change how the output will look like.</p></li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

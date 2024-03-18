@@ -1,0 +1,193 @@
+---
+title: "Cropping an image using a bash script"
+description: "Here I show how to crop an image using imagemagick covert function"
+#image: "preview.png"
+comments:
+  giscus:
+    repo: "adam-coates/adam-coates.github.io"
+    mapping: "title"
+date: "2024-03-17"
+categories: ["bash"]
+draft: false #  setting this to  will prevent your post from appearing on your listing page until you're ready
+css: style.css
+---
+
+### Why? 
+
+If you're like me and have a lot of images to crop regularly then a more efficient way to crop is probably something that you need! 
+
+I used to do all my cropping manually with the mouse, and I will probably still do some cropping with the mouse. But when I often have a set of images that all need to be cropped then I always try to find the fastest way to do this in bulk. 
+
+### Theres many ways to tackle this issue
+
+Of course there are pre-made software that will do this for you, and there are Python ways, C and C++ ways, using PowerPoint, Paint, PhotoShop (dare I say it) even MATLAB ways to achieve this. Yet [ImageMagick](https://imagemagick.org/index.php) has always been around! In fact it was made way back in 1987 and now can easily read and write over 200 image file formats [according to Wikipedia](https://en.wikipedia.org/wiki/ImageMagick).
+
+But aside from the extensive functionality, you can create images directly from the command line in bash. This means that you quite easily loop over all files in a directory and subject each file to the exact same editing options that you want them to have. 
+
+And this is great, especially for scientific papers since having a figure x number of pixels too big for some journals won't cut the mustard.
+
+### How to make/ run the script
+
+So since I always need to crop fMRI images in particular ways, (i.e. maybe I want to crop and only show a particular region for each participant), it would be relatively easy to achieve this. 
+
+Take the following example. 
+
+
+<center>
+
+![Here I have manually drawn a segmentation on my own brain and we see the coronal view of the brain](./eg.png)
+
+</center>
+
+Let's suppose I want to crop this region out and make a zoomed in part of this to get a closer look at the activation in this region. 
+
+I *could* do this in PowerPoint but now imagine I have 100 participants all with the same coloured region. 
+
+
+
+### The bash script
+
+The full script will be available on my GitHub <a href="https://github.com/adam-coates/imgCrop" class="button">here</a>
+
+- In the interest of keeping this blog short, I want to avoid talking about how arguments are parsed in the script but instead about what the script really does and the output.
+
+```bash
+#!/usr/bin/env bash
+# ... the code runs as a function and before this there is only a case statement and some variables are predefined, please see full script on my GitHub
+
+# ---------------------
+# STEP:         1
+# ---------------------
+
+# Create a temporary text file
+temp_textfile=$(mktemp "$(dirname "$input_file")/temp_file.XXXXXX.txt")
+
+# Convert the image to a text file
+convert "$input_file" txt:- > "$temp_textfile"
+
+# Find all coordinates of the specified color
+coordinates=$(grep "srgb($color)" "$temp_textfile" | cut -d ':' -f 1)
+
+# ---------------------
+# STEP:         2
+# ---------------------
+
+# Find the minimum and maximum x and y coordinates
+min_x=$(echo "$coordinates" | cut -d ',' -f 1 | sort -n | head -n 1)
+max_x=$(echo "$coordinates" | cut -d ',' -f 1 | sort -n | tail -n 1)
+min_y=$(echo "$coordinates" | cut -d ',' -f 2 | sort -n | head -n 1)
+max_y=$(echo "$coordinates" | cut -d ',' -f 2 | sort -n | tail -n 1)
+
+# Add padding to the minimum and maximum x and y coordinates
+min_x=$((min_x - padding))
+max_x=$((max_x + padding))
+min_y=$((min_y - padding))
+max_y=$((max_y + padding))
+
+# ---------------------
+# STEP:         3
+# ---------------------
+
+if [ "$type" == "crop" ]; then
+    echo "Crop"
+    temp_file=$(mktemp "$(dirname "$input_file")/temp.XXXXXX.png")
+    convert -size $(identify -format "%wx%h" "$input_file") xc:black -fill "white" \
+        -draw "rectangle $min_x,$min_y $max_x,$max_y" png:- > "$temp_file"
+    convert "$input_file" "$temp_file" -alpha off -compose copy_opacity \
+        -composite -trim +repage -geometry x$(identify -format "%h" "$temp_file") "$output_file"
+    # remove temp file
+    rm "$temp_file"
+else
+
+# ---------------------
+# STEP:         4
+# ---------------------
+
+    echo "Box"
+    # Draw bounding box around all the identified coordinates
+    convert "$input_file" -fill none -stroke white -strokewidth 3 \
+        -draw "stroke-dasharray 10 10 rectangle $min_x,$min_y $max_x,$max_y" "$output_file"
+fi
+
+# Remove the temporary text file
+rm "$temp_textfile"
+```
+#### The steps
+
+1. First the script converts the image into a temporary text file. The text file is essentially coordinates of the pixel plus what the pixel represents in RGB, hex and sRGB format. So a typical row might look like: 
+
+<center>
+
+`201,0: (2,2,2)  #020202  srgb(2,2,2)`
+
+</center>
+
+- Here the user can specify what colour to search for by using the following flag `-c` plus the colour in RGB format without spaces i.e. `-c 255,0,0`
+
+2. The script uses this in order to find the pixels with a particular colour and saves the coordinates. Coordinates are first split into x and y by a comma
+
+Here's an example of the coordinates:
+
+> ...976,497 977,497 978,497 979,497 980,497 981,497 982,497 983,497 984,497 985,497 986,497 987,497 988,497 989,497 990,497 991,497 992,497 993,497 994,497 995,497 952,498 953,498 954,498 955,498...
+
+
+The `head` and `tail` commands are used to get the lowest coordinate and the highest coordinate. These coordinates are then the 'bounding box' in which we want to cut out or draw a box around. 
+
+Here's the maximum and minimum x and y coordinates with the padding: 
+
+<center>
+
+`min x 947
+max x 1014
+min y 452
+max y 562`
+
+</center>
+
+- Note the padding can be altered by using the flag `-p ` plus a number of pixels (the default is 5)
+
+
+3. The easiest way for imagemagick to cut out a rectangle from an image is to create a mask first. So here we create a mask of the first image that was used to get the coordinates from. The mask is a black and white image that shows region to cut out. The second command uses the mask to cut out the original image.
+
+<center>
+
+![An example mask created](./temp.STaPWa.png){fig-align='center' width=75%}
+
+</center>
+
+The region is then used to cut out from the original image as such: 
+
+<center>
+
+![The image is now cropped](./crop.png){fig-align='center' width=75%}
+
+
+</center>
+
+
+4. I added another option in the script since sometimes we only want to draw an outline of the region on the original image this outputs the following image: 
+
+<center>
+
+![The image represents a white outline which is the region that could be cropped out](./drawn.png){fig-align='center' width=75%}
+
+
+</center>
+
+- To edit some of the options in the script the user might want to pay attention to the following commands: 
+
+```bash
+
+convert -size $(identify -format "%wx%h" "$input_file") xc:black -fill "white" \
+        -draw "rectangle $min_x,$min_y $max_x,$max_y" png:- > "$temp_file"
+convert "$input_file" "$temp_file" -alpha off -compose copy_opacity \
+        -composite -trim +repage -geometry x$(identify -format "%h" "$temp_file") "$output_file"
+convert "$input_file" -fill none -stroke white -strokewidth 3 \
+        -draw "stroke-dasharray 10 10 rectangle $min_x,$min_y $max_x,$max_y" "$output_file"
+```
+
+- Especially the third command in which we use the `stroke-dasharray` this essentially creates the white dashed line. Of course the stroke and the width can also be changed to what the user desires. 
+
+- In the future I will perhaps add options when running the command in order to change how the output will look like. 
+
+
