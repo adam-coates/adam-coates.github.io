@@ -6,7 +6,7 @@ about:
   image-shape: rounded
   image-width: 14em
   links:
-    - icon: book 
+    - icon: mortarboard 
       text: Google Scholar
       href: https://scholar.google.com/citations?user=xhPfahYAAAAJ&hl=en
     - icon: github 
@@ -15,6 +15,9 @@ about:
     - icon: globe
       text: Uni Graz
       href: https://neurovision.uni-graz.at
+    - icon: book
+      text: ORCiD
+      href: https://orcid.org/0000-0002-4004-1603
 ---
 
 ### About
@@ -22,6 +25,8 @@ about:
 <p class="topbr">
 
 Hello, I'm Adam a PhD student in Cognitive Psychology at the University of Graz, Austria.
+
+I am currently interested in the function of the human claustrum and aim to uncover the claustrum's function in humans using functional magnetic resonance imaging. 
 
 </p>
 

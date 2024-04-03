@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.550">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2024-04-01">
+<meta name="description" content="How I set up snippets and language server protocols for code completion">
+
+<title>Adam Coates - A completion source for Neovim</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Adam Coates</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../posts.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cv/adamCoates_acdCV.pdf"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/adam-coates"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://neurovision.uni-graz.at"> <i class="bi bi-Uni Graz" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-page-left">
+      <h1 class="title">A completion source for Neovim</h1>
+                  <div>
+        <div class="description">
+          How I set up snippets and language server protocols for code completion
+        </div>
+      </div>
+                </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta column-page-left">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 1, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-language-server-protocols-are" id="toc-what-language-server-protocols-are" class="nav-link active" data-scroll-target="#what-language-server-protocols-are">What language server protocols are?</a></li>
+  <li><a href="#snippets" id="toc-snippets" class="nav-link" data-scroll-target="#snippets">Snippets</a></li>
+  <li><a href="#completions-from-path" id="toc-completions-from-path" class="nav-link" data-scroll-target="#completions-from-path">Completions from path</a></li>
+  <li><a href="#completions-from-the-current-buffer" id="toc-completions-from-the-current-buffer" class="nav-link" data-scroll-target="#completions-from-the-current-buffer">Completions from the current buffer</a></li>
+  <li><a href="#zotero-completions" id="toc-zotero-completions" class="nav-link" data-scroll-target="#zotero-completions">Zotero completions</a></li>
+  <li><a href="#the-rest-of-the-lua-file" id="toc-the-rest-of-the-lua-file" class="nav-link" data-scroll-target="#the-rest-of-the-lua-file">The rest of the lua file</a></li>
+  <li><a href="#to-be-continued" id="toc-to-be-continued" class="nav-link" data-scroll-target="#to-be-continued">To be continued…</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+
+
+
+
+
+<section id="what-language-server-protocols-are" class="level3">
+<h3 class="anchored" data-anchor-id="what-language-server-protocols-are">What language server protocols are?</h3>
+<p>In Neovim, VScode, Sublime Text or emacs, all use something called language server protocols (LSPs). LSPs are “language intelligence tools” and essentially offer your code editor of choice a way to know</p>
+<blockquote class="blockquote">
+<ol type="1">
+<li>what coding language you’re currently editing in</li>
+<li>which documentation to provide for said language</li>
+<li>how to auto complete in said language</li>
+</ol>
+</blockquote>
+<p>For example, if you wanted to create some Python code, how can you speed up the process of writing code.</p>
+<p>Think of LSPs as kind of like a smart dictionary.</p>
+<section id="neovims-code-completion-system" class="level4">
+<h4 class="anchored" data-anchor-id="neovims-code-completion-system">Neovim’s code completion system</h4>
+<p>Of course, with Neovim there are a bunch of different types of plugins that you can use, some of which achieve the same kind of functionailty but with slightly different features.</p>
+<p>However, for the setup that I use, I use <a href="https://github.com/hrsh7th/nvim-cmp" class="button">nvim-cmp</a> which is a completion engine plugin. This means that essentially I can provide nvim-cmp a list of sources in which I want to use to carry out autocompletion.</p>
+<p>I use another plugin called <a href="https://github.com/hrsh7th/cmp-nvim-lsp" class="button">cmp-nvim-lsp</a> and this is specifically used for LSP completions that I will talk about in the next blog here.</p>
+<p>These include:</p>
+<ul>
+<li>snippets (including my own snippets)</li>
+<li>completions from path I’m writing</li>
+<li>completions from current document (if a document contains a word then a text completion is available)</li>
+<li>Zotero reference snippets (useful for academic writing)</li>
+<li>completions from LSPs</li>
+</ul>
+<p>This sounds like a lot and it probably is therefore, I think for the purpose of the blog, this will be split into two parts. This part will explain and show the part of my configuration that carries out completion from <em>non-LSP</em> sources. In the next blog, I talk about how to install and manage LSP sources and how to implement them as part of autocompletion.</p>
+</section>
+</section>
+<section id="snippets" class="level3">
+<h3 class="anchored" data-anchor-id="snippets">Snippets</h3>
+<p>Snippets are great. Have you ever started to write a for loop in bash and then switch to Python and forget the correct syntax for a for loop? Or have you ever wanted to define a function in R only to forget how to do the exact same in bash?</p>
+<p>This is where snippets come in handy. I always forget for instance how to construct a <em>proper</em> table in markdown. I hardly ever remember how to do that.</p>
+<p>Lets start by looking at the first few lines of code for this plugin and then to look at how my snippets are set up and finally how I have defined by own snippets.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode lua code-with-copy"><code class="sourceCode lua"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">return</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"hrsh7th/nvim-cmp"</span><span class="op">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">--  event = "VeryLazy",</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="va">dependencies</span> <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hrsh7th/cmp-buffer"</span><span class="op">,</span> <span class="co">-- source for text in buffer</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"hrsh7th/cmp-path"</span><span class="op">,</span> <span class="co">-- source for file system paths</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"L3MON4D3/LuaSnip"</span><span class="op">,</span> <span class="co">-- snippet engine</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"saadparwaiz1/cmp_luasnip"</span><span class="op">,</span> <span class="co">-- for autocompletion</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"rafamadriz/friendly-snippets"</span><span class="op">,</span> <span class="co">-- useful snippets</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"onsails/lspkind.nvim"</span><span class="op">,</span> <span class="co">-- vs-code like pictograms</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"jalvesaq/cmp-zotcite"</span><span class="op">,</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="op">},</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here you’ll notice that I am using <a href="https://github.com/folke/lazy.nvim" class="button">Lazy.nvim</a> as my neovim plugin manager of choice (a topic for another blog).</p>
+<p>In this .lua file I use the plugin “nvim-cmp” as an autocompletion engine that depends upon several other plugins. For example, the “friendly-snippets” plugin is used to be able to use the community driven snippets that others have made for a whole range of coding languages.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode lua code-with-copy"><code class="sourceCode lua"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">config</span> <span class="op">=</span> <span class="kw">function</span><span class="op">()</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">local</span> <span class="va">cmp</span> <span class="op">=</span> <span class="fu">require</span><span class="op">(</span><span class="st">"cmp"</span><span class="op">)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">local</span> <span class="va">luasnip</span> <span class="op">=</span> <span class="fu">require</span><span class="op">(</span><span class="st">"luasnip"</span><span class="op">)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">local</span> <span class="va">lspkind</span> <span class="op">=</span> <span class="fu">require</span><span class="op">(</span><span class="st">"lspkind"</span><span class="op">)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cn">_G</span><span class="op">.</span><span class="va">LuaSnipConfig</span> <span class="op">=</span> <span class="op">{}</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="co">-- Helpers</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">function</span> <span class="cn">_G</span><span class="op">.</span><span class="va">LuaSnipConfig</span><span class="op">.</span>visual_selection<span class="op">(</span><span class="cn">_</span><span class="op">,</span> <span class="va">parent</span><span class="op">)</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">parent</span><span class="op">.</span><span class="va">snippet</span><span class="op">.</span><span class="va">env</span><span class="op">.</span><span class="cn">LS_SELECT_DEDENT</span> <span class="kw">or</span> <span class="op">{}</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="kw">function</span> <span class="cn">_G</span><span class="op">.</span><span class="va">LuaSnipConfig</span><span class="op">.</span>intext_cite<span class="op">(</span><span class="cn">_</span><span class="op">,</span> <span class="va">parent</span><span class="op">)</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>            <span class="kw">local</span> <span class="va">selected_text</span> <span class="op">=</span> <span class="va">parent</span><span class="op">.</span><span class="va">snippet</span><span class="op">.</span><span class="va">env</span><span class="op">.</span><span class="cn">LS_SELECT_DEDENT</span> <span class="kw">or</span> <span class="op">{}</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>            <span class="kw">local</span> <span class="va">extracted_names</span> <span class="op">=</span> <span class="op">{}</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">for</span> <span class="cn">_</span><span class="op">,</span> <span class="va">text</span> <span class="kw">in</span> <span class="fu">ipairs</span><span class="op">(</span><span class="va">selected_text</span><span class="op">)</span> <span class="cf">do</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>            <span class="co">-- Extract the portion of the text after #</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>                <span class="kw">local</span> <span class="va">substring</span> <span class="op">=</span> <span class="va">text</span><span class="op">:</span><span class="fu">match</span><span class="op">(</span><span class="st">"#(.+)"</span><span class="op">)</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="va">substring</span> <span class="cf">then</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>            <span class="co">-- Replace "Etal" or "Et al." with "et al."</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>                    <span class="va">substring</span> <span class="op">=</span> <span class="va">substring</span><span class="op">:</span><span class="fu">gsub</span><span class="op">(</span><span class="st">"_Etal_"</span><span class="op">,</span> <span class="st">" et al.,"</span><span class="op">)</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                    <span class="va">substring</span> <span class="op">=</span> <span class="va">substring</span><span class="op">:</span><span class="fu">gsub</span><span class="op">(</span><span class="st">"_Et al%."</span><span class="op">,</span> <span class="st">" et al.,"</span><span class="op">)</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>            <span class="co">-- Remove any numbers after "et al."</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>                    <span class="va">substring</span> <span class="op">=</span> <span class="va">substring</span><span class="op">:</span><span class="fu">gsub</span><span class="op">(</span><span class="st">" et al%..*"</span><span class="op">,</span> <span class="st">" et al.,"</span><span class="op">)</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>            <span class="co">-- Truncate at the last occurrence of a number</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>                    <span class="kw">local</span> <span class="va">truncated</span> <span class="op">=</span> <span class="va">substring</span><span class="op">:</span><span class="fu">gsub</span><span class="op">(</span><span class="st">"_%d+$"</span><span class="op">,</span> <span class="st">""</span><span class="op">)</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>            <span class="co">-- Split by underscores and add to extracted_names</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>                    <span class="kw">local</span> <span class="va">names</span> <span class="op">=</span> <span class="op">{}</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">for</span> <span class="va">name</span> <span class="kw">in</span> <span class="va">truncated</span><span class="op">:</span><span class="fu">gmatch</span><span class="op">(</span><span class="st">"([^_]+)"</span><span class="op">)</span> <span class="cf">do</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">table.insert</span><span class="op">(</span><span class="va">names</span><span class="op">,</span> <span class="va">name</span> <span class="op">..</span> <span class="st">" "</span><span class="op">)</span> <span class="co">-- Add a space at the end of each name</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">end</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>            <span class="co">-- Check if "etal" is present</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>                    <span class="kw">local</span> <span class="va">has_etal</span> <span class="op">=</span> <span class="fu">string.find</span><span class="op">(</span><span class="va">truncated</span><span class="op">,</span> <span class="st">"etal"</span><span class="op">)</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>            <span class="co">-- Concatenate names without "and" if "etal" is present</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> <span class="va">has_etal</span> <span class="cf">then</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">table.insert</span><span class="op">(</span><span class="va">extracted_names</span><span class="op">,</span> <span class="fu">table.concat</span><span class="op">(</span><span class="va">names</span><span class="op">))</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">else</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>                <span class="co">-- Concatenate names with "and" if there are more than one</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">if</span> <span class="op">#</span><span class="va">names</span> <span class="op">&gt;</span> <span class="dv">1</span> <span class="cf">then</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">table.insert</span><span class="op">(</span><span class="va">extracted_names</span><span class="op">,</span> <span class="fu">table.concat</span><span class="op">(</span><span class="va">names</span><span class="op">,</span> <span class="st">"and "</span><span class="op">))</span></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">else</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">table.insert</span><span class="op">(</span><span class="va">extracted_names</span><span class="op">,</span> <span class="va">names</span><span class="op">[</span><span class="dv">1</span><span class="op">])</span></span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>                        <span class="cf">end</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">end</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>                <span class="cf">end</span></span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>            <span class="cf">end</span></span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="va">extracted_names</span></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We then call the configuration function for cmp, luasnip and lspkind (this is a standard in neovim plugins to ensure proper setup of the plugins)</p>
+<p>I then define two helper functions. Now, these functions are particularly useful for Zotero completions. For instance, when referencing in APA-style it is common to use both a direct in-text reference and an indirect in-text reference. These helper functions are used alongside, my own defined snippets that allows me to change from an indirect to a direct reference.</p>
+<p>It’s relatively straightforward. The first helper function <code>_G.LuaSnipConfig.visual_selection(_, parent)</code>: declares a function named visual_selection within the Lua global environment (<em>G). The function takes two arguments: </em> (an underscore indicating an unused variable, commonly used in Lua to indicate that a function argument is not used) and parent. <code>return parent.snippet.env.LS_SELECT_DEDENT or {}</code>: This line returns the value of parent.snippet.env.LS_SELECT_DEDENT if it exists, otherwise it returns an empty table {}.</p>
+<p>The 2nd function is what the snippet uses to do said formatting. <strong>THIS IS A WORK IN PROGRESS THOUGH</strong>. For now, the function splits the string based on the ‘#’ present in the reference (see the gif below). It then splits the strings based on if an ‘etal’ is present in the reference, if it is then it ends here and just spits out the first author name plus the et al, followed by the ordinal reference surrounded by square brackets (this notation is documented by <a href="https://pandoc.org/chunkedhtml-demo/8.20-citation-syntax.html">pandoc</a>)</p>
+<p>If an et al is not present, then the function splits the string based on the underscores present and will instead print out the list of names with an ‘and’ inbetween them.</p>
+<center>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./citation_eg.gif" class="img-fluid figure-img" style="width:75.0%"></p>
+<figcaption>Indirect and direct in-text citations example</figcaption>
+</figure>
+</div>
+</center>
+</section>
+<section id="completions-from-path" class="level3">
+<h3 class="anchored" data-anchor-id="completions-from-path">Completions from path</h3>
+<p>Completions from path are achieved through the use of the above dependency <a href="https://github.com/hrsh7th/cmp-path" class="button">cmp-path</a> This is relatively straightforward and allows for autocompletion of a path anywhere within the current buffer and look simply like this:</p>
+<center>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./path_completion.PNG" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>Path completion example</figcaption>
+</figure>
+</div>
+</center>
+</section>
+<section id="completions-from-the-current-buffer" class="level3">
+<h3 class="anchored" data-anchor-id="completions-from-the-current-buffer">Completions from the current buffer</h3>
+<blockquote class="blockquote">
+<p>A buffer is just nvims fancy name for the currently opened document.</p>
+</blockquote>
+<p>Completions from the current buffer are achieved through another dependency called <a href="https://github.com/hrsh7th/cmp-buffer" class="button">cmp-buffer</a> Again, this is relatively straightforward and allows for autocompletion of any words currently contained within the buffer that show up as text completion:</p>
+<center>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./text_completion.PNG" class="img-fluid figure-img" style="width:50.0%"></p>
+<figcaption>Text completion example</figcaption>
+</figure>
+</div>
+</center>
+</section>
+<section id="zotero-completions" class="level3">
+<h3 class="anchored" data-anchor-id="zotero-completions">Zotero completions</h3>
+<p>As we saw above, zotero completions are an additional possibility as a source for completion. Zotero saves all references as an sqlite database. Basically each reference has its own random character &amp; number string. Then it’s possible to just search this database based on the keywords from the title or the name of the authors and return a list of possible matches. This is possible with a pair of plugins. The first is a dependency to the nvim-cmp plugin called <a href="https://github.com/" class="button">cmp-zotcite</a> this dependency works with the completion plugin directly (nvim-cmp) to give you a popup list without having to call the omni-completion keybinding <code>ctrl+X ctrl+O</code>.</p>
+<p>Then there is an additional plugin that works as the backend to the dependency that really does the sqlite database search and format into a <a href="https://pandoc.org/">pandoc</a> way. This is useful particularly in markdown-type files or for note taking since this plugin also offers a way to extract zotero annotations directly from articles.</p>
+<p>Here is the configuration for zotero.lua:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode lua code-with-copy"><code class="sourceCode lua"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="cf">return</span> <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"jalvesaq/zotcite"</span><span class="op">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">dependencies</span> <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">"jalvesaq/cmp-zotcite"</span><span class="op">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">},</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here is an example of the annotation part of the plugin:</p>
+<center>
+<p><img src="./zotero_eg.gif" class="img-fluid" style="width:75.0%" alt="Example of highlighting text and making annotations in Zotero"> <img src="./annotations_eg.gif" class="img-fluid" style="width:75.0%" alt="Example of importing annotations into neovim"></p>
+</center>
+</section>
+<section id="the-rest-of-the-lua-file" class="level3">
+<h3 class="anchored" data-anchor-id="the-rest-of-the-lua-file">The rest of the lua file</h3>
+<p>The rest of the nvim-cmp.lua file is <em>really</em> related to how the plugin should actually work.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode lua code-with-copy"><code class="sourceCode lua"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">local</span> <span class="va">check_back_space</span> <span class="op">=</span> <span class="kw">function</span><span class="op">()</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>            <span class="kw">local</span> <span class="va">col</span> <span class="op">=</span> <span class="va">vim</span><span class="op">.</span><span class="va">fn</span><span class="op">.</span>col<span class="op">(</span><span class="st">'.'</span><span class="op">)</span> <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="va">col</span> <span class="op">==</span> <span class="dv">0</span> <span class="kw">or</span> <span class="va">vim</span><span class="op">.</span><span class="va">fn</span><span class="op">.</span>getline<span class="op">(</span><span class="st">'.'</span><span class="op">):</span><span class="fu">sub</span><span class="op">(</span><span class="va">col</span><span class="op">,</span> <span class="va">col</span><span class="op">):</span><span class="fu">match</span><span class="op">(</span><span class="st">'%s'</span><span class="op">)</span> <span class="cf">then</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> <span class="kw">true</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                <span class="cf">return</span> <span class="kw">false</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>            <span class="cf">end</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here I define what pressing the backspace actually does. For instance, when a snippet is loaded, the backspace operates to go back in the queue of the number of auto fill gaps</p>
+<p>For example in bash:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#bash for loop snippet. When the snippet is loaded</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># the backspace will go backwards to fill in the gaps</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#  between the for, in and ;do.</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>    in    <span class="kw">;</span><span class="cf">do</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<hr>
+<div class="sourceCode" id="cb6"><pre class="sourceCode lua code-with-copy"><code class="sourceCode lua"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">require</span><span class="op">(</span><span class="st">"luasnip.loaders.from_vscode"</span><span class="op">).</span>lazy_load<span class="op">({})</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">require</span><span class="op">(</span><span class="st">"luasnip.loaders.from_vscode"</span><span class="op">).</span>lazy_load<span class="op">({</span> <span class="va">paths</span> <span class="op">=</span> <span class="st">'./my_snippets'</span> <span class="op">})</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">require</span><span class="op">(</span><span class="st">"luasnip.loaders.from_lua"</span><span class="op">).</span>lazy_load<span class="op">({</span> <span class="va">paths</span> <span class="op">=</span> <span class="st">'./lua_snippets'</span> <span class="op">})</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">require</span><span class="op">(</span><span class="st">"luasnip"</span><span class="op">).</span><span class="va">config</span><span class="op">.</span>setup<span class="op">({</span><span class="va">store_selection_keys</span><span class="op">=</span><span class="st">"&lt;C-s&gt;"</span><span class="op">})</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">vim</span><span class="op">.</span><span class="va">api</span><span class="op">.</span>nvim_set_keymap<span class="op">(</span><span class="st">'i'</span><span class="op">,</span> <span class="st">'&lt;C-u&gt;'</span><span class="op">,</span> <span class="st">'&lt;cmd&gt;lua require("luasnip.extras.select_choice")()&lt;CR&gt;'</span><span class="op">,</span> <span class="op">{</span><span class="va">noremap</span> <span class="op">=</span> <span class="kw">true</span><span class="op">})</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">luasnip</span><span class="op">.</span>filetype_extend<span class="op">(</span><span class="st">"vimwiki"</span><span class="op">,</span> <span class="op">{</span><span class="st">"markdown"</span><span class="op">})</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In this section, according to the documentation of <a href="https://github.com/L3MON4D3/LuaSnip">luasnip</a> you must require the snippets from the source that the snippets are to be loaded from. Here I also source my own snippets that I have made in the paths <code>./my_snippets</code> and <code>./lua_snippets</code>.</p>
+<p>Below is an example of a snippet:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode lua code-with-copy"><code class="sourceCode lua"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>s<span class="op">(</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span> <span class="va">trig</span> <span class="op">=</span> <span class="st">'fm'</span><span class="op">,</span> <span class="va">dscr</span> <span class="op">=</span> <span class="st">'Front matter'</span> <span class="op">},</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        fmta<span class="op">(</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>            <span class="vs">[[</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="vs">                ---</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="vs">                fontsize: 12pt</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="vs">                geometry: margin=3cm</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="vs">                title: &lt;&gt;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="vs">                author: &lt;&gt;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="vs">                date: &lt;&gt;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="vs">                ---</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="vs">            ]]</span><span class="op">,</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>            <span class="op">{</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>                i<span class="op">(</span><span class="dv">1</span><span class="op">),</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>                i<span class="op">(</span><span class="dv">2</span><span class="op">,</span> <span class="st">'Adam Coates'</span><span class="op">),</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>                p<span class="op">(</span><span class="fu">os.date</span><span class="op">,</span> <span class="st">'%d/%m/%Y'</span><span class="op">),</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>            <span class="op">}</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        <span class="op">),</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span> <span class="va">condition</span> <span class="op">=</span> <span class="va">line_begin</span> <span class="op">}</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="op">),</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This snippet is an autosnippet to automatically write out a yaml header for markdown files, as such:</p>
+<center>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./snippet_eg.gif" class="img-fluid figure-img" style="width:75.0%"></p>
+<figcaption>Front matter snippet example</figcaption>
+</figure>
+</div>
+</center>
+<div class="sourceCode" id="cb8"><pre class="sourceCode lua code-with-copy"><code class="sourceCode lua"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>        <span class="va">cmp</span><span class="op">.</span>setup<span class="op">({</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>            <span class="va">completion</span> <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>            <span class="va">completeopt</span> <span class="op">=</span> <span class="st">"menu,menuone,preview,noselect"</span><span class="op">,</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>            <span class="op">},</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>            <span class="va">snippet</span> <span class="op">=</span> <span class="op">{</span> <span class="co">-- configure how nvim-cmp interacts with snippet engine</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                <span class="va">expand</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">args</span><span class="op">)</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                    <span class="va">luasnip</span><span class="op">.</span>lsp_expand<span class="op">(</span><span class="va">args</span><span class="op">.</span><span class="va">body</span><span class="op">)</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                <span class="kw">end</span><span class="op">,</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>            <span class="op">},</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>            <span class="va">mapping</span> <span class="op">=</span> <span class="va">cmp</span><span class="op">.</span><span class="va">mapping</span><span class="op">.</span><span class="va">preset</span><span class="op">.</span>insert<span class="op">({</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>            <span class="op">[</span><span class="st">"&lt;C-k&gt;"</span><span class="op">]</span> <span class="op">=</span> <span class="va">cmp</span><span class="op">.</span><span class="va">mapping</span><span class="op">.</span>select_prev_item<span class="op">(),</span> <span class="co">-- previous suggestion</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>            <span class="op">[</span><span class="st">"&lt;C-j&gt;"</span><span class="op">]</span> <span class="op">=</span> <span class="va">cmp</span><span class="op">.</span><span class="va">mapping</span><span class="op">.</span>select_next_item<span class="op">(),</span> <span class="co">-- next suggestion</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>            <span class="op">[</span><span class="st">"&lt;C-b&gt;"</span><span class="op">]</span> <span class="op">=</span> <span class="va">cmp</span><span class="op">.</span><span class="va">mapping</span><span class="op">.</span>scroll_docs<span class="op">(-</span><span class="dv">4</span><span class="op">),</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>            <span class="op">[</span><span class="st">"&lt;C-f&gt;"</span><span class="op">]</span> <span class="op">=</span> <span class="va">cmp</span><span class="op">.</span><span class="va">mapping</span><span class="op">.</span>scroll_docs<span class="op">(</span><span class="dv">4</span><span class="op">),</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>            <span class="op">[</span><span class="st">"&lt;C-Space&gt;"</span><span class="op">]</span> <span class="op">=</span> <span class="va">cmp</span><span class="op">.</span><span class="va">mapping</span><span class="op">.</span>complete<span class="op">(),</span> <span class="co">-- show completion suggestions</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>            <span class="op">[</span><span class="st">"&lt;C-e&gt;"</span><span class="op">]</span> <span class="op">=</span> <span class="va">cmp</span><span class="op">.</span><span class="va">mapping</span><span class="op">.</span>abort<span class="op">(),</span> <span class="co">-- close completion window</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>            <span class="op">[</span><span class="st">"&lt;CR&gt;"</span><span class="op">]</span> <span class="op">=</span> <span class="va">cmp</span><span class="op">.</span><span class="va">mapping</span><span class="op">.</span>confirm<span class="op">({</span> <span class="fu">select</span> <span class="op">=</span> <span class="kw">false</span> <span class="op">}),</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>            <span class="op">[</span><span class="st">'&lt;Tab&gt;'</span><span class="op">]</span> <span class="op">=</span> <span class="va">cmp</span><span class="op">.</span>mapping<span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">fallback</span><span class="op">)</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="va">cmp</span><span class="op">.</span>visible<span class="op">()</span> <span class="cf">then</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>                    <span class="va">cmp</span><span class="op">.</span>confirm<span class="op">({</span><span class="fu">select</span> <span class="op">=</span> <span class="kw">true</span><span class="op">})</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elseif</span> <span class="va">luasnip</span><span class="op">.</span>jumpable<span class="op">(</span><span class="dv">1</span><span class="op">)</span> <span class="cf">then</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>                    <span class="va">luasnip</span><span class="op">.</span>jump<span class="op">(</span><span class="dv">1</span><span class="op">)</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>                <span class="cf">elseif</span> check_back_space<span class="op">()</span> <span class="cf">then</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>                    fallback<span class="op">()</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>                <span class="cf">else</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>                    <span class="va">cmp</span><span class="op">.</span>complete<span class="op">()</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>                <span class="cf">end</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>            <span class="kw">end</span><span class="op">,</span> <span class="op">{</span><span class="st">'i'</span><span class="op">,</span> <span class="st">'s'</span><span class="op">}),</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>            <span class="op">[</span><span class="st">'&lt;S-Tab&gt;'</span><span class="op">]</span> <span class="op">=</span> <span class="va">cmp</span><span class="op">.</span>mapping<span class="op">(</span><span class="kw">function</span><span class="op">()</span> <span class="va">luasnip</span><span class="op">.</span>jump<span class="op">(-</span><span class="dv">1</span><span class="op">)</span> <span class="kw">end</span><span class="op">,</span> <span class="op">{</span><span class="st">'i'</span><span class="op">,</span> <span class="st">'s'</span><span class="op">}),</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>            <span class="op">}),</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>            <span class="va">vim</span><span class="op">.</span><span class="va">keymap</span><span class="op">.</span>set<span class="op">({</span> <span class="st">'i'</span><span class="op">,</span> <span class="st">'s'</span> <span class="op">},</span> <span class="st">'&lt;C-s&gt;'</span><span class="op">,</span> <span class="kw">function</span><span class="op">()</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> <span class="va">luasnip</span><span class="op">.</span>expandable<span class="op">()</span> <span class="cf">then</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>                    <span class="va">luasnip</span><span class="op">.</span>expand<span class="op">({})</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>                <span class="cf">end</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>            <span class="kw">end</span><span class="op">),</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The next part of the code defines some other keybinds for the actual pop-up menu. The first part of this section of code tells nvim-cmp how to display the menu and how the snippets are displayed. Then keybindings are defined for confirm, abort and for scrolling the documentation that comes up for the menu.</p>
+<p>Finally there is some code to define what <code>&lt;TAB&gt;</code> does. This means that if you have a snippet already selected the <code>&lt;tab&gt;</code> works to cycle through the gaps of a snippet to fill in (we saw before that backspace goes backwards through this cycle). If there is an expandable snippet then the <code>&lt;tab&gt;</code> will act to expand the snippet. If these conditions aren’t met then the <code>&lt;tab&gt;</code> works just as a regular <code>&lt;tab&gt;</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode lua code-with-copy"><code class="sourceCode lua"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>      <span class="co">-- sources for autocompletion</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>      <span class="va">sources</span> <span class="op">=</span> <span class="va">cmp</span><span class="op">.</span><span class="va">config</span><span class="op">.</span>sources<span class="op">({</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span> <span class="va">name</span> <span class="op">=</span> <span class="st">"luasnip"</span><span class="op">},</span> <span class="co">-- snippets</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span> <span class="va">name</span> <span class="op">=</span> <span class="st">"nvim_lsp"</span> <span class="op">},</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span> <span class="va">name</span> <span class="op">=</span> <span class="st">"buffer"</span> <span class="op">},</span> <span class="co">-- text within current buffer</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span> <span class="va">name</span> <span class="op">=</span> <span class="st">"path"</span> <span class="op">},</span> <span class="co">-- file system paths</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span> <span class="va">name</span> <span class="op">=</span> <span class="st">"cmp_zotcite"</span> <span class="op">},</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span> <span class="va">name</span> <span class="op">=</span> <span class="st">"otter"</span> <span class="op">},</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>      <span class="op">}),</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>      <span class="co">-- configure lspkind for vs-code like pictograms in completion menu</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>      <span class="va">formatting</span> <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>        <span class="fu">format</span> <span class="op">=</span> <span class="va">lspkind</span><span class="op">.</span>cmp_format<span class="op">({</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>          <span class="va">maxwidth</span> <span class="op">=</span> <span class="dv">50</span><span class="op">,</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>          <span class="va">ellipsis_char</span> <span class="op">=</span> <span class="st">"..."</span><span class="op">,</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">}),</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>      <span class="op">},</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">})</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">end</span><span class="op">,</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The final part of the configuration calls the sources that nvim-cmp should look for when actually carrying out the auto completion and the final few lines are just to get some nice pretty pictograms in the menu itself.</p>
+<center>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./pictograms.PNG" class="img-fluid figure-img" style="width:75.0%"></p>
+<figcaption>Pictograms = python example</figcaption>
+</figure>
+</div>
+</center>
+</section>
+<section id="to-be-continued" class="level3">
+<h3 class="anchored" data-anchor-id="to-be-continued">To be continued…</h3>
+<p>This is of course only part of what make the autocompletion so great in neovim. The whole configuration is much more than just a simple single .lua file and instead involves the interaction between other plugins too.</p>
+<ul>
+<li>In the next blog, I aim to delve a bit more deeply into this configuration by introducing Language Server Protocols (LSPs) and how completions are given on the type of document currently opened.</li>
+<li>For example we don’t care about C or C++ autocompletions in a python document.</li>
+</ul>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://giscus.app/client.js" data-repo="adam-coates/adam-coates.github.io" data-repo-id="R_kgDOLbl8PA" data-category="General" data-category-id="DIC_kwDOLbl8PM4Cd2HV" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script>
+<input type="hidden" id="giscus-base-theme" value="light">
+<input type="hidden" id="giscus-alt-theme" value="dark">
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ CC BY 4.0
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/adam-coates">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
