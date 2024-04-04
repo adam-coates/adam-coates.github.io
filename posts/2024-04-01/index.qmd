@@ -7,14 +7,14 @@ comments:
     repo: "adam-coates/adam-coates.github.io"
     mapping: "title"
 date: "2024-04-01"
-categories: []
+categories: ["neovim", "tools", "coding"]
 draft: false #  setting this to  will prevent your post from appearing on your listing page until you're ready
 css: style.css
 ---
 
 ### What language server protocols are? 
 
-In Neovim, VScode, Sublime Text or emacs, all use something called language server protocols (LSPs). LSPs are "language intelligence tools" and essentially offer your code editor of choice a way to know 
+Neovim, VScode, Sublime Text or emacs, all use something called language server protocols (LSPs). LSPs are "language intelligence tools" and essentially offer your code editor of choice a way to know 
 
 > 1. what coding language you're currently editing in 
 > 2. which documentation to provide for said language
