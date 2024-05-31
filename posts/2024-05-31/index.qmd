@@ -93,6 +93,10 @@ Straight out of the box the plugin works for WPS Office
 (Even quarto renders the html tags, but this makes sense since it is essentially a wrapper for pandoc that also executes and runs r and python code <span style="font-variant:small-caps;">This will be in small caps!</span>`)
 
 
+Therefore I think in the future I will be switching to using just a markdown editor like neovim will be beneficial in the long run. It makes sense that the idea of a word processor is to write words and not to be spend hours upon hours formatting and getting everything to look pretty. 
+
+[Heres a blog post I like that shows of vims power in latex using snippets](https://castel.dev/post/lecture-notes-1/)
+
 
 
 
