@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2024-05-31">
+<meta name="description" content="WPS office does not natively support zotero but there’s a github repo that does this">
 
-<title>Adam Coates - Recent Blog Posts</title>
+<title>Adam Coates - WPS office and zotero plugin</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,26 +25,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,76 +70,18 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Adam Coates</span>
     </a>
   </div>
@@ -150,15 +92,15 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./posts.html" aria-current="page"> 
+    <a class="nav-link" href="../../posts.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./cv/adamCoates_acdCV.pdf"> 
+    <a class="nav-link" href="../../cv/adamCoates_acdCV.pdf"> 
 <span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item compact">
@@ -180,303 +122,138 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-page-left">
+      <h1 class="title">WPS office and zotero plugin</h1>
+                  <div>
+        <div class="description">
+          WPS office does not natively support zotero but there’s a github repo that does this
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Linux</div>
+                <div class="quarto-category">WPS</div>
+                <div class="quarto-category">Zotero</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta column-page-left">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 31, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(8)</span></div><div class="category" data-category="Linux">Linux <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(1)</span></div><div class="category" data-category="WPS">WPS <span class="quarto-category-count">(1)</span></div><div class="category" data-category="Zotero">Zotero <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bash">bash <span class="quarto-category-count">(2)</span></div><div class="category" data-category="coding">coding <span class="quarto-category-count">(2)</span></div><div class="category" data-category="cross-platform">cross-platform <span class="quarto-category-count">(1)</span></div><div class="category" data-category="neovim">neovim <span class="quarto-category-count">(2)</span></div><div class="category" data-category="python">python <span class="quarto-category-count">(1)</span></div><div class="category" data-category="quarto">quarto <span class="quarto-category-count">(1)</span></div><div class="category" data-category="tools">tools <span class="quarto-category-count">(3)</span></div><div class="category" data-category="windows">windows <span class="quarto-category-count">(1)</span></div></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#wps-office" id="toc-wps-office" class="nav-link active" data-scroll-target="#wps-office">WPS office</a></li>
+  <li><a href="#libre-office" id="toc-libre-office" class="nav-link" data-scroll-target="#libre-office">Libre office</a></li>
+  <li><a href="#wps-office-1" id="toc-wps-office-1" class="nav-link" data-scroll-target="#wps-office-1">WPS office</a></li>
+  <li><a href="#wps-office-plugin-for-zotero" id="toc-wps-office-plugin-for-zotero" class="nav-link" data-scroll-target="#wps-office-plugin-for-zotero">WPS Office plugin for zotero</a></li>
+  <li><a href="#maybe-time-to-write-using-latex" id="toc-maybe-time-to-write-using-latex" class="nav-link" data-scroll-target="#maybe-time-to-write-using-latex">Maybe time to write using latex?</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Recent Blog Posts</h1>
-</div>
-
-
-
-<div class="quarto-title-meta column-page-left">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
+<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 
 
 
 
 
+<section id="wps-office" class="level3">
+<h3 class="anchored" data-anchor-id="wps-office">WPS office</h3>
+<ul>
+<li><p>I’ve been experimenting with linux recently quite a lot and I really am enjoying the setup that I have right now</p></li>
+<li><p>One of the things I didn’t think I actually would miss but I kind of do a bit is Microsoft Office</p></li>
+<li><p>The upside to linux however is that there is free programs that try to replace Microsoft Offices ridiculously priced Office program bundle</p></li>
+<li><p>This is great, however these free programs don’t quite cut the mustard</p></li>
+</ul>
+</section>
+<section id="libre-office" class="level3">
+<h3 class="anchored" data-anchor-id="libre-office">Libre office</h3>
+<ul>
+<li><p>Libre office is okay, it has some of the features that Microsoft Office applications have but not all</p></li>
+<li><p>The UI is terrible though (especially if you’re someone like me who comes from Microsoft Office’s UI) the UI seems really outdated</p></li>
+<li><p>But Microsoft Offices UI also has quite a number of shortcomings and I found that I really hate the whole idea of ribbons and trying to find something really specific oftentimes leads to some googling (and now probably some chatGPT-ing)</p></li>
+</ul>
+<blockquote class="blockquote">
+<p>But there is a trick to get the UI in LibreOffice to look better and more like Microsoft Offices</p>
+</blockquote>
+<ul>
+<li><p>Libre Office also natively supports Zotero</p></li>
+<li><p>But over all there is just a massive lack of features in Libre Office (I won’t list all of them but when creating a presentation recently I found a lot of missing things that made making a presentation really difficult and so I had to spin-up my windows machine instead)</p></li>
+</ul>
+</section>
+<section id="wps-office-1" class="level3">
+<h3 class="anchored" data-anchor-id="wps-office-1">WPS office</h3>
+<ul>
+<li><p>Then I came across a reddit thread in the Linux community that specifically discussed the available alternatives to Microsoft Office in Linux</p></li>
+<li><p>I found WPS office and was pleasantly surprised at the number of features that it really has</p></li>
+<li><p>But one thing that it doesn’t support is a zotero plugin</p></li>
+<li><p>I came across this thread with others like me that were disappointed by this: <a href="https://forums.zotero.org/discussion/87141/wps-office-integration">WPS Office integration with zotero</a></p></li>
+</ul>
+</section>
+<section id="wps-office-plugin-for-zotero" class="level3">
+<h3 class="anchored" data-anchor-id="wps-office-plugin-for-zotero">WPS Office plugin for zotero</h3>
+<ul>
+<li>There appears to be a zotero plugin made on github</li>
+</ul>
+<p>It was easy to install by following these steps</p>
+<pre><code>1. git clone https://github.com/tankwyn/WPS-Zotero.git
+2. cd WPS-Zotero
+3. ./install.py</code></pre>
+<p>… and that’s it</p>
+<p>Straight out of the box the plugin works for WPS Office</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./wps_eg.png" class="img-fluid figure-img"></p>
+<figcaption>WPS example with zotero</figcaption>
+</figure>
+</div>
+</section>
+<section id="maybe-time-to-write-using-latex" class="level3">
+<h3 class="anchored" data-anchor-id="maybe-time-to-write-using-latex">Maybe time to write using latex?</h3>
+<ul>
+<li><p>I have thought about this for a while</p></li>
+<li><p>I use neovim and do a lot of writing just using markdown files</p></li>
+<li><p>I think that I would really like to be able to move entirely away from relying on a word processor program but for things like making presentations I don’t see any other alternatives than either using online Microsoft Office, Google docs, Libre Office or WPS Office</p></li>
+<li><p>In neovim I can create and automatically preview markdown files in a browser</p></li>
+<li><p>I can then use the zotero plugin to put references into the markdown file from zotero</p></li>
+<li><p>I can then convert this markdown file to a .pdf or .docx with a filter to render the references from the zotero plugin first, and then a second filter to render these references into apa style for example:</p></li>
+</ul>
+<blockquote class="blockquote">
+<p><code>pandoc test.md -o test.pdf -F otref.py --citeproc --csl /mnt/g/apa.csl</code></p>
+</blockquote>
+<ul>
+<li><p>Then with some yaml header and some additional formatting specific to latex and/ or pandoc rendering inside the document itself its possible to get a document that looks pretty nice</p></li>
+<li><p>Pandoc additionally supports some html tags too for example:</p></li>
+</ul>
+<blockquote class="blockquote">
+<p><code>&lt;span style="font-variant:small-caps;"&gt;This will be in small caps!&lt;/span&gt;</code></p>
+</blockquote>
+<p>(Even quarto renders the html tags, but this makes sense since it is essentially a wrapper for pandoc that also executes and runs r and python code <span class="smallcaps">This will be in small caps!</span>`)</p>
 
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="Linux,WPS,Zotero" data-listing-date-sort="1717106400000" data-listing-file-modified-sort="1717172291787" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="605">
-<a href="./posts/2024-05-31/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="posts/2024-05-31/wps_eg.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-WPS office and zotero plugin
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('Linux'); return false;">
-Linux
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('WPS'); return false;">
-WPS
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Zotero'); return false;">
-Zotero
-</div>
-</div>
-<div class="card-text listing-description">
-WPS office does not natively support zotero but there’s a github repo that does this
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
 
-</div>
-<div class="listing-date">
-May 31, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="" data-listing-date-sort="1715205600000" data-listing-file-modified-sort="1716737495889" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2108">
-<a href="./posts/2024-05-09/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="posts/2024-05-09/mason_eg.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-nvim, mason and LSPs
-</h5>
-<div class="listing-categories">
+</section>
 
-</div>
-<div class="card-text listing-description">
-follow-up to the blog about nvim autocompletion. Here I describe what mason is and what LSPs are in more detail and provide a fuller picture of autocompletion in neovim
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-May 9, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="neovim,tools,coding" data-listing-date-sort="1711922400000" data-listing-file-modified-sort="1715278013305" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="18" data-listing-word-count-sort="3553">
-<a href="./posts/2024-04-01/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="posts/2024-04-01/citation_eg.gif" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-A completion source for Neovim
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('neovim'); return false;">
-neovim
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('tools'); return false;">
-tools
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('coding'); return false;">
-coding
-</div>
-</div>
-<div class="card-text listing-description">
-How I set up snippets and language server protocols for code completion
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Apr 1, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="3" data-categories="bash,tools" data-listing-date-sort="1710630000000" data-listing-file-modified-sort="1715278013315" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1215">
-<a href="./posts/2024-03-17/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="posts/2024-03-17/eg.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Cropping an image using a bash script
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('bash'); return false;">
-bash
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('tools'); return false;">
-tools
-</div>
-</div>
-<div class="card-text listing-description">
-Here I show how to crop an image using imagemagick covert function
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Mar 17, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="4" data-categories="R,python" data-listing-date-sort="1710198000000" data-listing-file-modified-sort="1715278013325" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1196">
-<a href="./posts/2024-03-12/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top"><img src="posts/2024-03-12/index_files/figure-html/unnamed-chunk-1-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Simple plotting in r and python
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('python'); return false;">
-python
-</div>
-</div>
-<div class="card-text listing-description">
-I show simple basic plotting methods using ggplot2 and matplotlib
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Mar 12, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="5" data-categories="tools,windows,cross-platform" data-listing-date-sort="1710111600000" data-listing-file-modified-sort="1715278013325" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="509">
-<a href="./posts/2024-03-11/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/2024-03-11/brain_ax.gif" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Easy way to make a gif
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('tools'); return false;">
-tools
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('windows'); return false;">
-windows
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('cross-platform'); return false;">
-cross-platform
-</div>
-</div>
-<div class="card-text listing-description">
-A screen recorder-y way to make gifs on the screen
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Mar 11, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="6" data-categories="bash" data-listing-date-sort="1710025200000" data-listing-file-modified-sort="1715278013315" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2286">
-<a href="./posts/2024-03-10/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/2024-03-10/preview.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-The script that makes the website
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('bash'); return false;">
-bash
-</div>
-</div>
-<div class="card-text listing-description">
-Here I’ll write about the script that I’ve written to make posting to this blog easier
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Mar 10, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="7" data-categories="coding,neovim,quarto" data-listing-date-sort="1709938800000" data-listing-file-modified-sort="1715278013315" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="723">
-<a href="./posts/2024-03-08/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/2024-03-08/nvim_eg.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-What’s the best notebook
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('coding'); return false;">
-coding
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('neovim'); return false;">
-neovim
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('quarto'); return false;">
-quarto
-</div>
-</div>
-<div class="card-text listing-description">
-and why I started this blog?
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-
-</div>
-<div class="listing-date">
-Mar 9, 2024
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1030,6 +807,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<script src="https://giscus.app/client.js" data-repo="adam-coates/adam-coates.github.io" data-repo-id="R_kgDOLbl8PA" data-category="General" data-category-id="DIC_kwDOLbl8PM4Cd2HV" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+</script>
+<input type="hidden" id="giscus-base-theme" value="light">
+<input type="hidden" id="giscus-alt-theme" value="dark">
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
