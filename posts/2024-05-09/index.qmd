@@ -7,7 +7,7 @@ comments:
     repo: "adam-coates/adam-coates.github.io"
     mapping: "title"
 date: "2024-05-09"
-categories: []
+categories: ["neovim", "tools", "coding"]
 draft: false #  setting this to  will prevent your post from appearing on your listing page until you're ready
 css: style.css
 ---
