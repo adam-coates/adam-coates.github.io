@@ -740,6 +740,36 @@ Reveal.on( 'customevent', function() {
           </ul>
         </section>
 
+        <section>
+          <h2>Testing the poll function</h2>
+          <div class="poll" data-poll="approval">
+            <button data-value="yes">Yes</button>
+            <br />
+            <button data-value="no">No</button>
+            <br />
+            <button data-value="maybe">Maybe</button>
+            <br />
+          </div>
+          <p style="font-size: 24px; color: gray">
+            Responses: <span class="voters" data-poll="approval">0</span>
+          </p>
+        </section>
+
+        <section>
+          <h2>Live results of the poll</h2>
+          <div
+            style="
+              position: relative;
+              height: 480px !important;
+              width: 1280px !important;
+            "
+          >
+            <canvas data-chart="bar" data-poll="approval">
+              , Yes, No, Maybe , 0, 0, 0
+            </canvas>
+          </div>
+        </section>
+
         <section style="text-align: left">
           <h1>THE END</h1>
           <p>
@@ -762,6 +792,24 @@ Reveal.on( 'customevent', function() {
     <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/seminar/plugin.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js-menu@2.1.0/menu.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/poll/plugin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/questions/plugin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/chart/plugin.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/chalkboard/plugin.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/chalkboard/style.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/questions/style.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/poll/style.css"
+    />
     <link
       href=" https://cdn.jsdelivr.net/npm/reveal.js-menu@2.1.0/menu.css "
       rel="stylesheet"
@@ -810,6 +858,10 @@ Reveal.on( 'customevent', function() {
           RevealHighlight,
           RevealMenu,
           RevealSeminar,
+          RevealPoll,
+          RevealQnA,
+          RevealChalkboard,
+          RevealChart,
         ],
       }).then(() => {
         if (!isConnected) {
