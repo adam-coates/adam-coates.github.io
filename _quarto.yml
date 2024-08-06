@@ -16,6 +16,8 @@ website:
         href: https://github.com/adam-coates
       - icon: Uni Graz
         href: https://neurovision.uni-graz.at
+      - href: test.html
+        text: test
   page-footer: 
     background: light
     left: 
