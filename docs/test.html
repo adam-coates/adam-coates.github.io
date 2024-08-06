@@ -796,11 +796,12 @@ Reveal.on( 'customevent', function() {
     <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/questions/plugin.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/chart/plugin.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.0/chart.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/chalkboard/plugin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/customcontrols/plugin.js"></script>
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/chalkboard/style.css"
+      href="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/customcontrols/style.css"
     />
+
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/reveal.js-plugins@latest/questions/style.css"
@@ -842,6 +843,42 @@ Reveal.on( 'customevent', function() {
             },
           ],
         },
+
+        chart: {
+          defaults: {
+            maintainAspectRatio: false,
+            responsive: true,
+            color: "lightgray", // color of labels
+            font: { size: 30 },
+            scale: {
+              beginAtZero: true,
+              ticks: { stepSize: 1 },
+              grid: { color: "lightgray" }, // color of grid lines
+            },
+          },
+          bar: { backgroundColor: ["firebrick", "darkred", "red"] },
+          pie: { backgroundColor: [["black", "red", "green", "yellow"]] },
+        },
+        customcontrols: {
+          controls: [
+            {
+              icon: '<i class="fa fa-pen-square"></i>',
+              title: "Toggle chalkboard (B)",
+              action: "RevealChalkboard.toggleChalkboard();",
+            },
+            {
+              icon: '<i class="fa fa-pen"></i>',
+              title: "Toggle notes canvas (C)",
+              action: "RevealChalkboard.toggleNotesCanvas();",
+            },
+            {
+              id: "toggle-questions",
+              title: "Toggle Q&A dashboard (Q)",
+              icon: '<span class="fa-stack" style="margin: -24px -12px;padding:0;"><span class="fa-solid fa-comment fa-stack-1x"></span><strong class="fa-stack-1x fa-inverse qna question-counter" style="font-size:0.5em;"></strong></span>',
+              action: "RevealQnA.toggleQnA();",
+            },
+          ],
+        },
         seminar: {
           server: "https://adam-coates-seminar.glitch.me/", // change server as necessary
           room: document.title, // put your room name here
@@ -860,8 +897,8 @@ Reveal.on( 'customevent', function() {
           RevealSeminar,
           RevealPoll,
           RevealQnA,
-          RevealChalkboard,
           RevealChart,
+          RevealCustomControls,
         ],
       }).then(() => {
         if (!isConnected) {
