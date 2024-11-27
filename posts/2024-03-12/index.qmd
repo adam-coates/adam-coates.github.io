@@ -26,7 +26,7 @@ MATLAB will always be used in certain fields though because it really just works
 
 **But R and Python are open source and FREE!** Anyone can use them.
 
-### I want to make plots using in an open source way, how?
+### I want to make plots in an open source way, how?
 
 This blog post won't give a full tutorial, just check out a YouTube video for that, theres really loads! Or even ask chatgpt to do it for you, since it seems to do well at basic coding anyway. 
 
