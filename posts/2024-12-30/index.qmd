@@ -1,0 +1,32 @@
+---
+title: "Moving from Windows to Linux"
+description: "Experimenting using linux as a daily driver"
+#image: "preview.png"
+comments:
+  giscus:
+    repo: "adam-coates/adam-coates.github.io"
+    mapping: "title"
+date: "2024-12-30"
+categories: []
+draft: true 
+#css: style.css
+---
+
+### What started the move form windows to Linux?
+#### Windows 10 is not being supported from October 2025
+
+I used to enjoy using windows and this year, 2024, I have been using Linux more and more. Today I realised I haven't needed or wanted to use Windows now for more than half a year and therefore, I decided to completely get rid of windows entirely. 
+
+This has a few benefits (not to mentioned the freed up storage space) 
+
+But I think the main concern that many have (includiung myslef) is that there would be sucha alarge learning curve that would hinder the somewhat ease-of-use work flow that exists on a windows operating system 
+
+I decided to jump into the deep end and start with Arch linux. My thoughts were that I want a system that is completely customisable, a system whereby I would really learn the full ins and outs about the linux OS all the while having arguable the most extensive package managers available right now `pacman`
+
+### Installing Arch Linux
+
+- Arch linux can literally be installed how you like it to be from the get go including what drives to partition, how much to partition them by whether you want `x` number of partitions etc. Or perhaps you want to have some drive that is formated as ext4 while others as btfs. 
+
+- Arch linux comes with a simple to use and straightforward installation guide and there are many YouTube videos and documentation documenting how exactly to install linux
+
+- 

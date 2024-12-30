@@ -5,6 +5,23 @@ format:
     margin: 0
 ---
 
+## Adam Coates booking page 
+
+<center>
+
+1. Select an available date
+2. Select an available time and duration (30/60minutes)
+3. Enter first and last name and email address 
+
+- Meetings currently take place in-person:
+
+Department of Psychology, 
+Universitätsplatz 2/III, 
+Room 0046, 
+8010 Graz
+
+</center>
+
 ```{=html}
 <iframe width="1920" height="1080" src="https://koalendar.com/e/adamcoates" title="Webpage example"></iframe>
 ```
