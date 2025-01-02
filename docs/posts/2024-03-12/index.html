@@ -239,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
   <li><a href="#i-want-to-make-plots-in-an-open-source-way-how" id="toc-i-want-to-make-plots-in-an-open-source-way-how" class="nav-link" data-scroll-target="#i-want-to-make-plots-in-an-open-source-way-how">I want to make plots in an open source way, how?</a></li>
   <li><a href="#bar-plots" id="toc-bar-plots" class="nav-link" data-scroll-target="#bar-plots">Bar plots</a></li>
   <li><a href="#scatter-plots" id="toc-scatter-plots" class="nav-link" data-scroll-target="#scatter-plots">Scatter plots</a></li>
-  <li><a href="#what-about-error-bars" id="toc-what-about-error-bars" class="nav-link" data-scroll-target="#what-about-error-bars">what about error bars?</a></li>
+  <li><a href="#what-about-error-bars" id="toc-what-about-error-bars" class="nav-link" data-scroll-target="#what-about-error-bars">What about error bars?</a></li>
   <li><a href="#plotting-is-easy" id="toc-plotting-is-easy" class="nav-link" data-scroll-target="#plotting-is-easy">Plotting is easy</a></li>
   </ul>
 </nav>
@@ -254,7 +254,7 @@ document.addEventListener("DOMContentLoaded", function () {
 <section id="its-time-to-move-away-from-matlab-entirely" class="level3">
 <h3 class="anchored" data-anchor-id="its-time-to-move-away-from-matlab-entirely">It’s time to move away from matlab entirely</h3>
 <p>While MATLAB served me well for a number of years I feel now is the time to completely stop using it all together (except for exceptional use cases, for example <a href="http://psychtoolbox.org">Psychtoolbox</a>, but even then I’m much more inclined to use the open source MATLAB version <a href="https://octave.org">Octave</a>).</p>
-<p><a href="https://www.mathworks.com/products/matlab/matlab-vs-python.html">MATLAB</a> themselves even write about the differences between MATLAB and Python and which one you should use. It’s true MATLAB’s documentation on functions and packages is really extensive, easily understandable and takes the lead over Python and R. But this is just because MATLAB is a private company and the subscriptions aren’t exactly cheap. For MATLAB they argue that you pay for more than just the GUI and software but also this user support (although I’ve never ever picked up the phone and called MATLAB directly with a problem I’ve had).</p>
+<p><a href="https://www.mathworks.com/products/matlab/matlab-vs-python.html">MATLAB</a> themselves even write about the differences between MATLAB and Python and which one you should use. It’s true MATLAB’s documentation on functions and packages is really extensive, easily understandable and takes the lead over Python and R. But this is just because MATLAB is a private company and the subscriptions aren’t exactly cheap. For MATLAB, they argue that you pay for more than just the GUI and software but also this user support (although I’ve never ever picked up the phone and called MATLAB directly with a problem I’ve had).</p>
 <p>Still Python has, in recent years, closed the gap between computational speed of large matrices and with an ever increasing user base, has gained a lot of very useful packages and modules.</p>
 <p>Even R is/ (arguably has) already closed this gap too. And with Rstudios nicely laid out default GUI there is really no excuse even for beginners not to use it.</p>
 <p>MATLAB will always be used in certain fields though because it really just works well, not to mention how easy it is to use (again though the extensive and well-documented functions are partly the reason for this).</p>
@@ -262,12 +262,12 @@ document.addEventListener("DOMContentLoaded", function () {
 </section>
 <section id="i-want-to-make-plots-in-an-open-source-way-how" class="level3">
 <h3 class="anchored" data-anchor-id="i-want-to-make-plots-in-an-open-source-way-how">I want to make plots in an open source way, how?</h3>
-<p>This blog post won’t give a full tutorial, just check out a YouTube video for that, theres really loads! Or even ask chatgpt to do it for you, since it seems to do well at basic coding anyway.</p>
-<p>With a fully configured neovim setup (like the one I have) it makes coding easier and much faster to do. This is an additional reason to move away from MATLAB since you almost have to do everything inside of MATLABs gui.</p>
+<p>This blog post won’t give a full tutorial, just check out a YouTube video for that, there’s really loads! Or even ask chatgpt to do it for you, since it seems to do well at basic coding anyway.</p>
+<p>With a fully configured neovim setup (like the one I have) it makes coding easier and much faster to do. This is an additional reason to move away from MATLAB since you almost have to do everything inside MATLABs gui.</p>
 </section>
 <section id="bar-plots" class="level3">
 <h3 class="anchored" data-anchor-id="bar-plots">Bar plots</h3>
-<p>Here’s an example bar plot plot in R using <code>ggplot</code>:</p>
+<p>Here’s an example bar plot in R using <code>ggplot</code>:</p>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
@@ -329,7 +329,7 @@ document.addEventListener("DOMContentLoaded", function () {
 </section>
 <section id="scatter-plots" class="level3">
 <h3 class="anchored" data-anchor-id="scatter-plots">Scatter plots</h3>
-<p>Here’s some examples of scatter plots using python:</p>
+<p>Here are some examples of scatter plots using python:</p>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
 <summary>Code</summary>
@@ -508,11 +508,11 @@ document.addEventListener("DOMContentLoaded", function () {
 </div>
 </div>
 <hr>
-<p>This is all there is to it. So the main trick here is to get the data in a format that can be read correctly. The sure fire way is to make sure the data provided to the plots is as a type array. But of course its possible to to index for example a pandas dataframe as an array.</p>
+<p>This is all there is to it. So the main trick here is to get the data in a format that can be read correctly. The sure fire way is to make sure the data provided to the plots is as a type array. But of course it’s possible to index for example a pandas dataframe as an array.</p>
 </section>
 <section id="what-about-error-bars" class="level3">
-<h3 class="anchored" data-anchor-id="what-about-error-bars">what about error bars?</h3>
-<p>Error bars a crucial in any plot and really tell the more about what the plot means. <em>In any scientific work no error bars is just a no go.</em></p>
+<h3 class="anchored" data-anchor-id="what-about-error-bars">What about error bars?</h3>
+<p>Error bars a crucial in any plot and really tell the more about what the plot means. <em>In any scientific work no error bars is just a no-go.</em></p>
 <p>Here I show a scatter plot in R with shading using <code>geom_smooth</code> just by setting <code>se = TRUE</code>:</p>
 <div class="cell" data-layout-align="center">
 <details class="code-fold">
