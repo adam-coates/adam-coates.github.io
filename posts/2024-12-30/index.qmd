@@ -21,18 +21,53 @@ format:
 ### What started the move form windows to Linux?
 #### Windows 10 is not being supported from October 2025
 
-I used to enjoy using windows and this year, 2024, I have been using Linux more and more. Today I realised I haven't needed or wanted to use Windows now for more than half a year and therefore, I decided to completely get rid of windows entirely. 
+I used to enjoy using windows in particular Windows 10 and Windows 7, however, Microsoft has said that they will be suspending all updates to Windows 10 in October of this year (2025). They're newer OS Windows 11 has not really appealed to me because of several countless claims and concerns about "Replay". There have been countless concerns regarding the security of this feature and to be truthfully honest I don't want Microsoft Windows to be taking a snapshot of my computer every 5 minutes and with only a very convoluted way of actually turning off this feature. 
 
-This has a few benefits (not to mentioned the freed up storage space) 
+I also don't agree with some of the other telemetry information that they are prepared to collect from you as a user (only to later be sold onto advertising companies). The amount of "bloated" programs that come with Microsoft Windows has also increased. And not to mention the fact that it is unable to customise a lot of the desktop environment to fit your exact needs (without some ridiculously hacky way of doing so). 
 
-But I think the main concern that many have (includiung myslef) is that there would be sucha alarge learning curve that would hinder the somewhat ease-of-use work flow that exists on a windows operating system 
+In, 2024 I was using Linux more and more. Today, I realised I haven't needed or wanted to use Windows now for more than half a year and therefore, I have decided that I will completely get rid of windows entirely. 
 
-I decided to jump into the deep end and start with Arch linux. My thoughts were that I want a system that is completely customisable, a system whereby I would really learn the full ins and outs about the linux OS all the while having arguable the most extensive package managers available right now `pacman`
+This has a few benefits (not to mention the freed up storage space). Here are some of the most benefits I have found while searching about this:
+
+| Feature              | Linux                                        | Windows                                    |
+|----------------------|----------------------------------------------|-------------------------------------------|
+| **Cost**            | Free (most distributions)                   | Requires a paid license                   |
+| **Open Source**     | Open-source, modifiable                     | Proprietary, closed-source                |
+| **Customizability** | Highly customizable, from UI to kernel      | Limited customization options             |
+| **Security**        | More secure, fewer malware targets          | Frequent target for malware               |
+| **Performance**     | Lightweight, runs on older hardware         | Resource-intensive, needs powerful hardware |
+| **Software**        | Vast free/open-source repository            | Larger proprietary software ecosystem     |
+| **Privacy**         | Minimal data collection                     | Known for telemetry and data collection   |
+| **Community Support**| Strong global community, free support       | Official support, often paid              |
+| **Development**     | Preferred for development and servers       | Popular for commercial apps, gaming       |
+| **Updates**         | Frequent, non-disruptive updates            | Intrusive updates, may require reboots    |
+| **Stability**       | Highly stable, long uptime                  | Prone to crashes, slowdowns post-updates  |
+| **Diversity**       | Wide variety of distros for different needs | Limited versions (Home, Pro, Enterprise)  |
+| **Networking**      | Robust built-in networking tools            | Less versatile without third-party tools  |
+
+
+Now that I got convinced, it was important for me to choose a Linux distribution that I could configure from the ground up. I wanted a system that would enable me to streamline a lot of the processes that take a lot of time to achieve on Windows. 
+
+The first major area to streamline is quite simply mouse usage. Using the mouse to click things every day takes a lot of time and in reality isn't really necessary. I wanted a system that would allow me to (without even leaving the keyboard once) open a browser some applications, like slack, calendar etc. and switch between workspaces or desktops without lifting my hands of the keyboard. 
+
+I decided to jump into the deep end and start with Arch Linux. My thoughts were that if I truly want a system that is completely customizable then I would need a Linux distribution that would be as "barebones" as possible. This would be a system whereby I would really learn the full ins and outs about the Linux OS all the while having arguable the most extensive package managers available right now `pacman`
+
+### Arch Linux 
+
+- 
+
+
+### Desktop environment
+
+
+### Installation 
+
+
 
 ### Installing Arch Linux
 
 - Arch linux can literally be installed how you like it to be from the get go including what drives to partition, how much to partition them by whether you want `x` number of partitions etc. Or perhaps you want to have some drive that is formated as ext4 while others as btfs. 
 
-- Arch linux comes with a simple to use and straightforward installation guide and there are many YouTube videos and documentation documenting how exactly to install linux
+- Arch linux comes with a simple-to-use and straightforward installation guide and there are many YouTube videos and documentation documenting how exactly to install linux
 
 - 

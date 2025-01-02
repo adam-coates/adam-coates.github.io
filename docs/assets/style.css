@@ -85,3 +85,32 @@ body {
     padding: 0;
     border: 0;
 }
+
+.navbar {
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 1em;
+  text-transform: uppercase;
+}
+
+
+/* Default card styles */
+.card {
+  transition: all 0.3s ease; /* Smooth animation */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle default shadow */
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Optional border */
+  border-radius: 8px; /* Rounded corners for a polished look */
+}
+
+/* Hover effect */
+.card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+  transform: translateY(-5px); /* Slight lift effect */
+  border: 1px solid rgba(0, 0, 0, 0.2); /* Enhance border visibility */
+}
+
+/* Optional card content styles */
+.card-content {
+  padding: 16px; /* Space inside the card */
+  text-align: center; /* Center-align content */
+}

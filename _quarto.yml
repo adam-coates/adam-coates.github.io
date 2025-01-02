@@ -5,6 +5,7 @@ project:
 website:
   title: "Adam Coates"
   navbar:
+    title: false
     right:
       - href: index.qmd
         text: Home
@@ -23,6 +24,7 @@ website:
     right:
       - icon: github
         href: https://github.com/adam-coates
+  back-to-top-navigation: true
 format:
   html:
     page-layout: full
@@ -30,7 +32,5 @@ format:
       light: main_theme.scss
       #flatly
       dark: dark_theme.scss
-    #    green_theme.scss
     toc: true
-
 editor: visual

@@ -1,7 +1,7 @@
 /*-- scss:defaults --*/
 
 // Import fonts (define mainfont in _quarto.yml)
-@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito:wght@300&family=Roboto+Mono:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Victor+Mono:wght@400;700&display=swap');
 
 // Colors
 $dark_gray: #1e2020;
@@ -152,4 +152,13 @@ body {
 
 .description {
   font-size: 25px;
+}
+
+.listing-box:hover {
+  border-color: $primary;
+  background-color: transparent;
+  box-shadow: 0px 1px 2px rgba(0,0,0,0.1), 
+            0px 2px 4px rgba(0,0,0,0.1), 
+            0px 4px 8px rgba(0,0,0,0.1), 
+            0px 8px 16px rgba(0,0,0,0.1);
 }
