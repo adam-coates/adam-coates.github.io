@@ -9,7 +9,13 @@ comments:
 date: "2024-05-31"
 categories: ["Linux", "WPS", "Zotero"]
 draft: false #  setting this to  will prevent your post from appearing on your listing page until you're ready
-#css: style.css
+css: "../../assets/style.css"
+format:
+  html:
+    smooth-scroll: true
+    code-fold: true
+    code-tools: true
+    include-in-header: "../../assets/script.html"
 ---
 
 ### WPS office 
@@ -18,13 +24,13 @@ draft: false #  setting this to  will prevent your post from appearing on your l
 
 - One of the things I didn't think I actually would miss but I kind of do a bit is Microsoft Office 
 
-- The upside to linux however is that there is free programs that try to replace Microsoft Offices ridiculously priced Office program bundle
+- The upside to linux however is that there are free programs that try to replace Microsoft Offices ridiculously priced Office program bundle
 
 - This is great, however these free programs don't quite cut the mustard 
 
-### Libre office
+### LibreOffice
 
-- Libre office is okay, it has some of the features that Microsoft Office applications have but not all 
+- LibreOffice is okay, it has some of the features that Microsoft Office applications have but not all 
 
 - The UI is terrible though (especially if you're someone like me who comes from Microsoft Office's UI) the UI seems really outdated
 
@@ -33,14 +39,14 @@ draft: false #  setting this to  will prevent your post from appearing on your l
 
 > But there is a trick to get the UI in LibreOffice to look better and more like Microsoft Offices
 
-- Libre Office also natively supports Zotero
+- LibreOffice also natively supports Zotero
 
-- But over all there is just a massive lack of features in Libre Office (I won't list all of them but when creating a presentation recently I found a lot of missing things that made making a presentation really difficult and so I had to spin-up my windows machine instead)
+- But over all there is just a massive lack of features in LibreOffice (I won't list all of them but when creating a presentation recently I found a lot of missing things that made a presentation really difficult, and so I had to spin-up my Windows machine instead)
 
 
 ### WPS office
 
-- Then I came across a reddit thread in the Linux community that specifically discussed the available alternatives to Microsoft Office in Linux
+- Then I came across a reddit thread in the Linux community that specifically discussed the available alternatives to Microsoft Office on Linux
 
 - I found WPS office and was pleasantly surprised at the number of features that it really has 
 
@@ -73,7 +79,7 @@ Straight out of the box the plugin works for WPS Office
 
 - I use neovim and do a lot of writing just using markdown files 
 
-- I think that I would really like to be able to move entirely away from relying on a word processor program but for things like making presentations I don't see any other alternatives than either using online Microsoft Office, Google docs, Libre Office or WPS Office
+- I think that I would really like to be able to move entirely away from relying on a word processor program but for things like making presentations I don't see any other alternatives than either using online Microsoft Office, Google docs, LibreOffice or WPS Office
 
 
 - In neovim I can create and automatically preview markdown files in a browser 
@@ -93,9 +99,9 @@ Straight out of the box the plugin works for WPS Office
 (Even quarto renders the html tags, but this makes sense since it is essentially a wrapper for pandoc that also executes and runs r and python code <span style="font-variant:small-caps;">This will be in small caps!</span>`)
 
 
-Therefore I think in the future I will be switching to using just a markdown editor like neovim will be beneficial in the long run. It makes sense that the idea of a word processor is to write words and not to be spend hours upon hours formatting and getting everything to look pretty. 
+Therefore, I think in the future I will be switching to using just a markdown editor like neovim will be beneficial in the long run. It makes sense that the idea of a word processor is to write words and not to be spend hours upon hours formatting and getting everything to look pretty. 
 
-[Heres a blog post I like that shows of vims power in latex using snippets](https://castel.dev/post/lecture-notes-1/)
+[Here's a blog post I like that shows of vims power in latex using snippets](https://castel.dev/post/lecture-notes-1/)
 
 
 

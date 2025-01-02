@@ -9,7 +9,13 @@ comments:
 date: "2024-04-01"
 categories: ["neovim", "tools", "coding"]
 draft: false #  setting this to  will prevent your post from appearing on your listing page until you're ready
-css: style.css
+css: "../../assets/style.css"
+format:
+  html:
+    smooth-scroll: true
+    code-fold: true
+    code-tools: true
+    include-in-header: "../../assets/script.html"
 ---
 
 ### What language server protocols are? 
@@ -41,7 +47,7 @@ These include:
 - completions from LSPs
 
 
-This sounds like a lot and it probably is therefore, I think for the purpose of the blog, this will be split into two parts. This part will explain and show the part of my configuration that carries out completion from *non-LSP* sources. In the next blog, I talk about how to install and manage LSP sources and how to implement them as part of autocompletion. 
+This sounds like a lot, and it probably is therefore, I think for the purpose of the blog, this will be split into two parts. This part will explain and show the part of my configuration that carries out completion from *non-LSP* sources. In the next blog, I talk about how to install and manage LSP sources and how to implement them as part of autocompletion. 
 
 ### Snippets
 
@@ -49,7 +55,7 @@ Snippets are great. Have you ever started to write a for loop in bash and then s
 
 This is where snippets come in handy. I always forget for instance how to construct a *proper* table in markdown. I hardly ever remember how to do that. 
 
-Lets start by looking at the first few lines of code for this plugin and then to look at how my snippets are set up and finally how I have defined by own snippets. 
+Let's start by looking at the first few lines of code for this plugin and then to look at how my snippets are set up and finally how I have defined by own snippets. 
 
 ```lua
 return {
@@ -132,9 +138,9 @@ These helper functions are used alongside, my own defined snippets that allows m
 It's relatively straightforward. The first helper function `_G.LuaSnipConfig.visual_selection(_, parent)`: declares a function named visual_selection within the Lua global environment (_G). The function takes two arguments: _ (an underscore indicating an unused variable, commonly used in Lua to indicate that a function argument is not used) and parent. `return parent.snippet.env.LS_SELECT_DEDENT or {}`: This line returns the value of parent.snippet.env.LS_SELECT_DEDENT if it exists, otherwise it returns an empty table {}.
 
 The 2nd function is what the snippet uses to do said formatting. **THIS IS A WORK IN PROGRESS THOUGH**.
-For now, the function splits the string based on the '#' present in the reference (see the gif below). It then splits the strings based on if an 'etal' is present in the reference, if it is then it ends here and just spits out the first author name plus the et al, followed by the ordinal reference surrounded by square brackets (this notation is documented by [pandoc](https://pandoc.org/chunkedhtml-demo/8.20-citation-syntax.html))
+For now, the function splits the string based on the '#' present in the reference (see the gif below). It then splits the strings based on if an 'etal' is present in the reference, if it is then it ends here and just spits out the first author name plus the et al., followed by the ordinal reference surrounded by square brackets (this notation is documented by [pandoc](https://pandoc.org/chunkedhtml-demo/8.20-citation-syntax.html))
 
-If an et al is not present, then the function splits the string based on the underscores present and will instead print out the list of names with an 'and' inbetween them. 
+If an et al. is not present, then the function splits the string based on the underscores present and will instead print out the list of names with an 'and' inbetween them. 
 
 
 <center>
@@ -209,7 +215,7 @@ local check_back_space = function()
 
 ```
 
-Here I define what pressing the backspace actually does. For instance, when a snippet is loaded, the backspace operates to go back in the queue of the number of auto fill gaps
+Here I define what pressing the backspace actually does. For instance, when a snippet is loaded, the backspace operates to go back in the queue of the number of autofill gaps
 
 For example in bash: 
 
@@ -309,7 +315,7 @@ This snippet is an autosnippet to automatically write out a yaml header for mark
 ```
 The next part of the code defines some other keybinds for the actual pop-up menu. The first part of this section of code tells nvim-cmp how to display the menu and how the snippets are displayed. Then keybindings are defined for confirm, abort and for scrolling the documentation that comes up for the menu. 
 
-Finally there is some code to define what `<TAB>` does. This means that if you have a snippet already selected the `<tab>` works to cycle through the gaps of a snippet to fill in (we saw before that backspace goes backwards through this cycle). If there is an expandable snippet then the `<tab>` will act to expand the snippet. If these conditions aren't met then the `<tab>` works just as a regular `<tab>`. 
+Finally, there is some code to define what `<TAB>` does. This means that if you have a snippet already selected the `<tab>` works to cycle through the gaps of a snippet to fill in (we saw before that backspace goes backwards through this cycle). If there is an expandable snippet then the `<tab>` will act to expand the snippet. If these conditions aren't met then the `<tab>` works just as a regular `<tab>`. 
 
 ```lua
       -- sources for autocompletion
@@ -346,5 +352,5 @@ The final part of the configuration calls the sources that nvim-cmp should look 
 This is of course only part of what make the autocompletion so great in neovim. The whole configuration is much more than just a simple single .lua file and instead involves the interaction between other plugins too. 
 
 - In the next blog, I aim to delve a bit more deeply into this configuration by introducing Language Server Protocols (LSPs) and how completions are given on the type of document currently opened. 
-- For example we don't care about C or C++ autocompletions in a python document. 
+- For example, we don't care about C or C++ autocompletions in a python document. 
 

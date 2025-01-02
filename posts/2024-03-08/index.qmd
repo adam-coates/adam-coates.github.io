@@ -9,8 +9,13 @@ comments:
 date: 2024-03-09
 categories: ["coding", "neovim", "quarto"] # self-defined categories
 draft: false # setting this to `true` will prevent your post from appearing on your listing page until you're ready
-css: style.css
+css: "../../assets/style.css"
+format:
+  html:
+    smooth-scroll: true
+    include-in-header: "../../assets/script.html"
 ---
+
 
 ### What are quarto documents and jupyter notebooks?
 
@@ -49,8 +54,9 @@ Although the customisability took several months (this is probably the only down
 
 The purpose of this blog is to really document these things. The things that have led me to the point I'm at right now. To start to write down coding notes about this particular configuration journey and beyond. 
 
-I'd also like to dabble a bit of coding regarding data analysis in R and Python and to the mix too. And also to document data analysis of fMRI data. I think this would be the perfect place to do this. 
+I'd also like to dabble a bit of coding regarding data analysis in R and Python in to the mix too. And also to document data analysis of fMRI data. I think this would be the perfect place to do this. 
 
 ### Suggestions?
 
 If you have any suggestions how I can make this useful to you or would like to reach out to me please feel free to do so. I hope this blog will inform others', if at least inform myself 😂.
+

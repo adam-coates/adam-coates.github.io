@@ -67,8 +67,53 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<link href="https://fonts.googleapis.com/css2?family=Victor+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const sections = document.querySelectorAll("section");
+
+  // Function to check if an element is in the viewport
+  const isInViewport = (element) => {
+    const rect = element.getBoundingClientRect();
+    return (
+      rect.top < (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.bottom > 0
+    );
+  };
+
+  // Throttle scroll events for better performance
+  let scrollTimeout;
+  const handleScroll = () => {
+    if (scrollTimeout) return;
+
+    scrollTimeout = setTimeout(() => {
+      sections.forEach((section) => {
+        if (isInViewport(section)) {
+          section.classList.add("section-visible");
+          section.classList.remove("section-hidden");
+        }
+      });
+      scrollTimeout = null;
+    }, 100); // Adjust the timeout as needed
+  };
+
+  // Initialize sections as hidden
+  sections.forEach((section) => {
+    section.classList.add("section-hidden");
+  });
+
+  // Add scroll event listener
+  window.addEventListener("scroll", handleScroll);
+
+  // Initial check
+  handleScroll();
+});
+</script>
 
 
+
+<link rel="stylesheet" href="./assets/style.css">
 </head>
 
 <body class="nav-fixed">
@@ -763,4 +808,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

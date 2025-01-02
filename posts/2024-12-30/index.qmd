@@ -9,7 +9,13 @@ comments:
 date: "2024-12-30"
 categories: []
 draft: true 
-#css: style.css
+css: "../../assets/style.css"
+format:
+  html:
+    smooth-scroll: true
+    code-fold: true
+    code-tools: true
+    include-in-header: "../../assets/script.html"
 ---
 
 ### What started the move form windows to Linux?

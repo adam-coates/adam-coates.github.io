@@ -99,6 +99,50 @@ ul.task-list li input[type="checkbox"] {
     }
   })
   </script>
+<style>html{ scroll-behavior: smooth; }</style>
+<link href="https://fonts.googleapis.com/css2?family=Victor+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const sections = document.querySelectorAll("section");
+
+  // Function to check if an element is in the viewport
+  const isInViewport = (element) => {
+    const rect = element.getBoundingClientRect();
+    return (
+      rect.top < (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.bottom > 0
+    );
+  };
+
+  // Throttle scroll events for better performance
+  let scrollTimeout;
+  const handleScroll = () => {
+    if (scrollTimeout) return;
+
+    scrollTimeout = setTimeout(() => {
+      sections.forEach((section) => {
+        if (isInViewport(section)) {
+          section.classList.add("section-visible");
+          section.classList.remove("section-hidden");
+        }
+      });
+      scrollTimeout = null;
+    }, 100); // Adjust the timeout as needed
+  };
+
+  // Initialize sections as hidden
+  sections.forEach((section) => {
+    section.classList.add("section-hidden");
+  });
+
+  // Add scroll event listener
+  window.addEventListener("scroll", handleScroll);
+
+  // Initial check
+  handleScroll();
+});
+</script>
+
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -130,6 +174,7 @@ window.Quarto = {
 };
 </script>
 
+<link rel="stylesheet" href="./assets/style.css">
 </head>
 
 <body class="nav-fixed">
@@ -214,7 +259,7 @@ window.Quarto = {
 
 <div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
 <div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="TGludXgsV1BTLFpvdGVybw==" data-listing-date-sort="1717106400000" data-listing-file-modified-sort="1732732247722" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="673">
+<div class="g-col-1" data-index="0" data-categories="TGludXgsV1BTLFpvdGVybw==" data-listing-date-sort="1717106400000" data-listing-file-modified-sort="1735829256497" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="667">
 <a href="./posts/2024-05-31/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2024-05-31/wps_eg.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -248,7 +293,7 @@ May 31, 2024
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="1" data-categories="bmVvdmltLHRvb2xzLGNvZGluZw==" data-listing-date-sort="1715205600000" data-listing-file-modified-sort="1732732247722" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2108">
+<div class="g-col-1" data-index="1" data-categories="bmVvdmltLHRvb2xzLGNvZGluZw==" data-listing-date-sort="1715205600000" data-listing-file-modified-sort="1735829216767" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2105">
 <a href="./posts/2024-05-09/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2024-05-09/mason_eg.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -282,7 +327,7 @@ May 9, 2024
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="2" data-categories="bmVvdmltLHRvb2xzLGNvZGluZw==" data-listing-date-sort="1711922400000" data-listing-file-modified-sort="1732732247715" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="18" data-listing-word-count-sort="3553">
+<div class="g-col-1" data-index="2" data-categories="bmVvdmltLHRvb2xzLGNvZGluZw==" data-listing-date-sort="1711922400000" data-listing-file-modified-sort="1735829186563" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="18" data-listing-word-count-sort="3552">
 <a href="./posts/2024-04-01/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2024-04-01/citation_eg.gif" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -316,7 +361,7 @@ Apr 1, 2024
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="3" data-categories="YmFzaCx0b29scw==" data-listing-date-sort="1710630000000" data-listing-file-modified-sort="1732732247712" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1215">
+<div class="g-col-1" data-index="3" data-categories="YmFzaCx0b29scw==" data-listing-date-sort="1710630000000" data-listing-file-modified-sort="1735826424942" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1216">
 <a href="./posts/2024-03-17/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2024-03-17/eg.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -347,7 +392,7 @@ Mar 17, 2024
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="4" data-categories="UixweXRob24=" data-listing-date-sort="1710198000000" data-listing-file-modified-sort="1735579207248" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1195">
+<div class="g-col-1" data-index="4" data-categories="UixweXRob24=" data-listing-date-sort="1710198000000" data-listing-file-modified-sort="1735829095004" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1192">
 <a href="./posts/2024-03-12/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top"><img src="posts/2024-03-12/index_files/figure-html/unnamed-chunk-1-1.png" style="height: 150px;"  class="thumbnail-image card-img"/></p>
@@ -378,7 +423,7 @@ Mar 12, 2024
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="5" data-categories="dG9vbHMsd2luZG93cyxjcm9zcy1wbGF0Zm9ybQ==" data-listing-date-sort="1710111600000" data-listing-file-modified-sort="1732732247708" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="509">
+<div class="g-col-1" data-index="5" data-categories="dG9vbHMsd2luZG93cyxjcm9zcy1wbGF0Zm9ybQ==" data-listing-date-sort="1710111600000" data-listing-file-modified-sort="1735829061093" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="507">
 <a href="./posts/2024-03-11/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -414,7 +459,7 @@ Mar 11, 2024
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="6" data-categories="YmFzaA==" data-listing-date-sort="1710025200000" data-listing-file-modified-sort="1732732247688" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2286">
+<div class="g-col-1" data-index="6" data-categories="YmFzaA==" data-listing-date-sort="1710025200000" data-listing-file-modified-sort="1735828885719" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2287">
 <a href="./posts/2024-03-10/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -444,7 +489,7 @@ Mar 10, 2024
 </div>
 </a>
 </div>
-<div class="g-col-1" data-index="7" data-categories="Y29kaW5nLG5lb3ZpbSxxdWFydG8=" data-listing-date-sort="1709938800000" data-listing-file-modified-sort="1732732247688" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="723">
+<div class="g-col-1" data-index="7" data-categories="Y29kaW5nLG5lb3ZpbSxxdWFydG8=" data-listing-date-sort="1709938800000" data-listing-file-modified-sort="1735828831912" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="723">
 <a href="./posts/2024-03-08/index.html" class="quarto-grid-link">
 <div class="quarto-grid-item card h-100 card-left">
 <p class="card-img-top">
@@ -1078,4 +1123,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
+<script src="site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

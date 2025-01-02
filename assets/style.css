@@ -1,3 +1,28 @@
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* Slight downward offset */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-hidden {
+  opacity: 0; /* Initially hidden */
+  transform: translateY(20px); /* Downward offset */
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
+}
+
+.section-visible {
+  animation: fadeInUp 2s ease forwards; /* Play animation on visibility */
+}
+
+
+body {
+  font-family: 'Victor Mono', monospace;
+}
 .button {
     position: relative;
     overflow: visible;

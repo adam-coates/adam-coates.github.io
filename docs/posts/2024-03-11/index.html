@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -70,9 +104,53 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<link href="https://fonts.googleapis.com/css2?family=Victor+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const sections = document.querySelectorAll("section");
+
+  // Function to check if an element is in the viewport
+  const isInViewport = (element) => {
+    const rect = element.getBoundingClientRect();
+    return (
+      rect.top < (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.bottom > 0
+    );
+  };
+
+  // Throttle scroll events for better performance
+  let scrollTimeout;
+  const handleScroll = () => {
+    if (scrollTimeout) return;
+
+    scrollTimeout = setTimeout(() => {
+      sections.forEach((section) => {
+        if (isInViewport(section)) {
+          section.classList.add("section-visible");
+          section.classList.remove("section-hidden");
+        }
+      });
+      scrollTimeout = null;
+    }, 100); // Adjust the timeout as needed
+  };
+
+  // Initialize sections as hidden
+  sections.forEach((section) => {
+    section.classList.add("section-hidden");
+  });
+
+  // Add scroll event listener
+  window.addEventListener("scroll", handleScroll);
+
+  // Initial check
+  handleScroll();
+});
+</script>
 
 
-<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet" href="../../assets/style.css">
 </head>
 
 <body class="nav-fixed">
@@ -126,7 +204,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-page-left">
-      <h1 class="title">Easy way to make a gif</h1>
+      <div class="quarto-title-block"><div><h1 class="title">Easy way to make a gif</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
                   <div>
         <div class="description">
           A screen recorder-y way to make gifs on the screen
@@ -165,7 +243,7 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#gifs-are-handy" id="toc-gifs-are-handy" class="nav-link active" data-scroll-target="#gifs-are-handy">Gifs are handy</a></li>
   <li><a href="#how-to-easily-create-a-gif-of-anything-you-see-on-the-screen." id="toc-how-to-easily-create-a-gif-of-anything-you-see-on-the-screen." class="nav-link" data-scroll-target="#how-to-easily-create-a-gif-of-anything-you-see-on-the-screen.">How to easily create a gif of anything you see on the screen.</a></li>
-  <li><a href="#whats-this-tool" id="toc-whats-this-tool" class="nav-link" data-scroll-target="#whats-this-tool">Whats this tool</a></li>
+  <li><a href="#whats-this-tool" id="toc-whats-this-tool" class="nav-link" data-scroll-target="#whats-this-tool">What’s this tool</a></li>
   <li><a href="#windowss-fun-.net-assembly" id="toc-windowss-fun-.net-assembly" class="nav-link" data-scroll-target="#windowss-fun-.net-assembly">Windows’s fun .NET assembly</a></li>
   </ul>
 </nav>
@@ -189,7 +267,7 @@ Gifs or jifs (however you pronounce it)
 <blockquote class="blockquote">
 <p>Showing slice-by-slice in the axial view of the brain, one can see the diverse changes in grey and white matter.</p>
 </blockquote>
-<p>Now you might say that okay you can depict this using images and thats true you can (and of course in an fMRI article you should definitely not use a gif but images). A gif on the other hand can just be a bit more visually appealing. (For this blog I’m kinda aiming for some visual appeal, no matter how cheesy it looks).</p>
+<p>Now you might say that okay you can depict this using images and that’s true you can (and of course in an fMRI article you should definitely not use a gif but images). A gif on the other hand can just be a bit more visually appealing. (For this blog I’m kinda aiming for some visual appeal, no matter how cheesy it looks).</p>
 <center>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -201,14 +279,14 @@ Gifs or jifs (however you pronounce it)
 </section>
 <section id="how-to-easily-create-a-gif-of-anything-you-see-on-the-screen." class="level3">
 <h3 class="anchored" data-anchor-id="how-to-easily-create-a-gif-of-anything-you-see-on-the-screen.">How to easily create a gif of anything you see on the screen.</h3>
-<p>Recently I came across this tool that allows you to capture anything visible on your screen and turn it into a gif and I’m ashamed I never knew something like this existed.</p>
-<p>The great thing about this is that it avoids opening a tool like obs to create a video of the screen, then using FFmpeg to convert the .mp4 to .gif.</p>
+<p>Recently I came across this tool that allows you to capture anything visible on your screen and turn it into a gif, and I’m ashamed I never knew something like this existed.</p>
+<p>The great thing about this is that it avoids opening a tool like OBS to create a video of the screen, then using FFmpeg to convert the .mp4 to .gif.</p>
 <p>All this used to take quite a bit of time before. Whereas now I can create a gif, in as much time as it takes for the program to load and for me to click record.</p>
 </section>
 <section id="whats-this-tool" class="level3">
-<h3 class="anchored" data-anchor-id="whats-this-tool">Whats this tool</h3>
+<h3 class="anchored" data-anchor-id="whats-this-tool">What’s this tool</h3>
 <p>The tool is open source at GitHub <a href="https://github.com/NickeManarin/ScreenToGif" class="button">ScreenToGif</a></p>
-<p>The only downside of it, as far as I can tell it is only available for windows (so far). But it seems that the maintainer of the project wants to port this to MacOS and Linux.</p>
+<p>The only downside of it, as far as I can tell it is only available for windows (so far). But it seems that the maintainer of the project wants to port this to macOS and Linux.</p>
 <p>Here’s how it looks like</p>
 <p><img src="./screen_to_gif.png" class="img-fluid"></p>
 <p>And here’s the output from above (its in black and white here because the editor allows you to export without colours to save render times and storage)</p>
@@ -216,10 +294,12 @@ Gifs or jifs (however you pronounce it)
 </section>
 <section id="windowss-fun-.net-assembly" class="level3">
 <h3 class="anchored" data-anchor-id="windowss-fun-.net-assembly">Windows’s fun .NET assembly</h3>
-<p>As far as I can tell Windows .NET assembly really lacks compatibility. I think linux’s OS is slowly becoming more attractive with greater extensibility. In the future I would aim to drop my windows machine entirely in favour for linux. But for now windows still just works and the GUI of windows 10 will always be ‘enough for my productivity’.</p>
-<p>As is often the case, you come across a great tool that works splendid in one OS but it doesn’t exist in another. I hope that with time there will be greater projects that aim at bridging the gap between cross platformability so that programs like this can be easily ported to other OS’s.</p>
-<p>Here’s just one example of a tool that does cross platform development in all OS’s <a href="https://github.com/AvaloniaUI/Avalonia/" class="button">Avolonia</a> so it seems we are getting there slowly.</p>
+<p>As far as I can tell Windows .NET assembly really lacks compatibility. I think linux’s OS is slowly becoming more attractive with greater extensibility. In the future I would aim to drop my Windows machine entirely in favour for linux. But for now windows still just works and the GUI of Windows 10 will always be ‘enough for my productivity’.</p>
+<p>As is often the case, you come across a great tool that works splendid in one OS, but it doesn’t exist in another. I hope that with time there will be greater projects that aim at bridging the gap between cross platformability so that programs like this can be easily ported to other OS’s.</p>
+<p>Here’s just one example of a tool that does cross-platform development in all OS’s <a href="https://github.com/AvaloniaUI/Avalonia/" class="button">Avolonia</a> so it seems we are getting there slowly.</p>
 
+
+<!-- -->
 
 </section>
 
@@ -457,6 +537,57 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
     clipboardModal.on('success', onCopySuccess);
+  }
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
   }
     var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
     var mailtoRegex = new RegExp(/^mailto:/);
@@ -791,7 +922,81 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <script src="https://giscus.app/client.js" data-repo="adam-coates/adam-coates.github.io" data-repo-id="R_kgDOLbl8PA" data-category="General" data-category-id="DIC_kwDOLbl8PM4Cd2HV" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
 </script>
 <input type="hidden" id="giscus-base-theme" value="light">
-<input type="hidden" id="giscus-alt-theme" value="dark">
+<input type="hidden" id="giscus-alt-theme" value="dark"><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Easy way to make a gif"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "A screen recorder-y way to make gifs on the screen"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">image:</span><span class="co"> "./brain_ax.gif"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="an">comments:</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">  giscus:</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">    repo: "adam-coates/adam-coates.github.io"</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    mapping: "title"</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2024-03-11"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> ["tools", "windows", "cross-platform"]</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> false #  setting this to  will prevent your post from appearing on your listing page until you're ready</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="an">css:</span><span class="co"> "../../assets/style.css"</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">    smooth-scroll: true</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">    include-in-header: "../../assets/script.html"</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">### Gifs are handy</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>&lt;center&gt;Gifs or jifs (however you pronounce it) &lt;/center&gt; </span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>are very handy because they're essentially mini videos and can be useful to explain or depict &lt;u&gt;anything&lt;/u&gt; you'd like them to.</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>For example, the gif in the previous blog was used to show what the 'spinner' I made looks like in bash e.g: <span class="al">![](./spin.gif)</span>{width=2%} </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>Without the gif it perhaps wouldn't be so obvious what I really meant by this spinner. And the code didn't really give too much of an indication of what the spinner looked like. </span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>Take this other example. </span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Showing slice-by-slice in the axial view of the brain, one can see the diverse changes in grey and white matter. </span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>Now you might say that okay you can depict this using images and that's true you can (and of course in an fMRI article you should definitely not use a gif but images). A gif on the other hand can just be a bit more visually appealing. (For this blog I'm kinda aiming for some visual appeal, no matter how cheesy it looks). </span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>&lt;center&gt;</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="al">![my brain](./brain_ax.gif)</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>&lt;/center&gt;</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="fu">### How to easily create a gif of anything you see on the screen.</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>Recently I came across this tool that allows you to capture anything visible on your screen and turn it into a gif, and I'm ashamed I never knew something like this existed. </span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>The great thing about this is that it avoids opening a tool like OBS to create a video of the screen, then using FFmpeg to convert the .mp4 to .gif. </span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>All this used to take quite a bit of time before. Whereas now I can create a gif, in as much time as it takes for the program to load and for me to click record. </span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="fu">### What's this tool</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>The tool is open source at GitHub &lt;a href="https://github.com/NickeManarin/ScreenToGif" class="button"&gt;ScreenToGif&lt;/a&gt; </span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>The only downside of it, as far as I can tell it is only available for windows (so far). But it seems that the maintainer of the project wants to port this to macOS and Linux. </span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>Here's how it looks like </span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="al">![](./screen_to_gif.png)</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>And here's the output from above (its in black and white here because the editor allows you to export without colours to save render times and storage)</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="al">![](./screen_to_gifEG.gif)</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="fu">### Windows's fun .NET assembly</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>As far as I can tell Windows .NET assembly really lacks compatibility. I think linux's OS is slowly becoming more attractive with greater extensibility. In the future I would aim to drop my Windows machine entirely in favour for linux. But for now windows still just works and the GUI of Windows 10 will always be 'enough for my productivity'. </span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>As is often the case, you come across a great tool that works splendid in one OS, but it doesn't exist in another. I hope that with time there will be greater projects that aim at bridging the gap between cross platformability so that programs like this can be easily ported to other OS's.</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>Here's just one example of a tool that does cross-platform development in all OS's &lt;a href="https://github.com/AvaloniaUI/Avalonia/" class="button"&gt;Avolonia&lt;/a&gt; so it seems we are getting there slowly. </span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -821,4 +1026,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

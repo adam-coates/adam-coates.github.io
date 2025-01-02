@@ -104,9 +104,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<style>html{ scroll-behavior: smooth; }</style>
+<link href="https://fonts.googleapis.com/css2?family=Victor+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const sections = document.querySelectorAll("section");
+
+  // Function to check if an element is in the viewport
+  const isInViewport = (element) => {
+    const rect = element.getBoundingClientRect();
+    return (
+      rect.top < (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.bottom > 0
+    );
+  };
+
+  // Throttle scroll events for better performance
+  let scrollTimeout;
+  const handleScroll = () => {
+    if (scrollTimeout) return;
+
+    scrollTimeout = setTimeout(() => {
+      sections.forEach((section) => {
+        if (isInViewport(section)) {
+          section.classList.add("section-visible");
+          section.classList.remove("section-hidden");
+        }
+      });
+      scrollTimeout = null;
+    }, 100); // Adjust the timeout as needed
+  };
+
+  // Initialize sections as hidden
+  sections.forEach((section) => {
+    section.classList.add("section-hidden");
+  });
+
+  // Add scroll event listener
+  window.addEventListener("scroll", handleScroll);
+
+  // Initial check
+  handleScroll();
+});
+</script>
 
 
-<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet" href="../../assets/style.css">
 </head>
 
 <body class="nav-fixed">
@@ -213,12 +257,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="blogging-is-hard" class="level3">
 <h3 class="anchored" data-anchor-id="blogging-is-hard">Blogging is hard</h3>
-<p>Without helpful scripts writing a blog can be hard to do. There is a lot of things to remember!</p>
+<p>Without helpful scripts writing a blog can be hard to do. There are a lot of things to remember!</p>
 <ol type="1">
 <li>The structure of a yaml header</li>
 <li>How to save the document</li>
 <li>How to properly render in-line code</li>
-<li>The command needed to render the quarto markdown to html (its true, this blog is written using quarto)</li>
+<li>The command needed to render the quarto markdown to html (it’s true, this blog is written using quarto)</li>
 <li>The usual git commit and push commands (the website is all open source on github)</li>
 <li>… and many other things I care not to remember</li>
 <li>oh wait even remembering to write a blog post can be hard!</li>
@@ -228,8 +272,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="the-script" class="level3">
 <h3 class="anchored" data-anchor-id="the-script">The script</h3>
-<p>Lets start at the top of the script and work our way down. First I define 6 variables these are mainly colours (Yes I’m one of those people that like colour in the bash script😂 for me its easier to show yes (in green) and no (in red) that way it’s a subconscious thing. If I see something written in red I might be entering the danger zone).</p>
-<p>Also here I create a variable to where the blog is stored locally and the GitHub address of where this repo is.</p>
+<p>Let’s start at the top of the script and work our way down. First I define 6 variables these are mainly colours (Yes I’m one of those people that like colour in the bash script😂 for me its easier to show yes (in green) and no (in red) that way it’s a subconscious thing. If I see something written in red I might be entering the danger zone).</p>
+<p>Also, here I create a variable to where the blog is stored locally and the GitHub address of where this repo is.</p>
 <p>Finally, at the bottom I made a function to get user input for:</p>
 <ol type="1">
 <li>The title of the blog<br>
@@ -266,9 +310,9 @@ code part 1
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <hr>
-<p>Next I created a function that I use often if I know a piece of code involves doing <em>x</em> for a certain amount of time without any output I like to have a visual ‘spinner’ output on the screen that shows me that a process is working.</p>
+<p>Next I created a function that I often use if I know a piece of code involves doing <em>x</em> for a certain amount of time without any output I like to have a visual ‘spinner’ output on the screen that shows me that a process is working.</p>
 <p>This will be clear later on in the code.</p>
-<p>This spinner works by getting the process ID otherwise known as PID of a process and outputs these characters ⣾,⣽,⣻,⢿,⡿,⣟,⣯,⣷. The hardest part is actually how to display these characters to replace the character before it. Otherwise the bash output might look a bit something like this:</p>
+<p>This spinner works by getting the process ID otherwise known as PID of a process and outputs these characters ⣾,⣽,⣻,⢿,⡿,⣟,⣯,⣷. The hardest part is actually how to display these characters to replace the character before it. Otherwise, the bash output might look a bit something like this:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="./spin_fail.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:50.0%"></p>
@@ -310,7 +354,7 @@ code part 1.1
 <section id="quarto-template" class="level3">
 <h3 class="anchored" data-anchor-id="quarto-template">Quarto template</h3>
 <p>Next I created a function to actually generate a template of the quarto markdown document needed to write a blog post such as this one you’re reading right now.</p>
-<p>I start by getting helpful info. Todays date and date and time. I then make a new directory in the blog local directory and then create the ‘.qmd’ document called index.</p>
+<p>I start by getting helpful info. Today’s date and date and time. I then make a new directory in the blog local directory and then create the ‘.qmd’ document called index.</p>
 <p>Next comes the boilerplate yaml header for every blog post. The title, description, (if I want github comments enabled at the bottom of the post), date, categories and any other additional .css that I might need.</p>
 <p>There is a whole myriad of yaml header options that are described on the quarto website. But for a basic, get-going, blog the yaml below is all I need.</p>
 <p>Finally I open the newly made document, in my favourite text editor <a href="https://github.com/adam-coates/dotfiles/tree/main/.config/nvim">neovim</a>.</p>
@@ -360,13 +404,13 @@ code part 1.2
 <ol type="1">
 <li><p>First check if a file that exists locally is or isn’t stored in my backup.</p>
 <blockquote class="blockquote">
-<p>It breaks the loop here if thats the case since this is faster.</p>
+<p>It breaks the loop here if that’s the case since this is faster.</p>
 </blockquote></li>
-<li><p>If all file metadata are the same in both the local dir and stored in my backup, then it checks if the number of bytes are the same.</p>
+<li><p>If all the files’ metadata are the same in both the local dir and stored in my backup, then it checks if the number of bytes are the same.</p>
 <blockquote class="blockquote">
-<p>It breaks the loop here if thats the case, since if the bytes differ then the files aren’t the same</p>
+<p>It breaks the loop here if that’s the case, since if the bytes differ then the files aren’t the same</p>
 </blockquote></li>
-<li><p>Checks the contents of the files. Its true that the bytes of two files may be identical but with differing content. The script uses the md5sum command to get the checksum of the files. If the content differs so will the check sum.</p></li>
+<li><p>Checks the contents of the files. It’s true that the bytes of two files may be identical but with differing content. The script uses the md5sum command to get the checksum of the files. If the content differs so will the check sum.</p></li>
 </ol>
 <p>This will all be apparent later. But basically this function is used to backup only when local changes are made.</p>
 <details>
@@ -1144,346 +1188,348 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">    repo: "adam-coates/adam-coates.github.io"</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">    mapping: "title"</span></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> "2024-03-10"</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="an">css:</span><span class="co"> style.css </span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> ["bash"]</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> false </span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> ["bash"]</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="an">draft:</span><span class="co"> false </span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="an">css:</span><span class="co"> "../../assets/style.css"</span></span>
 <span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
 <span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">  html:</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="fu">### Blogging is hard</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">    smooth-scroll: true</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">    code-fold: true</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools: true</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">    include-in-header: "../../assets/script.html"</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>Without helpful scripts writing a blog can be hard to do. There is a lot of things to remember! </span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="fu">### Blogging is hard</span></span>
 <span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>The structure of a yaml header</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>How to save the document</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>How to properly render in-line code</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>The command needed to render the quarto markdown to html (its true, this blog is written using quarto)</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>The usual git commit and push commands (the website is all open source on github)</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>... and many other things I care not to remember </span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>oh wait even remembering to write a blog post can be hard! </span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>So, I've made it easier for myself. I recently wrote a bash script that does everything I need to get started writing a blog post. </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>Without helpful scripts writing a blog can be hard to do. There are a lot of things to remember! </span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>The structure of a yaml header</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>How to save the document</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>How to properly render in-line code</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>The command needed to render the quarto markdown to html (it's true, this blog is written using quarto)</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>The usual git commit and push commands (the website is all open source on github)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="ss">6. </span>... and many other things I care not to remember </span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="ss">7. </span>oh wait even remembering to write a blog post can be hard! </span>
 <span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>The whole blog is structured around quarto markdown format and so this alone makes life much easier to do. </span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>So, I've made it easier for myself. I recently wrote a bash script that does everything I need to get started writing a blog post. </span>
 <span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="fu">### The script </span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>The whole blog is structured around quarto markdown format and so this alone makes life much easier to do. </span>
 <span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>Lets start at the top of the script and work our way down. First I define 6 variables these are mainly colours (Yes I'm one of those people that like colour in the bash script😂 for me its easier to show yes (in green) and no (in red) that way it's a subconscious thing. If I see something written in red I might be entering the danger zone).</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="fu">### The script </span></span>
 <span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>Also here I create a variable to where the blog is stored locally and the GitHub address of where this repo is. </span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>Let's start at the top of the script and work our way down. First I define 6 variables these are mainly colours (Yes I'm one of those people that like colour in the bash script😂 for me its easier to show yes (in green) and no (in red) that way it's a subconscious thing. If I see something written in red I might be entering the danger zone).</span>
 <span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>Finally, at the bottom I made a function to get user input for: </span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>Also, here I create a variable to where the blog is stored locally and the GitHub address of where this repo is. </span>
 <span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>The title of the blog  </span>
-<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>The description of the blog</span>
-<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>&lt;details&gt;</span>
-<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>&lt;summary&gt;code part 1&lt;/summary&gt;</span>
-<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
-<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a><span class="va">repo</span><span class="op">=</span><span class="st">"https://github.com/adam-coates/adam-coates.github.io"</span></span>
-<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a><span class="va">blogdir</span><span class="op">=</span>~/adam-coates.github.io/posts</span>
-<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a><span class="va">green</span><span class="op">=</span><span class="st">'\e[32m'</span></span>
-<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a><span class="va">red</span><span class="op">=</span><span class="st">'\e[31m'</span></span>
-<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a><span class="va">purple</span><span class="op">=</span><span class="st">'\033[0;35m'</span></span>
-<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a><span class="va">clear</span><span class="op">=</span><span class="st">'\e[0m'</span></span>
-<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a><span class="fu">ColorGreen()</span><span class="kw">{</span></span>
-<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="at">-ne</span> <span class="va">$green$1$clear</span></span>
-<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
-<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a><span class="fu">ColorRed()</span><span class="kw">{</span></span>
-<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="at">-ne</span> <span class="va">$red$1$clear</span></span>
-<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
-<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a><span class="fu">ColorPurple()</span><span class="kw">{</span></span>
-<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="at">-ne</span> <span class="va">$purple$1$clear</span></span>
-<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
-<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a><span class="fu">get_info()</span> <span class="kw">{</span></span>
-<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>    <span class="bu">read</span> <span class="at">-p</span> <span class="st">"Enter a title: "</span> <span class="va">title</span></span>
-<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>    <span class="bu">read</span> <span class="at">-p</span> <span class="st">"Enter a description: "</span> <span class="va">description</span></span>
-<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
-<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span></span>
-<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>/details<span class="op">&gt;</span></span>
-<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a><span class="ex">---</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>Finally, at the bottom I made a function to get user input for: </span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>The title of the blog  </span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>The description of the blog</span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>&lt;details&gt;</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>&lt;summary&gt;code part 1&lt;/summary&gt;</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a><span class="in">```bash</span></span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a><span class="va">repo</span><span class="op">=</span><span class="st">"https://github.com/adam-coates/adam-coates.github.io"</span></span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a><span class="va">blogdir</span><span class="op">=</span>~/adam-coates.github.io/posts</span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a><span class="va">green</span><span class="op">=</span><span class="st">'\e[32m'</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a><span class="va">red</span><span class="op">=</span><span class="st">'\e[31m'</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a><span class="va">purple</span><span class="op">=</span><span class="st">'\033[0;35m'</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a><span class="va">clear</span><span class="op">=</span><span class="st">'\e[0m'</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a><span class="fu">ColorGreen()</span><span class="kw">{</span></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="at">-ne</span> <span class="va">$green$1$clear</span></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a><span class="fu">ColorRed()</span><span class="kw">{</span></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="at">-ne</span> <span class="va">$red$1$clear</span></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a><span class="fu">ColorPurple()</span><span class="kw">{</span></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="at">-ne</span> <span class="va">$purple$1$clear</span></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a><span class="fu">get_info()</span> <span class="kw">{</span></span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>    <span class="bu">read</span> <span class="at">-p</span> <span class="st">"Enter a title: "</span> <span class="va">title</span></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>    <span class="bu">read</span> <span class="at">-p</span> <span class="st">"Enter a description: "</span> <span class="va">description</span></span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span></span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>/details<span class="op">&gt;</span></span>
 <span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a><span class="ex">Next</span> I created a function that I use often if I know a piece of code involves doing <span class="pp">*</span>x<span class="pp">*</span> for a certain amount of time without any output I like to have a visual <span class="st">'spinner'</span> output on the screen that shows me that a process is working. </span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a><span class="ex">---</span></span>
 <span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> will be clear later on in the code. </span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a><span class="ex">Next</span> I created a function that I often use if I know a piece of code involves doing <span class="pp">*</span>x<span class="pp">*</span> for a certain amount of time without any output I like to have a visual <span class="st">'spinner'</span> output on the screen that shows me that a process is working. </span>
 <span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> spinner works by getting the process ID otherwise known as PID of a process and outputs these characters ⣾,⣽,⣻,⢿,⡿,⣟,⣯,⣷. The hardest part is actually how to display these characters to replace the character before it. Otherwise the bash output might look a bit something like this: </span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> will be clear later on in the code. </span>
 <span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a><span class="ex">![]</span><span class="er">(</span><span class="ex">./spin_fail.png</span><span class="kw">)</span><span class="ex">{fig-align=</span><span class="st">"center"</span> width=50%}</span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> spinner works by getting the process ID otherwise known as PID of a process and outputs these characters ⣾,⣽,⣻,⢿,⡿,⣟,⣯,⣷. The hardest part is actually how to display these characters to replace the character before it. Otherwise, the bash output might look a bit something like this: </span>
 <span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a><span class="ex">So</span> after a character is printed out, there is a special unicode character that actually moves the cursor back one place on the screen <span class="er">(</span><span class="ex">*almost*</span> acting like a backspace<span class="kw">)</span><span class="bu">.</span> This deletes the current visible character and places the new one in its place. </span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a><span class="ex">![]</span><span class="er">(</span><span class="ex">./spin_fail.png</span><span class="kw">)</span><span class="ex">{fig-align=</span><span class="st">"center"</span> width=50%}</span>
 <span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>details<span class="op">&gt;</span></span>
-<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>summary<span class="op">&gt;</span>code <span class="ex">part</span> 1.1 <span class="op">&lt;</span>/summary<span class="op">&gt;</span></span>
-<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span>bash</span>
-<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="fu"> spinner()</span> <span class="kw">{</span></span>
-<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spinner characters</span></span>
-<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">spin</span><span class="op">=</span><span class="st">'⣾⣽⣻⢿⡿⣟⣯⣷'</span></span>
-<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">charwidth</span><span class="op">=</span>3</span>
-<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make sure we use non-unicode character type locale </span></span>
-<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a>    <span class="co"># (that way it works for any locale as long as the font supports the characters)</span></span>
-<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">LC_CTYPE</span><span class="op">=</span>C</span>
-<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Run the command passed as arguments and capture its PID</span></span>
-<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="va">$@</span><span class="st">"</span> <span class="kw">&amp;</span></span>
-<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">pid</span><span class="op">=</span><span class="va">$!</span></span>
-<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">i</span><span class="op">=</span>0</span>
-<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tput</span> civis <span class="co"># Cursor invisible</span></span>
-<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="bu">kill</span> <span class="at">-0</span> <span class="va">$pid</span> <span class="dv">2</span><span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a>        <span class="bu">local</span> <span class="va">i</span><span class="op">=</span><span class="va">$((</span>(<span class="va">i</span> <span class="op">+</span> <span class="va">$charwidth</span>) <span class="op">%</span> <span class="va">${</span><span class="op">#</span><span class="va">spin}))</span></span>
-<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a>        <span class="bu">printf</span> <span class="st">"\e[32m%s\e[m"</span> <span class="st">"</span><span class="va">${spin</span><span class="op">:</span><span class="va">$i</span><span class="op">:</span><span class="va">$charwidth}</span><span class="st">"</span>  <span class="co"># Green font color</span></span>
-<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a>        <span class="bu">printf</span> <span class="st">"\033[1D"</span>  <span class="co"># Move the cursor back one position</span></span>
-<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sleep</span> .1</span>
-<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a>    <span class="cf">done</span></span>
-<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tput</span> cnorm <span class="co"># Cursor visible</span></span>
-<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a>    <span class="bu">wait</span> <span class="va">$pid</span> <span class="co"># Capture exit code</span></span>
-<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">$?</span></span>
-<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
-<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span></span>
-<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>/details<span class="op">&gt;</span></span>
-<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a><span class="ex">---</span></span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a><span class="ex">So</span> after a character is printed out, there is a special unicode character that actually moves the cursor back one place on the screen <span class="er">(</span><span class="ex">*almost*</span> acting like a backspace<span class="kw">)</span><span class="bu">.</span> This deletes the current visible character and places the new one in its place. </span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>details<span class="op">&gt;</span></span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>summary<span class="op">&gt;</span>code <span class="ex">part</span> 1.1 <span class="op">&lt;</span>/summary<span class="op">&gt;</span></span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span>bash</span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="fu"> spinner()</span> <span class="kw">{</span></span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Spinner characters</span></span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">spin</span><span class="op">=</span><span class="st">'⣾⣽⣻⢿⡿⣟⣯⣷'</span></span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">charwidth</span><span class="op">=</span>3</span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make sure we use non-unicode character type locale </span></span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a>    <span class="co"># (that way it works for any locale as long as the font supports the characters)</span></span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">LC_CTYPE</span><span class="op">=</span>C</span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Run the command passed as arguments and capture its PID</span></span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a>    <span class="st">"</span><span class="va">$@</span><span class="st">"</span> <span class="kw">&amp;</span></span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">pid</span><span class="op">=</span><span class="va">$!</span></span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a>    <span class="bu">local</span> <span class="va">i</span><span class="op">=</span>0</span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tput</span> civis <span class="co"># Cursor invisible</span></span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="bu">kill</span> <span class="at">-0</span> <span class="va">$pid</span> <span class="dv">2</span><span class="op">&gt;</span>/dev/null<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a>        <span class="bu">local</span> <span class="va">i</span><span class="op">=</span><span class="va">$((</span>(<span class="va">i</span> <span class="op">+</span> <span class="va">$charwidth</span>) <span class="op">%</span> <span class="va">${</span><span class="op">#</span><span class="va">spin}))</span></span>
+<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a>        <span class="bu">printf</span> <span class="st">"\e[32m%s\e[m"</span> <span class="st">"</span><span class="va">${spin</span><span class="op">:</span><span class="va">$i</span><span class="op">:</span><span class="va">$charwidth}</span><span class="st">"</span>  <span class="co"># Green font color</span></span>
+<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a>        <span class="bu">printf</span> <span class="st">"\033[1D"</span>  <span class="co"># Move the cursor back one position</span></span>
+<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sleep</span> .1</span>
+<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a>    <span class="cf">done</span></span>
+<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tput</span> cnorm <span class="co"># Cursor visible</span></span>
+<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a>    <span class="bu">wait</span> <span class="va">$pid</span> <span class="co"># Capture exit code</span></span>
+<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="va">$?</span></span>
+<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span></span>
+<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>/details<span class="op">&gt;</span></span>
 <span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a><span class="co">### Quarto template </span></span>
+<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a><span class="ex">---</span></span>
 <span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a><span class="ex">Next</span> I created a function to actually generate a template of the quarto markdown document needed to write a blog post such as this one you<span class="st">'re reading right now. </span></span>
+<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a><span class="co">### Quarto template </span></span>
 <span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a><span class="st">I start by getting helpful info. Todays date and date and time. I then make a new directory in the blog local directory and then create the '</span>.qmd<span class="st">' document called index. </span></span>
+<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a><span class="ex">Next</span> I created a function to actually generate a template of the quarto markdown document needed to write a blog post such as this one you<span class="st">'re reading right now. </span></span>
 <span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a><span class="st">Next comes the boilerplate yaml header for every blog post. The title, description, (if I want github comments enabled at the bottom of the post), date, categories and any other additional .css that I might need. </span></span>
+<span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a><span class="st">I start by getting helpful info. Today'</span>s date and date and time. I then make a new directory in the blog local directory and then create the <span class="st">'.qmd'</span> document called index. </span>
 <span id="cb7-131"><a href="#cb7-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-132"><a href="#cb7-132" aria-hidden="true" tabindex="-1"></a><span class="st">There is a whole myriad of yaml header options that are described on the quarto website. But for a basic, get-going, blog the yaml below is all I need. </span></span>
+<span id="cb7-132"><a href="#cb7-132" aria-hidden="true" tabindex="-1"></a><span class="ex">Next</span> comes the boilerplate yaml header for every blog post. The title, description, <span class="er">(</span><span class="cf">if</span> <span class="ex">I</span> want github comments enabled at the bottom of the post<span class="kw">)</span><span class="ex">,</span> date, categories and any other additional .css that I might need. </span>
 <span id="cb7-133"><a href="#cb7-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a><span class="st">Finally I open the newly made document, in my favourite text editor [neovim](https://github.com/adam-coates/dotfiles/tree/main/.config/nvim).</span></span>
+<span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a><span class="ex">There</span> is a whole myriad of yaml header options that are described on the quarto website. But for a basic, get-going, blog the yaml below is all I need. </span>
 <span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;details&gt;</span></span>
-<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;summary&gt;code part 1.2&lt;/summary&gt;</span></span>
-<span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a><span class="st">```bash</span></span>
-<span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a><span class="st">create_file() {</span></span>
-<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a><span class="st">    date=$(date +"%Y-%m-%d")</span></span>
-<span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a><span class="st">    timestamp="$(date +"%Y-%m-%d-%H:%m")"</span></span>
-<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a><span class="st">    localdir="$blogdir/$date/"</span></span>
-<span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a><span class="st">    mkdir "$localdir"</span></span>
-<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a><span class="st">    # Cd into the directory</span></span>
-<span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a><span class="st">    cd "$localdir" || exit</span></span>
-<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a><span class="st">    # Create the file in the specified directory</span></span>
-<span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a><span class="st">    touch "$localdir/index.qmd"</span></span>
-<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a><span class="st">    # Format the title by removing dashes</span></span>
-<span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a><span class="st">    title="${title//-/ }"</span></span>
-<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a><span class="st">    # set up the yaml frontmatter</span></span>
-<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a><span class="st">    echo "---" &gt;&gt;"$localdir/index.qmd"</span></span>
-<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a><span class="st">    echo "title: \"$title\"" &gt;&gt;"$localdir/index.qmd"</span></span>
-<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a><span class="st">    echo "description: \"$description\"" &gt;&gt;"$localdir/index.qmd"</span></span>
-<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a><span class="st">    echo "#image: \"preview.png\"" &gt;&gt;"$localdir/index.qmd"</span></span>
-<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a><span class="st">    echo "comments:"&gt;&gt;"$localdir/index.qmd"</span></span>
-<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a><span class="st">    echo "  giscus:"&gt;&gt;"$localdir/index.qmd"</span></span>
-<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a><span class="st">    echo "    repo: \"adam-coates/adam-coates.github.io\""&gt;&gt;"$localdir/index.qmd"</span></span>
-<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a><span class="st">    echo "    mapping: \"title\""&gt;&gt;"$localdir/index.qmd"</span></span>
-<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a><span class="st">    echo "date: \"$date\"" &gt;&gt;"$localdir/index.qmd"</span></span>
-<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a><span class="st">    echo "categories: []"&gt;&gt;"$localdir/index.qmd"</span></span>
-<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a><span class="st">    echo "draft: false #  setting this to `true` will prevent your post from appearing on your listing page until you'</span>re ready<span class="st">" &gt;&gt;"</span><span class="va">$localdir</span>/index.qmd<span class="st">"</span></span>
-<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a><span class="st">    echo "</span>#css: style.css<span class="st">"&gt;&gt;"</span><span class="va">$localdir</span>/index.qmd<span class="st">"</span></span>
-<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a><span class="st">    echo "</span>---<span class="st">" &gt;&gt;"</span><span class="va">$localdir</span>/index.qmd<span class="st">" </span></span>
-<span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a><span class="st">    # Open the file in Neovim</span></span>
-<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a><span class="st">    nvim '+ normal 2GzzA' "</span><span class="va">$localdir</span>/index.qmd<span class="st">"</span></span>
-<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span></span>
-<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>/details<span class="op">&gt;</span></span>
-<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a><span class="ex">---</span></span>
+<span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a><span class="ex">Finally</span> I open the newly made document, in my favourite text editor <span class="pp">[</span><span class="ss">neovim</span><span class="pp">]</span><span class="er">(</span><span class="ex">https://github.com/adam-coates/dotfiles/tree/main/.config/nvim</span><span class="kw">)</span><span class="bu">.</span></span>
+<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>details<span class="op">&gt;</span></span>
+<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>summary<span class="op">&gt;</span>code <span class="ex">part</span> 1.2<span class="op">&lt;</span>/summary<span class="op">&gt;</span></span>
+<span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span>bash</span>
+<span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a><span class="fu">create_file()</span> <span class="kw">{</span></span>
+<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a>    <span class="va">date</span><span class="op">=</span><span class="va">$(</span><span class="fu">date</span> +<span class="st">"%Y-%m-%d"</span><span class="va">)</span></span>
+<span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a>    <span class="va">timestamp</span><span class="op">=</span><span class="st">"</span><span class="va">$(</span><span class="fu">date</span> +<span class="st">"%Y-%m-%d-%H:%m"</span><span class="va">)</span><span class="st">"</span></span>
+<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a>    <span class="va">localdir</span><span class="op">=</span><span class="st">"</span><span class="va">$blogdir</span><span class="st">/</span><span class="va">$date</span><span class="st">/"</span></span>
+<span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mkdir</span> <span class="st">"</span><span class="va">$localdir</span><span class="st">"</span></span>
+<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cd into the directory</span></span>
+<span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a>    <span class="bu">cd</span> <span class="st">"</span><span class="va">$localdir</span><span class="st">"</span> <span class="kw">||</span> <span class="bu">exit</span></span>
+<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create the file in the specified directory</span></span>
+<span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a>    <span class="fu">touch</span> <span class="st">"</span><span class="va">$localdir</span><span class="st">/index.qmd"</span></span>
+<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Format the title by removing dashes</span></span>
+<span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a>    <span class="va">title</span><span class="op">=</span><span class="st">"</span><span class="va">${title</span><span class="op">//</span><span class="ss">-</span><span class="op">/</span> <span class="va">}</span><span class="st">"</span></span>
+<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a>    <span class="co"># set up the yaml frontmatter</span></span>
+<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"---"</span> <span class="op">&gt;&gt;</span><span class="st">"</span><span class="va">$localdir</span><span class="st">/index.qmd"</span></span>
+<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"title: </span><span class="dt">\"</span><span class="va">$title</span><span class="dt">\"</span><span class="st">"</span> <span class="op">&gt;&gt;</span><span class="st">"</span><span class="va">$localdir</span><span class="st">/index.qmd"</span></span>
+<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"description: </span><span class="dt">\"</span><span class="va">$description</span><span class="dt">\"</span><span class="st">"</span> <span class="op">&gt;&gt;</span><span class="st">"</span><span class="va">$localdir</span><span class="st">/index.qmd"</span></span>
+<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"#image: </span><span class="dt">\"</span><span class="st">preview.png</span><span class="dt">\"</span><span class="st">"</span> <span class="op">&gt;&gt;</span><span class="st">"</span><span class="va">$localdir</span><span class="st">/index.qmd"</span></span>
+<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"comments:"</span><span class="op">&gt;&gt;</span><span class="st">"</span><span class="va">$localdir</span><span class="st">/index.qmd"</span></span>
+<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"  giscus:"</span><span class="op">&gt;&gt;</span><span class="st">"</span><span class="va">$localdir</span><span class="st">/index.qmd"</span></span>
+<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"    repo: </span><span class="dt">\"</span><span class="st">adam-coates/adam-coates.github.io</span><span class="dt">\"</span><span class="st">"</span><span class="op">&gt;&gt;</span><span class="st">"</span><span class="va">$localdir</span><span class="st">/index.qmd"</span></span>
+<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"    mapping: </span><span class="dt">\"</span><span class="st">title</span><span class="dt">\"</span><span class="st">"</span><span class="op">&gt;&gt;</span><span class="st">"</span><span class="va">$localdir</span><span class="st">/index.qmd"</span></span>
+<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"date: </span><span class="dt">\"</span><span class="va">$date</span><span class="dt">\"</span><span class="st">"</span> <span class="op">&gt;&gt;</span><span class="st">"</span><span class="va">$localdir</span><span class="st">/index.qmd"</span></span>
+<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"categories: []"</span><span class="op">&gt;&gt;</span><span class="st">"</span><span class="va">$localdir</span><span class="st">/index.qmd"</span></span>
+<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"draft: false #  setting this to </span><span class="kw">`</span><span class="fu">true</span><span class="kw">`</span><span class="st"> will prevent your post from appearing on your listing page until you're ready"</span> <span class="op">&gt;&gt;</span><span class="st">"</span><span class="va">$localdir</span><span class="st">/index.qmd"</span></span>
+<span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"#css: style.css"</span><span class="op">&gt;&gt;</span><span class="st">"</span><span class="va">$localdir</span><span class="st">/index.qmd"</span></span>
+<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"---"</span> <span class="op">&gt;&gt;</span><span class="st">"</span><span class="va">$localdir</span><span class="st">/index.qmd"</span> </span>
+<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Open the file in Neovim</span></span>
+<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a>    <span class="ex">nvim</span> <span class="st">'+ normal 2GzzA'</span> <span class="st">"</span><span class="va">$localdir</span><span class="st">/index.qmd"</span></span>
+<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span></span>
+<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>/details<span class="op">&gt;</span></span>
 <span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a><span class="co">### Checking if a backup is needed</span></span>
+<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a><span class="ex">---</span></span>
 <span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a><span class="ex">I</span> then create a function that checks if files stored locally are the same as files stored in my mounted backup drive. Here this function does two things. </span>
+<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a><span class="co">### Checking if a backup is needed</span></span>
 <span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a><span class="ex">1.</span> First check if a file that exists locally is or isn<span class="st">'t stored in my backup.</span></span>
+<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a><span class="ex">I</span> then create a function that checks if files stored locally are the same as files stored in my mounted backup drive. Here this function does two things. </span>
 <span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a><span class="st">    &gt; It breaks the loop here if thats the case since this is faster.</span></span>
+<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a><span class="ex">1.</span> First check if a file that exists locally is or isn<span class="st">'t stored in my backup.</span></span>
 <span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a><span class="st">2. If all file metadata are the same in both the local dir and stored in my backup, then it checks if the number of bytes are the same.</span></span>
+<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a><span class="st">    &gt; It breaks the loop here if that'</span>s the case since this is faster.</span>
 <span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a><span class="st">    &gt; It breaks the loop here if thats the case, since if the bytes differ then the files aren'</span>t the same</span>
+<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a><span class="ex">2.</span> If all the files<span class="st">' metadata are the same in both the local dir and stored in my backup, then it checks if the number of bytes are the same.</span></span>
 <span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a><span class="ex">3.</span> Checks the contents of the files. Its true that the bytes of two files may be identical but with differing content. The script uses the md5sum command to get the checksum of the files. If the content differs so will the check sum.</span>
+<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a><span class="st">    &gt; It breaks the loop here if that'</span>s the case, since if the bytes differ then the files aren<span class="st">'t the same</span></span>
 <span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> will all be apparent later. But basically this function is used to backup only when local changes are made. </span>
+<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a><span class="st">3. Checks the contents of the files. It'</span>s true that the bytes of two files may be identical but with differing content. The script uses the md5sum command to get the checksum of the files. If the content differs so will the check sum.</span>
 <span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>details<span class="op">&gt;</span></span>
-<span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>summary<span class="op">&gt;</span>code <span class="ex">part</span> 1.3<span class="op">&lt;</span>/summary<span class="op">&gt;</span></span>
-<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span><span class="st">bash</span></span>
-<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a><span class="st">function check_directories {</span></span>
-<span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a><span class="st">    dir1="</span><span class="va">$1</span><span class="st">"</span></span>
-<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a><span class="st">    dir2="</span><span class="va">$2</span><span class="st">"</span></span>
-<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a><span class="st">    differences_found=false</span></span>
-<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a><span class="st">    # Find all files in dir1</span></span>
-<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a><span class="st">    files=</span><span class="va">$(</span><span class="fu">find</span> <span class="st">"</span><span class="va">$dir1</span><span class="st">"</span> <span class="at">-type</span> f<span class="va">)</span></span>
-<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a><span class="st">    # Iterate over each file in dir1</span></span>
-<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a><span class="st">    for file in </span><span class="va">$files</span><span class="st">; do</span></span>
-<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a><span class="st">        # Get corresponding file path in dir2</span></span>
-<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a><span class="st">        file_in_dir2="</span><span class="va">${file</span><span class="op">/</span><span class="va">$dir1</span><span class="op">/</span><span class="va">$dir2}</span><span class="st">"</span></span>
-<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a><span class="st">        # Check if the file exists in dir2</span></span>
-<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a><span class="st">        if [ ! -f "</span><span class="va">$file_in_dir2</span><span class="st">" ]; then</span></span>
-<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a><span class="st">            echo "</span>File <span class="va">$file_in_dir2</span> does not exist in <span class="va">$dir2</span><span class="st">"</span></span>
-<span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a><span class="st">            differences_found=true</span></span>
-<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a><span class="st">            continue</span></span>
-<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a><span class="st">        fi</span></span>
-<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a><span class="st">        # Use cmp command to check if files differ</span></span>
-<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a><span class="st">        if ! cmp -s "</span><span class="va">$file</span><span class="st">" "</span><span class="va">$file_in_dir2</span><span class="st">"; then</span></span>
-<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a><span class="st">            echo "</span>Files differ:<span class="st">"</span></span>
-<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a><span class="st">            echo "</span>  <span class="va">$file</span><span class="st">"</span></span>
-<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a><span class="st">            echo "</span>  <span class="va">$file_in_dir2</span><span class="st">"</span></span>
-<span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a><span class="st">            # Calculate the checksums of the files</span></span>
-<span id="cb7-226"><a href="#cb7-226" aria-hidden="true" tabindex="-1"></a><span class="st">            checksum1=</span><span class="va">$(</span><span class="fu">md5sum</span> <span class="st">"</span><span class="va">$file</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">'{ print $1 }'</span><span class="va">)</span></span>
-<span id="cb7-227"><a href="#cb7-227" aria-hidden="true" tabindex="-1"></a><span class="st">            checksum2=</span><span class="va">$(</span><span class="fu">md5sum</span> <span class="st">"</span><span class="va">$file_in_dir2</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">'{ print $1 }'</span><span class="va">)</span></span>
-<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a><span class="st">            # Compare the checksums</span></span>
-<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a><span class="st">            if [ "</span><span class="va">$checksum1</span><span class="st">" != "</span><span class="va">$checksum2</span><span class="st">" ]; then</span></span>
-<span id="cb7-231"><a href="#cb7-231" aria-hidden="true" tabindex="-1"></a><span class="st">                echo "</span>File contents are different.<span class="st">"</span></span>
-<span id="cb7-232"><a href="#cb7-232" aria-hidden="true" tabindex="-1"></a><span class="st">                differences_found=true</span></span>
-<span id="cb7-233"><a href="#cb7-233" aria-hidden="true" tabindex="-1"></a><span class="st">            fi</span></span>
-<span id="cb7-234"><a href="#cb7-234" aria-hidden="true" tabindex="-1"></a><span class="st">        fi</span></span>
-<span id="cb7-235"><a href="#cb7-235" aria-hidden="true" tabindex="-1"></a><span class="st">    done</span></span>
-<span id="cb7-236"><a href="#cb7-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-237"><a href="#cb7-237" aria-hidden="true" tabindex="-1"></a><span class="st">    if [ "</span><span class="va">$differences_found</span><span class="st">" = true ]; then</span></span>
-<span id="cb7-238"><a href="#cb7-238" aria-hidden="true" tabindex="-1"></a><span class="st">        return 1</span></span>
-<span id="cb7-239"><a href="#cb7-239" aria-hidden="true" tabindex="-1"></a><span class="st">    else</span></span>
-<span id="cb7-240"><a href="#cb7-240" aria-hidden="true" tabindex="-1"></a><span class="st">        return 0</span></span>
-<span id="cb7-241"><a href="#cb7-241" aria-hidden="true" tabindex="-1"></a><span class="st">    fi</span></span>
-<span id="cb7-242"><a href="#cb7-242" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
-<span id="cb7-243"><a href="#cb7-243" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span></span>
-<span id="cb7-244"><a href="#cb7-244" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-245"><a href="#cb7-245" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>/details<span class="op">&gt;</span></span>
+<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a><span class="ex">This</span> will all be apparent later. But basically this function is used to backup only when local changes are made. </span>
+<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>details<span class="op">&gt;</span></span>
+<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>summary<span class="op">&gt;</span>code <span class="ex">part</span> 1.3<span class="op">&lt;</span>/summary<span class="op">&gt;</span></span>
+<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span>bash</span>
+<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span><span class="fu"> check_directories</span> <span class="kw">{</span></span>
+<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a>    <span class="va">dir1</span><span class="op">=</span><span class="st">"</span><span class="va">$1</span><span class="st">"</span></span>
+<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a>    <span class="va">dir2</span><span class="op">=</span><span class="st">"</span><span class="va">$2</span><span class="st">"</span></span>
+<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a>    <span class="va">differences_found</span><span class="op">=</span>false</span>
+<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Find all files in dir1</span></span>
+<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a>    <span class="va">files</span><span class="op">=</span><span class="va">$(</span><span class="fu">find</span> <span class="st">"</span><span class="va">$dir1</span><span class="st">"</span> <span class="at">-type</span> f<span class="va">)</span></span>
+<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Iterate over each file in dir1</span></span>
+<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> file <span class="kw">in</span> <span class="va">$files</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Get corresponding file path in dir2</span></span>
+<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a>        <span class="va">file_in_dir2</span><span class="op">=</span><span class="st">"</span><span class="va">${file</span><span class="op">/</span><span class="va">$dir1</span><span class="op">/</span><span class="va">$dir2}</span><span class="st">"</span></span>
+<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Check if the file exists in dir2</span></span>
+<span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-f</span> <span class="st">"</span><span class="va">$file_in_dir2</span><span class="st">"</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a>            <span class="bu">echo</span> <span class="st">"File </span><span class="va">$file_in_dir2</span><span class="st"> does not exist in </span><span class="va">$dir2</span><span class="st">"</span></span>
+<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a>            <span class="va">differences_found</span><span class="op">=</span>true</span>
+<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a>            <span class="cf">continue</span></span>
+<span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a>        <span class="cf">fi</span></span>
+<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Use cmp command to check if files differ</span></span>
+<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="ot">! </span><span class="fu">cmp</span> <span class="at">-s</span> <span class="st">"</span><span class="va">$file</span><span class="st">"</span> <span class="st">"</span><span class="va">$file_in_dir2</span><span class="st">"</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a>            <span class="bu">echo</span> <span class="st">"Files differ:"</span></span>
+<span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a>            <span class="bu">echo</span> <span class="st">"  </span><span class="va">$file</span><span class="st">"</span></span>
+<span id="cb7-225"><a href="#cb7-225" aria-hidden="true" tabindex="-1"></a>            <span class="bu">echo</span> <span class="st">"  </span><span class="va">$file_in_dir2</span><span class="st">"</span></span>
+<span id="cb7-226"><a href="#cb7-226" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-227"><a href="#cb7-227" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calculate the checksums of the files</span></span>
+<span id="cb7-228"><a href="#cb7-228" aria-hidden="true" tabindex="-1"></a>            <span class="va">checksum1</span><span class="op">=</span><span class="va">$(</span><span class="fu">md5sum</span> <span class="st">"</span><span class="va">$file</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">'{ print $1 }'</span><span class="va">)</span></span>
+<span id="cb7-229"><a href="#cb7-229" aria-hidden="true" tabindex="-1"></a>            <span class="va">checksum2</span><span class="op">=</span><span class="va">$(</span><span class="fu">md5sum</span> <span class="st">"</span><span class="va">$file_in_dir2</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">'{ print $1 }'</span><span class="va">)</span></span>
+<span id="cb7-230"><a href="#cb7-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-231"><a href="#cb7-231" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Compare the checksums</span></span>
+<span id="cb7-232"><a href="#cb7-232" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">[</span> <span class="st">"</span><span class="va">$checksum1</span><span class="st">"</span> <span class="ot">!=</span> <span class="st">"</span><span class="va">$checksum2</span><span class="st">"</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb7-233"><a href="#cb7-233" aria-hidden="true" tabindex="-1"></a>                <span class="bu">echo</span> <span class="st">"File contents are different."</span></span>
+<span id="cb7-234"><a href="#cb7-234" aria-hidden="true" tabindex="-1"></a>                <span class="va">differences_found</span><span class="op">=</span>true</span>
+<span id="cb7-235"><a href="#cb7-235" aria-hidden="true" tabindex="-1"></a>            <span class="cf">fi</span></span>
+<span id="cb7-236"><a href="#cb7-236" aria-hidden="true" tabindex="-1"></a>        <span class="cf">fi</span></span>
+<span id="cb7-237"><a href="#cb7-237" aria-hidden="true" tabindex="-1"></a>    <span class="cf">done</span></span>
+<span id="cb7-238"><a href="#cb7-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-239"><a href="#cb7-239" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">[</span> <span class="st">"</span><span class="va">$differences_found</span><span class="st">"</span> <span class="ot">=</span> true <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb7-240"><a href="#cb7-240" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">1</span></span>
+<span id="cb7-241"><a href="#cb7-241" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb7-242"><a href="#cb7-242" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="dv">0</span></span>
+<span id="cb7-243"><a href="#cb7-243" aria-hidden="true" tabindex="-1"></a>    <span class="cf">fi</span></span>
+<span id="cb7-244"><a href="#cb7-244" aria-hidden="true" tabindex="-1"></a><span class="kw">}</span></span>
+<span id="cb7-245"><a href="#cb7-245" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span></span>
 <span id="cb7-246"><a href="#cb7-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-247"><a href="#cb7-247" aria-hidden="true" tabindex="-1"></a><span class="ex">---</span></span>
+<span id="cb7-247"><a href="#cb7-247" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>/details<span class="op">&gt;</span></span>
 <span id="cb7-248"><a href="#cb7-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-249"><a href="#cb7-249" aria-hidden="true" tabindex="-1"></a><span class="co">### Bash is on the case $1 in write) esac</span></span>
+<span id="cb7-249"><a href="#cb7-249" aria-hidden="true" tabindex="-1"></a><span class="ex">---</span></span>
 <span id="cb7-250"><a href="#cb7-250" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-251"><a href="#cb7-251" aria-hidden="true" tabindex="-1"></a><span class="ex">Now</span> lets move onto the case statement. Case statements are great in bash because they<span class="st">'re easy and let you do parse inputs to scripts with ease. Bash'</span>s handy <span class="pp">*</span><span class="va">$1</span><span class="pp">*</span> built-in variable means the first argument passed to a script. So say I run a script called <span class="kw">`</span><span class="st">my_script.sh foobar</span><span class="kw">`</span> <span class="ex">the</span> value stored in <span class="pp">*</span><span class="va">$1</span><span class="pp">*</span> will be <span class="pp">*</span>foobar<span class="pp">*</span>. </span>
+<span id="cb7-251"><a href="#cb7-251" aria-hidden="true" tabindex="-1"></a><span class="co">### Bash is on the case $1 in write) esac</span></span>
 <span id="cb7-252"><a href="#cb7-252" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-253"><a href="#cb7-253" aria-hidden="true" tabindex="-1"></a><span class="ex">So</span> when I run my script and the argument is <span class="st">"write"</span>. The script gets some info <span class="er">(</span><span class="ex">title</span> <span class="kw">&amp;</span> <span class="ex">description</span><span class="kw">)</span><span class="ex">,</span> makes the document and opens neovim. </span>
+<span id="cb7-253"><a href="#cb7-253" aria-hidden="true" tabindex="-1"></a><span class="ex">Now</span> lets move onto the case statement. Case statements are great in bash because they<span class="st">'re easy and let you do parse inputs to scripts with ease. Bash'</span>s handy <span class="pp">*</span><span class="va">$1</span><span class="pp">*</span> built-in variable means the first argument passed to a script. So say I run a script called <span class="kw">`</span>my_script.sh foobar<span class="kw">`</span> <span class="ex">the</span> value stored in <span class="pp">*</span><span class="va">$1</span><span class="pp">*</span> will be <span class="pp">*</span>foobar<span class="pp">*</span>. </span>
 <span id="cb7-254"><a href="#cb7-254" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-255"><a href="#cb7-255" aria-hidden="true" tabindex="-1"></a><span class="ex">When</span> I type the argument <span class="st">"backup"</span>, the script immediately copies all contents of the blog to my mounted drive <span class="er">(</span><span class="ex">regardless</span> of checking for file differences<span class="kw">)</span></span>
+<span id="cb7-255"><a href="#cb7-255" aria-hidden="true" tabindex="-1"></a><span class="ex">So</span> when I run my script and the argument is <span class="st">"write"</span>. The script gets some info <span class="er">(</span><span class="ex">title</span> <span class="kw">&amp;</span> <span class="ex">description</span><span class="kw">)</span><span class="ex">,</span> makes the document and opens neovim. </span>
 <span id="cb7-256"><a href="#cb7-256" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-257"><a href="#cb7-257" aria-hidden="true" tabindex="-1"></a><span class="ex">When</span> I type <span class="st">"pub"</span>, the script pushes all changes to GitHub. It asks for input first what the commit message should be.</span>
+<span id="cb7-257"><a href="#cb7-257" aria-hidden="true" tabindex="-1"></a><span class="ex">When</span> I type the argument <span class="st">"backup"</span>, the script immediately copies all contents of the blog to my mounted drive <span class="er">(</span><span class="ex">regardless</span> of checking for file differences<span class="kw">)</span></span>
 <span id="cb7-258"><a href="#cb7-258" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-259"><a href="#cb7-259" aria-hidden="true" tabindex="-1"></a><span class="ex">When</span> I type <span class="st">"preview"</span> the script changes directory <span class="er">(</span><span class="ex">cd</span><span class="st">'s) into the locally stored blog directory and runs the [quarto](https://quarto.org/docs/get-started/hello/text-editor.html#authoring) preview command. </span></span>
+<span id="cb7-259"><a href="#cb7-259" aria-hidden="true" tabindex="-1"></a><span class="ex">When</span> I type <span class="st">"pub"</span>, the script pushes all changes to GitHub. It asks for input first what the commit message should be.</span>
 <span id="cb7-260"><a href="#cb7-260" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-261"><a href="#cb7-261" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;details&gt;</span></span>
-<span id="cb7-262"><a href="#cb7-262" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;summary&gt;code part 2&lt;/summary&gt;</span></span>
-<span id="cb7-263"><a href="#cb7-263" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-264"><a href="#cb7-264" aria-hidden="true" tabindex="-1"></a><span class="st">```bash</span></span>
-<span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a><span class="st">case "$1" in </span></span>
-<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a><span class="st">    write)</span></span>
-<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a><span class="st">        get_info</span></span>
-<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a><span class="st">        create_file</span></span>
+<span id="cb7-261"><a href="#cb7-261" aria-hidden="true" tabindex="-1"></a><span class="ex">When</span> I type <span class="st">"preview"</span> the script changes directory <span class="er">(</span><span class="ex">cd</span><span class="st">'s) into the locally stored blog directory and runs the [quarto](https://quarto.org/docs/get-started/hello/text-editor.html#authoring) preview command. </span></span>
+<span id="cb7-262"><a href="#cb7-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-263"><a href="#cb7-263" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;details&gt;</span></span>
+<span id="cb7-264"><a href="#cb7-264" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;summary&gt;code part 2&lt;/summary&gt;</span></span>
+<span id="cb7-265"><a href="#cb7-265" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-266"><a href="#cb7-266" aria-hidden="true" tabindex="-1"></a><span class="st">```bash</span></span>
+<span id="cb7-267"><a href="#cb7-267" aria-hidden="true" tabindex="-1"></a><span class="st">case "$1" in </span></span>
+<span id="cb7-268"><a href="#cb7-268" aria-hidden="true" tabindex="-1"></a><span class="st">    write)</span></span>
+<span id="cb7-269"><a href="#cb7-269" aria-hidden="true" tabindex="-1"></a><span class="st">        get_info</span></span>
 <span id="cb7-270"><a href="#cb7-270" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-271"><a href="#cb7-271" aria-hidden="true" tabindex="-1"></a><span class="st">        ;;</span></span>
+<span id="cb7-271"><a href="#cb7-271" aria-hidden="true" tabindex="-1"></a><span class="st">        create_file</span></span>
 <span id="cb7-272"><a href="#cb7-272" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-273"><a href="#cb7-273" aria-hidden="true" tabindex="-1"></a><span class="st">    backup)</span></span>
+<span id="cb7-273"><a href="#cb7-273" aria-hidden="true" tabindex="-1"></a><span class="st">        ;;</span></span>
 <span id="cb7-274"><a href="#cb7-274" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-275"><a href="#cb7-275" aria-hidden="true" tabindex="-1"></a><span class="st">        echo -ne "$(ColorRed '</span><span class="ex">Backing</span> up now ... <span class="st">')"; echo ""</span></span>
-<span id="cb7-276"><a href="#cb7-276" aria-hidden="true" tabindex="-1"></a><span class="st">        spinner cp -rf  ~/adam-coates.github.io/ /mnt/g/blog/</span></span>
-<span id="cb7-277"><a href="#cb7-277" aria-hidden="true" tabindex="-1"></a><span class="st">        echo -ne "$(ColorGreen '</span>Files now backed up <span class="dt">\u</span>2714<span class="st">')"; echo ""</span></span>
-<span id="cb7-278"><a href="#cb7-278" aria-hidden="true" tabindex="-1"></a><span class="st">        ;;</span></span>
-<span id="cb7-279"><a href="#cb7-279" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-280"><a href="#cb7-280" aria-hidden="true" tabindex="-1"></a><span class="st">    pub)</span></span>
-<span id="cb7-281"><a href="#cb7-281" aria-hidden="true" tabindex="-1"></a><span class="st">        read -p "Enter a commit message: " commitmessage</span></span>
-<span id="cb7-282"><a href="#cb7-282" aria-hidden="true" tabindex="-1"></a><span class="st">        cd $blogdir/..</span></span>
-<span id="cb7-283"><a href="#cb7-283" aria-hidden="true" tabindex="-1"></a><span class="st">        git add .</span></span>
-<span id="cb7-284"><a href="#cb7-284" aria-hidden="true" tabindex="-1"></a><span class="st">        git commit -m "$commitmessage"</span></span>
-<span id="cb7-285"><a href="#cb7-285" aria-hidden="true" tabindex="-1"></a><span class="st">        git push -u origin main</span></span>
-<span id="cb7-286"><a href="#cb7-286" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-287"><a href="#cb7-287" aria-hidden="true" tabindex="-1"></a><span class="st">        ;;</span></span>
+<span id="cb7-275"><a href="#cb7-275" aria-hidden="true" tabindex="-1"></a><span class="st">    backup)</span></span>
+<span id="cb7-276"><a href="#cb7-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-277"><a href="#cb7-277" aria-hidden="true" tabindex="-1"></a><span class="st">        echo -ne "$(ColorRed '</span><span class="ex">Backing</span> up now ... <span class="st">')"; echo ""</span></span>
+<span id="cb7-278"><a href="#cb7-278" aria-hidden="true" tabindex="-1"></a><span class="st">        spinner cp -rf  ~/adam-coates.github.io/ /mnt/g/blog/</span></span>
+<span id="cb7-279"><a href="#cb7-279" aria-hidden="true" tabindex="-1"></a><span class="st">        echo -ne "$(ColorGreen '</span>Files now backed up <span class="dt">\u</span>2714<span class="st">')"; echo ""</span></span>
+<span id="cb7-280"><a href="#cb7-280" aria-hidden="true" tabindex="-1"></a><span class="st">        ;;</span></span>
+<span id="cb7-281"><a href="#cb7-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-282"><a href="#cb7-282" aria-hidden="true" tabindex="-1"></a><span class="st">    pub)</span></span>
+<span id="cb7-283"><a href="#cb7-283" aria-hidden="true" tabindex="-1"></a><span class="st">        read -p "Enter a commit message: " commitmessage</span></span>
+<span id="cb7-284"><a href="#cb7-284" aria-hidden="true" tabindex="-1"></a><span class="st">        cd $blogdir/..</span></span>
+<span id="cb7-285"><a href="#cb7-285" aria-hidden="true" tabindex="-1"></a><span class="st">        git add .</span></span>
+<span id="cb7-286"><a href="#cb7-286" aria-hidden="true" tabindex="-1"></a><span class="st">        git commit -m "$commitmessage"</span></span>
+<span id="cb7-287"><a href="#cb7-287" aria-hidden="true" tabindex="-1"></a><span class="st">        git push -u origin main</span></span>
 <span id="cb7-288"><a href="#cb7-288" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-289"><a href="#cb7-289" aria-hidden="true" tabindex="-1"></a><span class="st">    preview)</span></span>
-<span id="cb7-290"><a href="#cb7-290" aria-hidden="true" tabindex="-1"></a><span class="st">        cd "$blogdir/.."</span></span>
-<span id="cb7-291"><a href="#cb7-291" aria-hidden="true" tabindex="-1"></a><span class="st">        quarto preview</span></span>
-<span id="cb7-292"><a href="#cb7-292" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-293"><a href="#cb7-293" aria-hidden="true" tabindex="-1"></a><span class="st">        ;;</span></span>
+<span id="cb7-289"><a href="#cb7-289" aria-hidden="true" tabindex="-1"></a><span class="st">        ;;</span></span>
+<span id="cb7-290"><a href="#cb7-290" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-291"><a href="#cb7-291" aria-hidden="true" tabindex="-1"></a><span class="st">    preview)</span></span>
+<span id="cb7-292"><a href="#cb7-292" aria-hidden="true" tabindex="-1"></a><span class="st">        cd "$blogdir/.."</span></span>
+<span id="cb7-293"><a href="#cb7-293" aria-hidden="true" tabindex="-1"></a><span class="st">        quarto preview</span></span>
 <span id="cb7-294"><a href="#cb7-294" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-295"><a href="#cb7-295" aria-hidden="true" tabindex="-1"></a><span class="st">    *)</span></span>
+<span id="cb7-295"><a href="#cb7-295" aria-hidden="true" tabindex="-1"></a><span class="st">        ;;</span></span>
 <span id="cb7-296"><a href="#cb7-296" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-297"><a href="#cb7-297" aria-hidden="true" tabindex="-1"></a><span class="st">    echo "Please enter either write|backup|pub|preview"</span></span>
-<span id="cb7-298"><a href="#cb7-298" aria-hidden="true" tabindex="-1"></a><span class="st">    ;;</span></span>
-<span id="cb7-299"><a href="#cb7-299" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-300"><a href="#cb7-300" aria-hidden="true" tabindex="-1"></a><span class="st">esac</span></span>
-<span id="cb7-301"><a href="#cb7-301" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
-<span id="cb7-302"><a href="#cb7-302" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/details&gt;</span></span>
-<span id="cb7-303"><a href="#cb7-303" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-304"><a href="#cb7-304" aria-hidden="true" tabindex="-1"></a><span class="st">---</span></span>
+<span id="cb7-297"><a href="#cb7-297" aria-hidden="true" tabindex="-1"></a><span class="st">    *)</span></span>
+<span id="cb7-298"><a href="#cb7-298" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-299"><a href="#cb7-299" aria-hidden="true" tabindex="-1"></a><span class="st">    echo "Please enter either write|backup|pub|preview"</span></span>
+<span id="cb7-300"><a href="#cb7-300" aria-hidden="true" tabindex="-1"></a><span class="st">    ;;</span></span>
+<span id="cb7-301"><a href="#cb7-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-302"><a href="#cb7-302" aria-hidden="true" tabindex="-1"></a><span class="st">esac</span></span>
+<span id="cb7-303"><a href="#cb7-303" aria-hidden="true" tabindex="-1"></a><span class="st">```</span></span>
+<span id="cb7-304"><a href="#cb7-304" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/details&gt;</span></span>
 <span id="cb7-305"><a href="#cb7-305" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-306"><a href="#cb7-306" aria-hidden="true" tabindex="-1"></a><span class="st">### Backing up!</span></span>
+<span id="cb7-306"><a href="#cb7-306" aria-hidden="true" tabindex="-1"></a><span class="st">---</span></span>
 <span id="cb7-307"><a href="#cb7-307" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-308"><a href="#cb7-308" aria-hidden="true" tabindex="-1"></a><span class="st">Finally the script does a backup if I did not use "backup" as the first argument to the script. This is something I learnt the hard way. Always backup. Backup many times, to the cloud ☁, to a usb, to another hard drive. No matter how you do it back up 💾💿. Its so important. </span></span>
+<span id="cb7-308"><a href="#cb7-308" aria-hidden="true" tabindex="-1"></a><span class="st">### Backing up!</span></span>
 <span id="cb7-309"><a href="#cb7-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-310"><a href="#cb7-310" aria-hidden="true" tabindex="-1"></a><span class="st">So in this script this section always runs!! It first asks the user if they would really want to back up. If the user says (YES, yes, Y or y) then it will proceed. First it does the handy file check to see if a backup is even needed. i.e if there is a difference between my mounted drive and locally stored files is found then it will backup else, nothing will happen. </span></span>
+<span id="cb7-310"><a href="#cb7-310" aria-hidden="true" tabindex="-1"></a><span class="st">Finally the script does a backup if I did not use "backup" as the first argument to the script. This is something I learnt the hard way. Always backup. Backup many times, to the cloud ☁, to a usb, to another hard drive. No matter how you do it back up 💾💿. Its so important. </span></span>
 <span id="cb7-311"><a href="#cb7-311" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-312"><a href="#cb7-312" aria-hidden="true" tabindex="-1"></a><span class="st">Here the visual spinner comes in handy since it helps show me that something really is happening and backing up. I like this and it puts me at ease (not to mention it looks kinda cool) </span></span>
+<span id="cb7-312"><a href="#cb7-312" aria-hidden="true" tabindex="-1"></a><span class="st">So in this script this section always runs!! It first asks the user if they would really want to back up. If the user says (YES, yes, Y or y) then it will proceed. First it does the handy file check to see if a backup is even needed. i.e if there is a difference between my mounted drive and locally stored files is found then it will backup else, nothing will happen. </span></span>
 <span id="cb7-313"><a href="#cb7-313" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-314"><a href="#cb7-314" aria-hidden="true" tabindex="-1"></a><span class="st">![](./spin.gif){fig-align="center"}</span></span>
+<span id="cb7-314"><a href="#cb7-314" aria-hidden="true" tabindex="-1"></a><span class="st">Here the visual spinner comes in handy since it helps show me that something really is happening and backing up. I like this and it puts me at ease (not to mention it looks kinda cool) </span></span>
 <span id="cb7-315"><a href="#cb7-315" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-316"><a href="#cb7-316" aria-hidden="true" tabindex="-1"></a><span class="st">As I mentioned at the beginning I use colours and for this not backing up will always be in red. Since this really isn'</span>t a good thing. </span>
+<span id="cb7-316"><a href="#cb7-316" aria-hidden="true" tabindex="-1"></a><span class="st">![](./spin.gif){fig-align="center"}</span></span>
 <span id="cb7-317"><a href="#cb7-317" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-318"><a href="#cb7-318" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>details<span class="op">&gt;</span></span>
-<span id="cb7-319"><a href="#cb7-319" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>summary<span class="op">&gt;</span>code <span class="ex">part</span> <span class="dv">3</span><span class="op">&lt;</span>/summary<span class="op">&gt;</span></span>
-<span id="cb7-320"><a href="#cb7-320" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-321"><a href="#cb7-321" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span><span class="fu">bash</span></span>
-<span id="cb7-322"><a href="#cb7-322" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="st">"</span><span class="va">$1</span><span class="st">"</span> <span class="ot">!=</span> <span class="st">"backup"</span> <span class="kw">]];</span> <span class="cf">then</span></span>
-<span id="cb7-323"><a href="#cb7-323" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="at">-ne</span> <span class="st">"Would you like to back up? </span><span class="va">$(</span><span class="ex">ColorGreen</span> <span class="st">'yes'</span><span class="va">)</span><span class="st">/</span><span class="va">$(</span><span class="ex">ColorRed</span> <span class="st">'no'</span><span class="va">)</span></span>
-<span id="cb7-324"><a href="#cb7-324" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
-<span id="cb7-325"><a href="#cb7-325" aria-hidden="true" tabindex="-1"></a><span class="bu">read</span> <span class="at">-r</span> <span class="va">check</span></span>
-<span id="cb7-326"><a href="#cb7-326" aria-hidden="true" tabindex="-1"></a><span class="va">check</span><span class="op">=</span><span class="va">$(</span><span class="bu">echo</span> <span class="st">"</span><span class="va">$check</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">'[:upper:]'</span> <span class="st">'[:lower:]'</span><span class="va">)</span></span>
-<span id="cb7-327"><a href="#cb7-327" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="va">$check</span> <span class="ot">==</span> <span class="st">"yes"</span> <span class="kw">||</span> <span class="va">$check</span> <span class="ot">==</span> <span class="st">"y"</span> <span class="kw">]];</span> <span class="cf">then</span></span>
-<span id="cb7-328"><a href="#cb7-328" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="at">-ne</span> <span class="st">"</span><span class="va">$(</span><span class="ex">ColorPurple</span> <span class="st">'Checking if needing to back up '</span><span class="va">)</span><span class="st">"</span><span class="kw">;</span> <span class="ex">spinner</span> sleep 5<span class="kw">;</span> <span class="bu">echo</span> <span class="at">-ne</span> <span class="st">"</span><span class="va">$(</span><span class="ex">ColorGreen</span> <span class="st">'\u2714'</span><span class="va">)</span><span class="st">"</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">""</span></span>
-<span id="cb7-329"><a href="#cb7-329" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="ot">! </span><span class="ex">check_directories</span> <span class="va">$blogdir</span> /mnt/g/blog/adam-coates.github.io/posts/<span class="kw">;</span> <span class="cf">then</span></span>
-<span id="cb7-330"><a href="#cb7-330" aria-hidden="true" tabindex="-1"></a>        <span class="bu">echo</span> <span class="at">-ne</span> <span class="st">"</span><span class="va">$(</span><span class="ex">ColorRed</span> <span class="st">'Different files detected backing up now ... '</span><span class="va">)</span><span class="st">"</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">""</span></span>
-<span id="cb7-331"><a href="#cb7-331" aria-hidden="true" tabindex="-1"></a>        <span class="ex">spinner</span> cp <span class="at">-rf</span>  ~/adam-coates.github.io/ /mnt/g/blog/</span>
-<span id="cb7-332"><a href="#cb7-332" aria-hidden="true" tabindex="-1"></a>        <span class="bu">echo</span> <span class="at">-ne</span> <span class="st">"</span><span class="va">$(</span><span class="ex">ColorGreen</span> <span class="st">'Files now backed up \u2714'</span><span class="va">)</span><span class="st">"</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">""</span></span>
-<span id="cb7-333"><a href="#cb7-333" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
-<span id="cb7-334"><a href="#cb7-334" aria-hidden="true" tabindex="-1"></a>        <span class="bu">echo</span> <span class="st">""</span></span>
-<span id="cb7-335"><a href="#cb7-335" aria-hidden="true" tabindex="-1"></a>        <span class="bu">echo</span> <span class="at">-ne</span> <span class="st">"</span><span class="va">$(</span><span class="ex">ColorGreen</span> <span class="st">'Files are already backed up \u2714'</span><span class="va">)</span><span class="st">"</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">""</span></span>
-<span id="cb7-336"><a href="#cb7-336" aria-hidden="true" tabindex="-1"></a>    <span class="cf">fi</span></span>
-<span id="cb7-337"><a href="#cb7-337" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="kw">[[</span> <span class="va">$check</span> <span class="ot">==</span> <span class="st">"no"</span> <span class="kw">||</span> <span class="va">$check</span> <span class="ot">==</span> <span class="st">"n"</span> <span class="kw">]];</span> <span class="cf">then</span></span>
-<span id="cb7-338"><a href="#cb7-338" aria-hidden="true" tabindex="-1"></a>    <span class="bu">exit</span></span>
-<span id="cb7-339"><a href="#cb7-339" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span>
-<span id="cb7-340"><a href="#cb7-340" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"Invalid choice. Please enter 'yes' or 'no'. Exiting now."</span></span>
-<span id="cb7-341"><a href="#cb7-341" aria-hidden="true" tabindex="-1"></a> <span class="cf">fi</span></span>
-<span id="cb7-342"><a href="#cb7-342" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
-<span id="cb7-343"><a href="#cb7-343" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span></span>
-<span id="cb7-344"><a href="#cb7-344" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-345"><a href="#cb7-345" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>/details<span class="op">&gt;</span></span>
+<span id="cb7-318"><a href="#cb7-318" aria-hidden="true" tabindex="-1"></a><span class="st">As I mentioned at the beginning I use colours and for this not backing up will always be in red. Since this really isn'</span>t a good thing. </span>
+<span id="cb7-319"><a href="#cb7-319" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-320"><a href="#cb7-320" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>details<span class="op">&gt;</span></span>
+<span id="cb7-321"><a href="#cb7-321" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>summary<span class="op">&gt;</span>code <span class="ex">part</span> <span class="dv">3</span><span class="op">&lt;</span>/summary<span class="op">&gt;</span></span>
+<span id="cb7-322"><a href="#cb7-322" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-323"><a href="#cb7-323" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span><span class="fu">bash</span></span>
+<span id="cb7-324"><a href="#cb7-324" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="st">"</span><span class="va">$1</span><span class="st">"</span> <span class="ot">!=</span> <span class="st">"backup"</span> <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb7-325"><a href="#cb7-325" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="at">-ne</span> <span class="st">"Would you like to back up? </span><span class="va">$(</span><span class="ex">ColorGreen</span> <span class="st">'yes'</span><span class="va">)</span><span class="st">/</span><span class="va">$(</span><span class="ex">ColorRed</span> <span class="st">'no'</span><span class="va">)</span></span>
+<span id="cb7-326"><a href="#cb7-326" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span>
+<span id="cb7-327"><a href="#cb7-327" aria-hidden="true" tabindex="-1"></a><span class="bu">read</span> <span class="at">-r</span> <span class="va">check</span></span>
+<span id="cb7-328"><a href="#cb7-328" aria-hidden="true" tabindex="-1"></a><span class="va">check</span><span class="op">=</span><span class="va">$(</span><span class="bu">echo</span> <span class="st">"</span><span class="va">$check</span><span class="st">"</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">'[:upper:]'</span> <span class="st">'[:lower:]'</span><span class="va">)</span></span>
+<span id="cb7-329"><a href="#cb7-329" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">[[</span> <span class="va">$check</span> <span class="ot">==</span> <span class="st">"yes"</span> <span class="kw">||</span> <span class="va">$check</span> <span class="ot">==</span> <span class="st">"y"</span> <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb7-330"><a href="#cb7-330" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="at">-ne</span> <span class="st">"</span><span class="va">$(</span><span class="ex">ColorPurple</span> <span class="st">'Checking if needing to back up '</span><span class="va">)</span><span class="st">"</span><span class="kw">;</span> <span class="ex">spinner</span> sleep 5<span class="kw">;</span> <span class="bu">echo</span> <span class="at">-ne</span> <span class="st">"</span><span class="va">$(</span><span class="ex">ColorGreen</span> <span class="st">'\u2714'</span><span class="va">)</span><span class="st">"</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">""</span></span>
+<span id="cb7-331"><a href="#cb7-331" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="ot">! </span><span class="ex">check_directories</span> <span class="va">$blogdir</span> /mnt/g/blog/adam-coates.github.io/posts/<span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb7-332"><a href="#cb7-332" aria-hidden="true" tabindex="-1"></a>        <span class="bu">echo</span> <span class="at">-ne</span> <span class="st">"</span><span class="va">$(</span><span class="ex">ColorRed</span> <span class="st">'Different files detected backing up now ... '</span><span class="va">)</span><span class="st">"</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">""</span></span>
+<span id="cb7-333"><a href="#cb7-333" aria-hidden="true" tabindex="-1"></a>        <span class="ex">spinner</span> cp <span class="at">-rf</span>  ~/adam-coates.github.io/ /mnt/g/blog/</span>
+<span id="cb7-334"><a href="#cb7-334" aria-hidden="true" tabindex="-1"></a>        <span class="bu">echo</span> <span class="at">-ne</span> <span class="st">"</span><span class="va">$(</span><span class="ex">ColorGreen</span> <span class="st">'Files now backed up \u2714'</span><span class="va">)</span><span class="st">"</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">""</span></span>
+<span id="cb7-335"><a href="#cb7-335" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span></span>
+<span id="cb7-336"><a href="#cb7-336" aria-hidden="true" tabindex="-1"></a>        <span class="bu">echo</span> <span class="st">""</span></span>
+<span id="cb7-337"><a href="#cb7-337" aria-hidden="true" tabindex="-1"></a>        <span class="bu">echo</span> <span class="at">-ne</span> <span class="st">"</span><span class="va">$(</span><span class="ex">ColorGreen</span> <span class="st">'Files are already backed up \u2714'</span><span class="va">)</span><span class="st">"</span><span class="kw">;</span> <span class="bu">echo</span> <span class="st">""</span></span>
+<span id="cb7-338"><a href="#cb7-338" aria-hidden="true" tabindex="-1"></a>    <span class="cf">fi</span></span>
+<span id="cb7-339"><a href="#cb7-339" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="kw">[[</span> <span class="va">$check</span> <span class="ot">==</span> <span class="st">"no"</span> <span class="kw">||</span> <span class="va">$check</span> <span class="ot">==</span> <span class="st">"n"</span> <span class="kw">]];</span> <span class="cf">then</span></span>
+<span id="cb7-340"><a href="#cb7-340" aria-hidden="true" tabindex="-1"></a>    <span class="bu">exit</span></span>
+<span id="cb7-341"><a href="#cb7-341" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span>
+<span id="cb7-342"><a href="#cb7-342" aria-hidden="true" tabindex="-1"></a>    <span class="bu">echo</span> <span class="st">"Invalid choice. Please enter 'yes' or 'no'. Exiting now."</span></span>
+<span id="cb7-343"><a href="#cb7-343" aria-hidden="true" tabindex="-1"></a> <span class="cf">fi</span></span>
+<span id="cb7-344"><a href="#cb7-344" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb7-345"><a href="#cb7-345" aria-hidden="true" tabindex="-1"></a><span class="kw">```</span></span>
 <span id="cb7-346"><a href="#cb7-346" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-347"><a href="#cb7-347" aria-hidden="true" tabindex="-1"></a><span class="ex">And</span> that<span class="st">'s about it. I'</span>ll put the full script available on GitHub and please feel free if you have questions to write them below, or on GitHub itself.</span>
+<span id="cb7-347"><a href="#cb7-347" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>/details<span class="op">&gt;</span></span>
 <span id="cb7-348"><a href="#cb7-348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-349"><a href="#cb7-349" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>a <span class="va">href</span><span class="op">=</span><span class="st">"https://github.com/adam-coates/dotfiles/blob/main/scripts/blog.sh"</span> <span class="va">class</span><span class="op">=</span><span class="st">"button"</span><span class="op">&gt;</span>Script <span class="ex">available</span> here<span class="op">&lt;</span>/a<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
+<span id="cb7-349"><a href="#cb7-349" aria-hidden="true" tabindex="-1"></a><span class="ex">And</span> that<span class="st">'s about it. I'</span>ll put the full script available on GitHub and please feel free if you have questions to write them below, or on GitHub itself.</span>
+<span id="cb7-350"><a href="#cb7-350" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-351"><a href="#cb7-351" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>a <span class="va">href</span><span class="op">=</span><span class="st">"https://github.com/adam-coates/dotfiles/blob/main/scripts/blog.sh"</span> <span class="va">class</span><span class="op">=</span><span class="st">"button"</span><span class="op">&gt;</span>Script <span class="ex">available</span> here<span class="op">&lt;</span>/a<span class="op">&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <footer class="footer">
@@ -1514,4 +1560,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>

@@ -18,9 +18,9 @@ If you're like me and have a lot of images to crop regularly then a more efficie
 
 I used to do all my cropping manually with the mouse, and I will probably still do some cropping with the mouse. But when I often have a set of images that all need to be cropped then I always try to find the fastest way to do this in bulk. 
 
-### Theres many ways to tackle this issue
+### There are many ways to tackle this issue
 
-Of course there are pre-made software that will do this for you, and there are Python ways, C and C++ ways, using PowerPoint, Paint, PhotoShop (dare I say it) even MATLAB ways to achieve this. Yet [ImageMagick](https://imagemagick.org/index.php) has always been around! In fact it was made way back in 1987 and now can easily read and write over 200 image file formats [according to Wikipedia](https://en.wikipedia.org/wiki/ImageMagick).
+Of course there are pre-made software that will do this for you, and there are Python ways, C and C++ ways, using PowerPoint, Paint, PhotoShop (dare I say it) even MATLAB ways to achieve this. Yet [ImageMagick](https://imagemagick.org/index.php) has always been around! In fact, it was made way back in 1987 and now can easily read and write over 200 image file formats [according to Wikipedia](https://en.wikipedia.org/wiki/ImageMagick).
 
 But aside from the extensive functionality, you can create images directly from the command line in bash. This means that you quite easily loop over all files in a directory and subject each file to the exact same editing options that you want them to have. 
 
@@ -35,7 +35,7 @@ Take the following example.
 
 <center>
 
-![Here I have manually drawn a segmentation on my own brain and we see the coronal view of the brain](./eg.png)
+![Here I have manually drawn a segmentation on my own brain, and we see the coronal view of the brain](./eg.png)
 
 </center>
 

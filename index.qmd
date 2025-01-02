@@ -18,6 +18,11 @@ about:
     - icon: book
       text: ORCiD
       href: https://orcid.org/0000-0002-4004-1603
+css: "./assets/style.css"
+format:
+  html:
+    smooth-scroll: true
+    include-in-header: "./assets/script.html"
 ---
 
 ### About

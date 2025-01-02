@@ -9,7 +9,13 @@ comments:
 date: "2024-05-09"
 categories: ["neovim", "tools", "coding"]
 draft: false #  setting this to  will prevent your post from appearing on your listing page until you're ready
-css: style.css
+css: "../../assets/style.css"
+format:
+  html:
+    smooth-scroll: true
+    code-fold: true
+    code-tools: true
+    include-in-header: "../../assets/script.html"
 ---
 
 ### It's been a while
@@ -23,7 +29,7 @@ I haven't forgotten about the blog, I just haven't had much time lately to be ab
 
 ### neovim and Mason 
 
-- Like what Lazy is to neovim as a plugin manager. Mason is an neovim plugin that manages LSPs, linters, formatters and debug adapters (since I don't have any debug adapters or linters installed right now this blog will skip over them).
+- Like what Lazy is to neovim as a plugin manager. Mason is a neovim plugin that manages LSPs, linters, formatters and debug adapters (since I don't have any debug adapters or linters installed right now this blog will skip over them).
 - But I have recently tried to code a bit in c++ and there is a decent debug adapter for that (so debug adapters I might mention later)
 - Mason installs language server protocols on neovim and does so using npm. 
 - Node (npm) is a really great tool and really works well in downloading LSPs and allowing them to work.
@@ -111,7 +117,7 @@ return {
 }
 ```
 
-- The rest of the mason.lua file contains the LSP servers to install and qhich formatters to install 
+- The rest of the mason.lua file contains the LSP servers to install and which formatters to install 
 - For example we want to ensure that pyright is installed 
     - pyright is an LSP specific to python language 
 
@@ -125,7 +131,7 @@ return {
 
 ### lspconfig.lua
 
-- The lspconfig file is really used to setup each LSP since each LSP has its own setup requirements e.g. <a href="https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md" class="button">LSPsetup</a> 
+- The lspconfig file is really used to set up each LSP since each LSP has its own setup requirements e.g. <a href="https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md" class="button">LSPsetup</a> 
 
 - Put simply though there is a basic kind of setup that each requires and that is that the LSP should attach to buffers (fancy name for currently opened file) that are relevant for it and to enable the capabilities of the LSP
 
@@ -205,11 +211,11 @@ return {
 
 1. "Show LSP references" - shows the references of the LSP under the cursor
 
-2. "Go to declaration" - jumps to where something is declared, e.g. if the cursor is under a function this will go to where the function is defined (even if its defined in a different file)
+2. "Go to declaration" - jumps to where something is declared, e.g. if the cursor is under a function this will go to where the function is defined (even if it's defined in a different file)
 
-3. "Show LSP definitions" - shows the LSP definitions of whats under the cursor
+3. "Show LSP definitions" - shows the LSP definitions of what's under the cursor
 
-4. "Show LSP implementations" - shows how whats under the cursor can be implemented 
+4. "Show LSP implementations" - shows how what's under the cursor can be implemented 
 
 5. "Show LSP type definitions" - shows type definitions under the cursor for example in typescript
 
@@ -245,9 +251,9 @@ e.g.
 
 10. "Go to previous diagnostic" / "Go to next diagnostic" - to jump through the buffer to the next or previous diagnostic
 
-11. "Show documentation for what is under cursor" - self explanatory 
+11. "Show documentation for what is under cursor" - self-explanatory 
 
-12. "Restart LSP" - again self explanatory sometimes its needed to restart the LSP but this is pretty rare 
+12. "Restart LSP" - again self-explanatory sometimes it's needed to restart the LSP, but this is pretty rare 
 
 
 
@@ -370,8 +376,8 @@ e.g.
 - Next we define some symbols that the LSP uses for error, warn, hint and info
 - Then the configuration comes 
 - For each of the installed LSPs we have to ensure the default capabilities are enabled 
-- For Ltex-ls you have to additonally define the language it should use 
-- ltex-ls is a grammar and spelling checker that is usful when writing latex documents or markdown
+- For Ltex-ls you have to additionally define the language it should use 
+- ltex-ls is a grammar and spelling checker that is useful when writing latex documents or markdown
 - I define here an additional function that allows me to change the language of ltex as and when needed (similar to vim's `set spelllang` command)
 - For the lua lsp it is needed to also ensure that `.vim` files are included and the paths to where the runtime files might be included 
 
@@ -429,7 +435,7 @@ return {
 
 - Here I require the plugin 
 - then simply set which formatter to use for each file type
-- we set a keymap to carry out the formatting and whether or not to format when the file is saved 
+- we set a keymap to carry out the formatting and whether to format when the file is saved 
 
 
 
@@ -437,10 +443,10 @@ return {
 
 - once all the above is in place LSP and formatting is set up
 - couple this with my previous blog about completion we now get completion from the LSPs
-- the LSPs provide completion beyond what snippets can offer because there is a larger range of LSPs availble 
+- the LSPs provide completion beyond what snippets can offer because there is a larger range of LSPs available 
 
 
-- Below this plugin is optional but it makes the UI much prettier overall and since this blog and the previous one has been about the completion menu and about LSPs it makes sense to include the plugin below also
+- Below this plugin is optional, but it makes the UI much prettier overall and since this blog and the previous one has been about the completion menu and about LSPs it makes sense to include the plugin below also
 
 ### dressing.lua
 

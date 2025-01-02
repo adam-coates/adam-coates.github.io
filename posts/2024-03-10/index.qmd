@@ -7,23 +7,25 @@ comments:
     repo: "adam-coates/adam-coates.github.io"
     mapping: "title"
 date: "2024-03-10"
-css: style.css 
 categories: ["bash"]
 draft: false 
+css: "../../assets/style.css"
 format:
   html:
+    smooth-scroll: true
     code-fold: true
     code-tools: true
+    include-in-header: "../../assets/script.html"
 ---
 
 ### Blogging is hard
 
-Without helpful scripts writing a blog can be hard to do. There is a lot of things to remember! 
+Without helpful scripts writing a blog can be hard to do. There are a lot of things to remember! 
 
 1. The structure of a yaml header
 2. How to save the document
 3. How to properly render in-line code
-4. The command needed to render the quarto markdown to html (its true, this blog is written using quarto)
+4. The command needed to render the quarto markdown to html (it's true, this blog is written using quarto)
 5. The usual git commit and push commands (the website is all open source on github)
 6. ... and many other things I care not to remember 
 7. oh wait even remembering to write a blog post can be hard! 
@@ -34,9 +36,9 @@ The whole blog is structured around quarto markdown format and so this alone mak
 
 ### The script 
 
-Lets start at the top of the script and work our way down. First I define 6 variables these are mainly colours (Yes I'm one of those people that like colour in the bash script😂 for me its easier to show yes (in green) and no (in red) that way it's a subconscious thing. If I see something written in red I might be entering the danger zone).
+Let's start at the top of the script and work our way down. First I define 6 variables these are mainly colours (Yes I'm one of those people that like colour in the bash script😂 for me its easier to show yes (in green) and no (in red) that way it's a subconscious thing. If I see something written in red I might be entering the danger zone).
 
-Also here I create a variable to where the blog is stored locally and the GitHub address of where this repo is. 
+Also, here I create a variable to where the blog is stored locally and the GitHub address of where this repo is. 
 
 Finally, at the bottom I made a function to get user input for: 
 
@@ -76,11 +78,11 @@ get_info() {
 
 ---
 
-Next I created a function that I use often if I know a piece of code involves doing *x* for a certain amount of time without any output I like to have a visual 'spinner' output on the screen that shows me that a process is working. 
+Next I created a function that I often use if I know a piece of code involves doing *x* for a certain amount of time without any output I like to have a visual 'spinner' output on the screen that shows me that a process is working. 
 
 This will be clear later on in the code. 
 
-This spinner works by getting the process ID otherwise known as PID of a process and outputs these characters ⣾,⣽,⣻,⢿,⡿,⣟,⣯,⣷. The hardest part is actually how to display these characters to replace the character before it. Otherwise the bash output might look a bit something like this: 
+This spinner works by getting the process ID otherwise known as PID of a process and outputs these characters ⣾,⣽,⣻,⢿,⡿,⣟,⣯,⣷. The hardest part is actually how to display these characters to replace the character before it. Otherwise, the bash output might look a bit something like this: 
 
 ![](./spin_fail.png){fig-align="center" width=50%}
 
@@ -125,7 +127,7 @@ function spinner() {
 
 Next I created a function to actually generate a template of the quarto markdown document needed to write a blog post such as this one you're reading right now. 
 
-I start by getting helpful info. Todays date and date and time. I then make a new directory in the blog local directory and then create the '.qmd' document called index. 
+I start by getting helpful info. Today's date and date and time. I then make a new directory in the blog local directory and then create the '.qmd' document called index. 
 
 Next comes the boilerplate yaml header for every blog post. The title, description, (if I want github comments enabled at the bottom of the post), date, categories and any other additional .css that I might need. 
 
@@ -181,13 +183,13 @@ I then create a function that checks if files stored locally are the same as fil
 
 1. First check if a file that exists locally is or isn't stored in my backup.
 
-    > It breaks the loop here if thats the case since this is faster.
+    > It breaks the loop here if that's the case since this is faster.
 
-2. If all file metadata are the same in both the local dir and stored in my backup, then it checks if the number of bytes are the same.
+2. If all the files' metadata are the same in both the local dir and stored in my backup, then it checks if the number of bytes are the same.
 
-    > It breaks the loop here if thats the case, since if the bytes differ then the files aren't the same
+    > It breaks the loop here if that's the case, since if the bytes differ then the files aren't the same
 
-3. Checks the contents of the files. Its true that the bytes of two files may be identical but with differing content. The script uses the md5sum command to get the checksum of the files. If the content differs so will the check sum.
+3. Checks the contents of the files. It's true that the bytes of two files may be identical but with differing content. The script uses the md5sum command to get the checksum of the files. If the content differs so will the check sum.
 
 This will all be apparent later. But basically this function is used to backup only when local changes are made. 
 
