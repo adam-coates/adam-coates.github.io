@@ -33,7 +33,7 @@ At the time of writing this blog post, Windows 10 still holds the majority of th
 
 ![](./win11_marketshare.png)
 
-<center>
+</center>
 
 &nbsp;
 
