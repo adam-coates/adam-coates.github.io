@@ -7,7 +7,7 @@ comments:
     repo: "adam-coates/adam-coates.github.io"
     mapping: "title"
 date: "2024-12-30"
-categories: []
+categories: ["Linux", "windows"]
 draft: false 
 css: "../../assets/style.css"
 format:
