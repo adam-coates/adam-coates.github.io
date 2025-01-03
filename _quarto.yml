@@ -25,6 +25,8 @@ website:
       - icon: github
         href: https://github.com/adam-coates
   back-to-top-navigation: true
+  google-analytics: 
+    tracking-id: G-0CBQ9T3TM7
 format:
   html:
     page-layout: full
