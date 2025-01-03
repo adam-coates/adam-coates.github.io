@@ -29,8 +29,14 @@ format:
   html:
     page-layout: full
     theme:
-      light: main_theme.scss
+      light: 
+        - flatly
+        - main_theme.scss
       #flatly
-      dark: dark_theme.scss
+      dark: 
+        - darkly
+        - dark_theme.scss
+    highlight-style: a11y
     toc: true
 editor: visual
+

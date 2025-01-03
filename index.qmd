@@ -23,6 +23,7 @@ format:
   html:
     smooth-scroll: true
     include-in-header: "./assets/script.html"
+    toc: false
 ---
 
 ### About
@@ -37,4 +38,5 @@ I am currently interested in the function of the human claustrum and aim to unco
 </p>
 
 ------------------------------------------------------------------------
-:::
+
+Before moving to Austria, I studied at [Keele University, UK](https://www.keele.ac.uk/) and finished BSc in Psychology in 2018 and continued Masters study in 2019. 
