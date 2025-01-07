@@ -160,3 +160,147 @@ body {
             0px 4px 8px rgba(0,0,0,0.1), 
             0px 8px 16px rgba(0,0,0,0.1);
 }
+
+.navbar-logo {
+  max-height: 2em;
+}
+
+.navbar-dark .navbar-brand:hover {
+  color: $component-active-color;
+}
+
+.about-entity #title-block-header.quarto-title-block.default .quarto-title .title:hover {
+  color: $primary;
+  text-shadow: 0 0 10px $primary;
+}
+
+.navbar {
+  letter-spacing: 0.1em;
+  background-color: $dark_gray;
+}
+
+.navbar .nav-item {
+  text-transform: uppercase;
+}
+
+.navbar-nav a.nav-link,
+.navbar-nav a.nav-link:after,
+.navbar-nav a.nav-link:before {
+  transition: all .2s;
+}
+
+.navbar-nav a.nav-link {
+  position: relative;
+}
+
+.navbar-nav a.nav-link:after {
+  position: absolute;
+  border-top: .1em solid $dark-orange;
+  content: "";
+  bottom: 3px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 0%;
+}
+
+.navbar-nav a.nav-link:after {
+  border-top: .1em solid $component-active-color;
+}
+
+.navbar-nav a.nav-link:hover:after {
+  border-top: .1em solid $component-active-color;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus,
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+  color: $component-active-color;
+}
+
+.navbar-nav a.nav-link:hover:after {
+  width: 80%;
+}
+
+.navbar-nav a.nav-link.active:after {
+  border-top: .2em solid $component-active-color;
+}
+.navbar-nav a.nav-link.active:hover:after {
+  border-top: .2em solid $component-active-color;
+}
+
+.navbar-nav .show>.nav-link,
+.navbar-nav .active>.nav-link,
+.navbar-nav .nav-link.active {
+  font-weight: bolder;
+}
+
+.navbar-dark .navbar-nav .show>.nav-link,
+.navbar-dark .navbar-nav .active>.nav-link,
+.navbar-dark .navbar-nav .nav-link.active {
+  color: $component-active-color;
+}
+
+a {
+  text-decoration: none;
+  -webkit-text-decoration: none;
+  -moz-text-decoration: none;
+  -ms-text-decoration: none;
+  -o-text-decoration: none;
+}
+
+p a {
+  text-decoration: underline;
+}
+
+.navbar-title {
+  transition: all .2s ease;
+  display: inline-block;
+  padding: .25em .4em;
+  position: relative;
+  font-weight: bolder;
+}
+
+.navbar-title::before,
+.navbar-title::after {
+  content: '';
+  height: 14px;
+  width: 14px;
+  position: absolute;
+  transition: all .2s ease;
+  opacity: 0;
+}
+
+.navbar-title::before {
+  content: '';
+  right: 0;
+  top: 0;
+  border-top: 3px solid $component-active-color;
+  border-right: 3px solid $component-active-color;
+  transform: translate(-100%, 50%);
+}
+
+.navbar-title:after {
+  content: '';
+  left: 0;
+  bottom: 0;
+  border-bottom: 3px solid $component-active-color;
+  border-left: 3px solid $component-active-color;
+  transform: translate(100%, -50%)
+}
+
+.navbar-title:hover:before,
+.navbar-title:hover:after{
+  transform: translate(0,0);
+  opacity: 1;
+}
+
+.quarto-title-banner .quarto-title .title {
+  color: $component-active-color;
+}
+
+.navbar-brand:hover,
+.navbar-brand:focus {
+  color: $component-active-color;
+}
