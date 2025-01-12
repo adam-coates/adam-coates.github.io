@@ -38,7 +38,7 @@ format:
         - main_theme.scss
       #flatly
       dark: 
-        - flatly
+        - darkly
         - dark_theme.scss
     highlight-style: a11y
     toc: true
