@@ -316,3 +316,15 @@ p a {
 .navbar-brand:focus {
   color: $component-active-color;
 }
+
+.listing-category {
+  color: white !important; 
+  &:hover {
+  background-color: $blue;
+  }
+}
+
+.listing-date {
+  color: $off-white
+}
+
