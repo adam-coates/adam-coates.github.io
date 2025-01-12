@@ -19,10 +19,6 @@
   animation: fadeInUp 2s ease forwards; /* Play animation on visibility */
 }
 
-
-body {
-  font-family: 'Victor Mono', monospace;
-}
 .button {
     position: relative;
     overflow: visible;
