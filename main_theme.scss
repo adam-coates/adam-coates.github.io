@@ -313,3 +313,9 @@ p a {
 .navbar-brand:focus {
   color: $component-active-color;
 }
+
+.listing-category {
+  &:hover {
+  background-color: $blue;
+  }
+}
