@@ -16,8 +16,7 @@ about:
     - icon: globe
       text: Uni Graz
       href: https://neurovision.uni-graz.at
-    - icon: book
-      text: ORCiD
+    - text: "{{< ai orcid >}} ORCiD"
       href: https://orcid.org/0000-0002-4004-1603
 listing:
   - id: recent-posts
@@ -65,3 +64,4 @@ Before moving to Austria, I studied at [Keele University, UK](https://www.keele.
 
 :::{#recent-posts}
 :::
+

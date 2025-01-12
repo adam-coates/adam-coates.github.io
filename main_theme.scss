@@ -319,3 +319,47 @@ p a {
   background-color: $blue;
   }
 }
+
+
+.about-links {
+  display: grid !important;  // Force grid layout, override any existing display property
+  grid-template-columns: repeat(2, 1fr) !important; // Create two equal columns
+  grid-template-rows: repeat(2, 1fr) !important;    // Create two equal rows
+  gap: 10px !important;  // Adjust space between grid items (can increase/decrease)
+  
+  .about-link {
+    display: flex !important;            // Ensure flex layout for each item
+    justify-content: center !important;  // Centers content horizontally
+    align-items: center !important;      // Centers content vertically
+    text-align: center !important;       // Centers text within each link
+    padding: 10px !important;            // Adds padding
+    border-radius: 5px !important;       // Rounds the corners
+    transition: background-color 0.3s ease !important;
+
+    // Optional: Hover effect
+    &:hover {
+      background-color: #f0f0f0 !important; // Hover effect color
+    }
+
+    i {
+      margin-right: 8px !important;  // Space between icon and text
+    }
+  }
+}
+
+/* Footer Link Styling */
+.nav-footer a {
+  color: $gray; /* Default color for footer links */
+  transition: all 0.2s ease; /* Add transition for smooth hover effect */
+  
+  &:hover {
+    color: $purple; /* Hover color for footer links */
+    text-decoration: underline; /* Optional underline effect on hover */
+  }
+
+  /* Optional: Active state hover effect */
+  &:active {
+    color: $component-active-color;
+    text-decoration: none; /* Remove underline for active link */
+  }
+}

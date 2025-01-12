@@ -22,6 +22,8 @@ website:
     left:
       - "CC BY 4.0"
     right:
+      - text: Contact
+        href: contact.qmd
       - icon: github
         href: https://github.com/adam-coates
   back-to-top-navigation: true
