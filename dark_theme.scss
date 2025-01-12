@@ -328,20 +328,3 @@ p a {
   color: $off-white
 }
 
-
-/* Footer Link Styling */
-.nav-footer a {
-  color: $gray; /* Default color for footer links */
-  transition: all 0.2s ease; /* Add transition for smooth hover effect */
-  
-  &:hover {
-    color: $purple; /* Hover color for footer links */
-    text-decoration: underline; /* Optional underline effect on hover */
-  }
-
-  /* Optional: Active state hover effect */
-  &:active {
-    color: $component-active-color;
-    text-decoration: none; /* Remove underline for active link */
-  }
-}
