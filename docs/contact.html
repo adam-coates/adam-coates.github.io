@@ -125,33 +125,7 @@ gtag('config', 'G-0CBQ9T3TM7', { 'anonymize_ip': true});
   });
 </script>
 
-<script>
-const url =
-  'https://script.google.com/macros/s/AKfycbzY6ehVLneQWmOX93jPTyCiWtxcV1kBy2LjUW6UdjJD6hCbXG4mjnb98GGzWzhEQyAS/exec';
 
-document
-  .getElementById('contact-form')
-  .addEventListener('submit', function (event) {
-    event.preventDefault();
-
-    const formData = new FormData(this);
-    const data = Object.fromEntries(formData);
-
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'text/plain;charset=utf-8',
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('Successful', data);
-        this.reset();
-      })
-      .catch((err) => console.log('err', err));
-  });
-</script>
 
 
 </head>
@@ -246,6 +220,33 @@ Send message
 </form>
 </div>
 </div>
+<script>
+const url =
+  'https://script.google.com/macros/s/AKfycbzY6ehVLneQWmOX93jPTyCiWtxcV1kBy2LjUW6UdjJD6hCbXG4mjnb98GGzWzhEQyAS/exec';
+
+document
+  .getElementById('contact-form')
+  .addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('Successful', data);
+        this.reset();
+      })
+      .catch((err) => console.log('err', err));
+  });
+</script>
 <form id="contact-form">
 <p><label for="name">Name:</label> <input type="text" id="name" name="name" required=""><br><br></p>
 <p><label for="email">Email:</label> <input type="email" id="email" name="email" required=""><br><br></p>
