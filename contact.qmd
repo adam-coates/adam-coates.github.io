@@ -70,7 +70,7 @@ action="https://formspree.io/f/mwppykzz" method="POST" accept-charset="utf-8">
 <label for="message">Message</label>
   <textarea rows="6" name="message" id="message" class="form-control" placeholder="Aenean lacinia bibendum nulla sed consectetur. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Donec ullamcorper nulla non metus auctor fringilla nullam quis risus." required></textarea>
 
-<button type="submit" class="btn btn-primary mt-4">Send message</button>
+button type="submit" class="btn btn-primary mt-4">Send message</button>
 </form>
 
 :::
