@@ -11,18 +11,22 @@ format:
 ---
 
 
-::: {.columns}
-::: {.column width=50%}
 
 &nbsp;
 
 ### Contact me {{< fa regular envelope >}}
 
+:::: {.columns}
+::: {.column width=30%}
 &nbsp;
 
 <center>
 
-Please reach out to me using <br> the contact form {{< fa regular face-smile >}}
+
+&nbsp;
+
+
+Please reach out to me using the contact form {{< fa regular face-smile >}}
 
 
 &nbsp; 
@@ -41,7 +45,14 @@ You can also reach me here:
 </center>
 
 :::
-::: {.column width=50%}
+
+::: {.column width=10%}
+
+&nbsp;
+
+:::
+
+::: {.column width=60%}
 
 
 <form 
@@ -62,4 +73,4 @@ action="https://formspree.io/f/mwppykzz" method="POST" accept-charset="utf-8">
 </form>
 
 :::
-:::
+::::
