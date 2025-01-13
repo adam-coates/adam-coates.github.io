@@ -140,6 +140,9 @@
   background: linear-gradient(145deg, #5a6566, #727f80);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-family: "Inter", sans-serif;
+  display: flex;              /* Use flexbox to center contents */
+  flex-direction: column; 
+  font-family: "Inter", sans-serif;
 }
 
 #contact-form label {
@@ -208,4 +211,7 @@
   font-weight: bold;
 }
 
-
+#contact-form .g-recaptcha {
+  display: block;           /* Make the reCAPTCHA a block element */
+  margin: 20px auto;        /* Center it horizontally by auto margins */
+}
