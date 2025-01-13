@@ -6,7 +6,9 @@ page-layout: article
 css: "./assets/style.css"
 format:
   html:
-    include-in-header: "./assets/script.html"
+    include-in-header: 
+      - "./assets/head.html"
+      - "./assets/script.html"
     grid:
       margin-width: 0px
       sidebar-width: 0px
@@ -65,15 +67,19 @@ You can also reach me here:
 
   <label for="message">Message</label>
   <textarea id="message" name="message" rows="4" placeholder="Write your message here" required></textarea>
-
+  
+  <div class="g-recaptcha" data-sitekey="6Lfpn7YqAAAAACcsfCV3RQn3ZTFooUw-acHmwiTl"></div>
+  
   <button type="submit">Submit</button>
+
+  <div class="g-recaptcha" data-sitekey="6Lfpn7YqAAAAACcsfCV3RQn3ZTFooUw-acHmwiTl"></div>
+
 </form>
 <p id="success-message" style="display: none; color: green; font-size: 16px; margin-top: 20px;">
   Contact form submitted successfully!
 </p>
 :::
 ::::
-
 
 
 

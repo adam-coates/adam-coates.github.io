@@ -169,6 +169,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const formData = new FormData(this);
       const data = Object.fromEntries(formData);
 
+      // Add gCaptchaResponse to the data object
+      data.gCaptchaResponse = grecaptcha.getResponse();
+
+      if (!data.gCaptchaResponse) {
+        alert('Please complete the reCAPTCHA to proceed.');
+        return; // Stop the submission if reCAPTCHA is not completed
+      }
+
       fetch(url, {
         method: 'POST',
         headers: {
@@ -183,6 +191,9 @@ document.addEventListener("DOMContentLoaded", () => {
           // Reset the form
           this.reset();
 
+          // Reset the reCAPTCHA
+          grecaptcha.reset();
+
           // Show the success message
           const successMessage = document.getElementById('success-message');
           successMessage.style.display = 'block';
@@ -194,7 +205,8 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch((err) => console.log('err', err));
     });
-});</script>
+});
+</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
