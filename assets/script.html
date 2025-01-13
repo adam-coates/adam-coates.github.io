@@ -49,6 +49,7 @@
 <script>
 const url =
   'https://script.google.com/macros/s/AKfycbzY6ehVLneQWmOX93jPTyCiWtxcV1kBy2LjUW6UdjJD6hCbXG4mjnb98GGzWzhEQyAS/exec';
+
 document.addEventListener("DOMContentLoaded", () => {
   document
     .getElementById('contact-form')
@@ -68,9 +69,19 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((res) => res.json())
         .then((data) => {
           console.log('Successful', data);
+
+          // Reset the form
           this.reset();
+
+          // Show the success message
+          const successMessage = document.getElementById('success-message');
+          successMessage.style.display = 'block';
+
+          // Optional: Hide the message after a few seconds
+          setTimeout(() => {
+            successMessage.style.display = 'none';
+          }, 5000); // Message hides after 5 seconds
         })
         .catch((err) => console.log('err', err));
     });
-});
-</script>
+});</script>

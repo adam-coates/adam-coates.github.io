@@ -12,7 +12,9 @@
 .section-hidden {
   opacity: 0; /* Initially hidden */
   transform: translateY(20px); /* Downward offset */
-  transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease; /* Smooth transition */
 }
 
 .section-visible {
@@ -20,66 +22,84 @@
 }
 
 .button {
-    position: relative;
-    overflow: visible;
-    display: inline-block;
-    padding: 0.5em 1em;
-    border: 1px solid #d4d4d4;
-    margin: 0;
-    text-decoration: none;
-    text-align: center;
-    text-shadow: 1px 1px 0 #fff;
-    font:11px/normal sans-serif;
-    color: #333;
-    white-space: nowrap;
-    cursor: pointer;
-    outline: none;
-    background-color: #ececec;
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f4f4f4), to(#ececec));
-    background-image: -moz-linear-gradient(#f4f4f4, #ececec);
-    background-image: -ms-linear-gradient(#f4f4f4, #ececec);
-    background-image: -o-linear-gradient(#f4f4f4, #ececec);
-    background-image: linear-gradient(#f4f4f4, #ececec);
-    -moz-background-clip: padding; /* for Firefox 3.6 */
-    background-clip: padding-box;
-    border-radius: 0.2em;
-    /* IE hacks */
-    zoom: 1;
-    *display: inline;
+  position: relative;
+  overflow: visible;
+  display: inline-block;
+  padding: 0.5em 1em;
+  border: 1px solid #d4d4d4;
+  margin: 0;
+  text-decoration: none;
+  text-align: center;
+  text-shadow: 1px 1px 0 #fff;
+  font: 11px / normal sans-serif;
+  color: #333;
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+  background-color: #ececec;
+  background-image: -webkit-gradient(
+    linear,
+    0 0,
+    0 100%,
+    from(#f4f4f4),
+    to(#ececec)
+  );
+  background-image: -moz-linear-gradient(#f4f4f4, #ececec);
+  background-image: -ms-linear-gradient(#f4f4f4, #ececec);
+  background-image: -o-linear-gradient(#f4f4f4, #ececec);
+  background-image: linear-gradient(#f4f4f4, #ececec);
+  -moz-background-clip: padding; /* for Firefox 3.6 */
+  background-clip: padding-box;
+  border-radius: 0.2em;
+  /* IE hacks */
+  zoom: 1;
+  *display: inline;
 }
 
 .button:hover,
 .button:focus,
 .button:active,
 .button.active {
-    border-color: #3072b3;
-    border-bottom-color: #2a65a0;
-    text-decoration: none;
-    text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
-    color: #fff;
-    background-color: #3c8dde;
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#599bdc), to(#3072b3));
-    background-image: -moz-linear-gradient(#599bdc, #3072b3);
-    background-image: -o-linear-gradient(#599bdc, #3072b3);
-    background-image: linear-gradient(#599bdc, #3072b3);
+  border-color: #3072b3;
+  border-bottom-color: #2a65a0;
+  text-decoration: none;
+  text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+  color: #fff;
+  background-color: #3c8dde;
+  background-image: -webkit-gradient(
+    linear,
+    0 0,
+    0 100%,
+    from(#599bdc),
+    to(#3072b3)
+  );
+  background-image: -moz-linear-gradient(#599bdc, #3072b3);
+  background-image: -o-linear-gradient(#599bdc, #3072b3);
+  background-image: linear-gradient(#599bdc, #3072b3);
 }
 
 .button:active,
 .button.active {
-    border-color: #2a65a0;
-    border-bottom-color: #3884cd;
-    background-color: #3072b3;
-    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3072b3), to(#599bdc));
-    background-image: -moz-linear-gradient(#3072b3, #599bdc);
-    background-image: -ms-linear-gradient(#3072b3, #599bdc);
-    background-image: -o-linear-gradient(#3072b3, #599bdc);
-    background-image: linear-gradient(#3072b3, #599bdc);
+  border-color: #2a65a0;
+  border-bottom-color: #3884cd;
+  background-color: #3072b3;
+  background-image: -webkit-gradient(
+    linear,
+    0 0,
+    0 100%,
+    from(#3072b3),
+    to(#599bdc)
+  );
+  background-image: -moz-linear-gradient(#3072b3, #599bdc);
+  background-image: -ms-linear-gradient(#3072b3, #599bdc);
+  background-image: -o-linear-gradient(#3072b3, #599bdc);
+  background-image: linear-gradient(#3072b3, #599bdc);
 }
 
 /* overrides extra padding on button elements in Firefox */
 .button::-moz-focus-inner {
-    padding: 0;
-    border: 0;
+  padding: 0;
+  border: 0;
 }
 
 .navbar {
@@ -88,7 +108,6 @@
   font-size: 1em;
   text-transform: uppercase;
 }
-
 
 /* Default card styles */
 .card {
@@ -110,3 +129,82 @@
   padding: 16px; /* Space inside the card */
   text-align: center; /* Center-align content */
 }
+
+
+#contact-form {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 25px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #5a6566, #727f80);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: "Inter", sans-serif;
+}
+
+#contact-form label {
+  color: #f1f1f1;
+  display: block;
+  margin-bottom: 8px; /* Uniform spacing between label and input/textarea */
+  font-size: 15px;
+  font-weight: 600;
+}
+
+#contact-form input,
+#contact-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px; /* Uniform spacing below inputs/textarea */
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #e6e6e6;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+#contact-form input:focus,
+#contact-form textarea:focus {
+  outline: none;
+  box-shadow: 0 0 4px #007bff;
+}
+
+
+
+#contact-form button {
+  display: block;
+  margin: 0 auto; /* Centers the button horizontally */
+  width: auto; /* Remove full width */
+  padding: 8px 16px; /* Smaller padding */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px; /* Reduce font size */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px; /* Slightly reduce letter-spacing */
+  cursor: pointer;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#contact-form button:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+#contact-form button:active {
+  transform: translateY(0);
+}
+
+#contact-form button:focus {
+  outline: none;
+  box-shadow: 0 0 4px #0056b3;
+}
+
+#success-message {
+  text-align: center;
+  font-weight: bold;
+}
+

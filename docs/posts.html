@@ -157,6 +157,7 @@ gtag('config', 'G-0CBQ9T3TM7', { 'anonymize_ip': true});
 <script>
 const url =
   'https://script.google.com/macros/s/AKfycbzY6ehVLneQWmOX93jPTyCiWtxcV1kBy2LjUW6UdjJD6hCbXG4mjnb98GGzWzhEQyAS/exec';
+
 document.addEventListener("DOMContentLoaded", () => {
   document
     .getElementById('contact-form')
@@ -176,12 +177,22 @@ document.addEventListener("DOMContentLoaded", () => {
         .then((res) => res.json())
         .then((data) => {
           console.log('Successful', data);
+
+          // Reset the form
           this.reset();
+
+          // Show the success message
+          const successMessage = document.getElementById('success-message');
+          successMessage.style.display = 'block';
+
+          // Optional: Hide the message after a few seconds
+          setTimeout(() => {
+            successMessage.style.display = 'none';
+          }, 5000); // Message hides after 5 seconds
         })
         .catch((err) => console.log('err', err));
     });
-});
-</script>
+});</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
