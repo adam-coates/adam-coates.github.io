@@ -155,38 +155,32 @@ gtag('config', 'G-0CBQ9T3TM7', { 'anonymize_ip': true});
 
 
 <script>
-   const form = document.querySelector("#contact-form")
-   const submitButton = document.querySelector("#submit")
-   const scriptURL = 'https://script.google.com/macros/s/AKfycbzY6ehVLneQWmOX93jPTyCiWtxcV1kBy2LjUW6UdjJD6hCbXG4mjnb98GGzWzhEQyAS/exec'
-   
-   
-   form.addEventListener('submit', e => {
-     submitButton.disabled = true;
-     e.preventDefault();
-     let requestBody = new FormData(form);
-   
-     var object = {};
-     requestBody.forEach((value, key) => object[key] = value);
-      var json = JSON.stringify(object);
-   
-     fetch(scriptURL,
-        { method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8',
-          },     
-          body: json
+const url =
+  'https://script.google.com/macros/s/AKfycbzY6ehVLneQWmOX93jPTyCiWtxcV1kBy2LjUW6UdjJD6hCbXG4mjnb98GGzWzhEQyAS/exec';
+document.addEventListener("DOMContentLoaded", () => {
+  document
+    .getElementById('contact-form')
+    .addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8',
+        },
+        body: JSON.stringify(data),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log('Successful', data);
+          this.reset();
         })
-       .then(response => {
-          alert('Success!', response.json());
-          submitButton.disabled = false;
-         })
-       .catch(error => {
-       alert('Error!', error.message);
-         submitButton.disabled = false;
-   
-       }
-       )
-   })
+        .catch((err) => console.log('err', err));
+    });
+});
 </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
