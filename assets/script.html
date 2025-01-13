@@ -1,43 +1,74 @@
-<link href="https://fonts.googleapis.com/css2?family=Victor+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link
+  href="https://fonts.googleapis.com/css2?family=Victor+Mono:wght@400;700&display=swap"
+  rel="stylesheet"
+/>
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const sections = document.querySelectorAll("section");
+  document.addEventListener("DOMContentLoaded", function () {
+    const sections = document.querySelectorAll("section");
 
-  // Function to check if an element is in the viewport
-  const isInViewport = (element) => {
-    const rect = element.getBoundingClientRect();
-    return (
-      rect.top < (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.bottom > 0
-    );
-  };
+    // Function to check if an element is in the viewport
+    const isInViewport = (element) => {
+      const rect = element.getBoundingClientRect();
+      return (
+        rect.top <
+          (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.bottom > 0
+      );
+    };
 
-  // Throttle scroll events for better performance
-  let scrollTimeout;
-  const handleScroll = () => {
-    if (scrollTimeout) return;
+    // Throttle scroll events for better performance
+    let scrollTimeout;
+    const handleScroll = () => {
+      if (scrollTimeout) return;
 
-    scrollTimeout = setTimeout(() => {
-      sections.forEach((section) => {
-        if (isInViewport(section)) {
-          section.classList.add("section-visible");
-          section.classList.remove("section-hidden");
-        }
-      });
-      scrollTimeout = null;
-    }, 100); // Adjust the timeout as needed
-  };
+      scrollTimeout = setTimeout(() => {
+        sections.forEach((section) => {
+          if (isInViewport(section)) {
+            section.classList.add("section-visible");
+            section.classList.remove("section-hidden");
+          }
+        });
+        scrollTimeout = null;
+      }, 100); // Adjust the timeout as needed
+    };
 
-  // Initialize sections as hidden
-  sections.forEach((section) => {
-    section.classList.add("section-hidden");
+    // Initialize sections as hidden
+    sections.forEach((section) => {
+      section.classList.add("section-hidden");
+    });
+
+    // Add scroll event listener
+    window.addEventListener("scroll", handleScroll);
+
+    // Initial check
+    handleScroll();
   });
-
-  // Add scroll event listener
-  window.addEventListener("scroll", handleScroll);
-
-  // Initial check
-  handleScroll();
-});
 </script>
 
+<script>
+const url =
+  'https://script.google.com/macros/s/AKfycbzY6ehVLneQWmOX93jPTyCiWtxcV1kBy2LjUW6UdjJD6hCbXG4mjnb98GGzWzhEQyAS/exec';
+
+document
+  .getElementById('contact-form')
+  .addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('Successful', data);
+        this.reset();
+      })
+      .catch((err) => console.log('err', err));
+  });
+</script>

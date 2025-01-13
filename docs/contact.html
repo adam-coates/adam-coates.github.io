@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.6.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -35,11 +35,11 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-2a04f3694134fdc0690229208924d33b.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-82b21c4badf2b3742632e8f006a51c80.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-23f18c652253c9ca66ed1c0c02ac6090.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet">
@@ -80,6 +80,77 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-0CBQ9T3TM7', { 'anonymize_ip': true});
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Victor+Mono:wght@400;700&amp;display=swap" rel="stylesheet">
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const sections = document.querySelectorAll("section");
+
+    // Function to check if an element is in the viewport
+    const isInViewport = (element) => {
+      const rect = element.getBoundingClientRect();
+      return (
+        rect.top <
+          (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.bottom > 0
+      );
+    };
+
+    // Throttle scroll events for better performance
+    let scrollTimeout;
+    const handleScroll = () => {
+      if (scrollTimeout) return;
+
+      scrollTimeout = setTimeout(() => {
+        sections.forEach((section) => {
+          if (isInViewport(section)) {
+            section.classList.add("section-visible");
+            section.classList.remove("section-hidden");
+          }
+        });
+        scrollTimeout = null;
+      }, 100); // Adjust the timeout as needed
+    };
+
+    // Initialize sections as hidden
+    sections.forEach((section) => {
+      section.classList.add("section-hidden");
+    });
+
+    // Add scroll event listener
+    window.addEventListener("scroll", handleScroll);
+
+    // Initial check
+    handleScroll();
+  });
+</script>
+
+<script>
+const url =
+  'https://script.google.com/macros/s/AKfycbzY6ehVLneQWmOX93jPTyCiWtxcV1kBy2LjUW6UdjJD6hCbXG4mjnb98GGzWzhEQyAS/exec';
+
+document
+  .getElementById('contact-form')
+  .addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8',
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('Successful', data);
+        this.reset();
+      })
+      .catch((err) => console.log('err', err));
+  });
 </script>
 
 
@@ -175,6 +246,16 @@ Send message
 </form>
 </div>
 </div>
+<form id="contact-form">
+<p><label for="name">Name:</label> <input type="text" id="name" name="name" required=""><br><br></p>
+<p><label for="email">Email:</label> <input type="email" id="email" name="email" required=""><br><br></p>
+<label for="message">Message:</label><br>
+<textarea id="message" name="message" rows="4" cols="50" required=""></textarea>
+<p><br><br></p>
+<button type="submit">
+Submit
+</button>
+</form>
 
 
 </section>
