@@ -56,22 +56,6 @@ You can also reach me here:
 ::: {.column width=60%}
 
 
-<form 
-style="margin-top: 5em;"
-action="https://formspree.io/f/mwppykzz" method="POST" accept-charset="utf-8">
-
-
-<label for="full-name">Full Name</label>
-<input type="text" name="name" id="full-name" class="form-control" placeholder="First and Last" required>
-
-<label for="email-address">Email Address</label>
-<input type="email" name="_replyto" id="email-address" class="form-control" placeholder="your@email.here" required>
-
-<label for="message">Message</label>
-  <textarea rows="6" name="message" id="message" class="form-control" placeholder="Aenean lacinia bibendum nulla sed consectetur. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Donec ullamcorper nulla non metus auctor fringilla nullam quis risus." required></textarea>
-
-button type="submit" class="btn btn-primary mt-4">Send message</button>
-</form>
 
 :::
 ::::
@@ -105,6 +89,40 @@ document
       })
       .catch((err) => console.log('err', err));
   });
+
+<script>
+   const form = document.querySelector("#form")
+   const submitButton = document.querySelector("#submit")
+   const scriptURL = 'https://script.google.com/macros/s/AKfycbzY6ehVLneQWmOX93jPTyCiWtxcV1kBy2LjUW6UdjJD6hCbXG4mjnb98GGzWzhEQyAS/exec'
+   
+   
+   form.addEventListener('submit', e => {
+     submitButton.disabled = true;
+     e.preventDefault();
+     let requestBody = new FormData(form);
+   
+     var object = {};
+     requestBody.forEach((value, key) => object[key] = value);
+      var json = JSON.stringify(object);
+   
+     fetch(scriptURL,
+        { method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8',
+          },     
+          body: json
+        })
+       .then(response => {
+          alert('Success!', response.json());
+          submitButton.disabled = false;
+         })
+       .catch(error => {
+       alert('Error!', error.message);
+         submitButton.disabled = false;
+   
+       }
+       )
+   })
 </script>
 ```
 
