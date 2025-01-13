@@ -29,6 +29,7 @@ website:
   back-to-top-navigation: true
   google-analytics: 
     tracking-id: G-0CBQ9T3TM7
+    anonymize-ip: true
 format:
   html:
     page-layout: full
