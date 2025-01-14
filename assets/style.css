@@ -215,3 +215,23 @@
   display: block;           /* Make the reCAPTCHA a block element */
   margin: 20px auto;        /* Center it horizontally by auto margins */
 }
+
+.loading-spinner {
+  border: 3px solid #f3f3f3; /* Light grey */
+  border-top: 3px solid #007bff; /* Blue */
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto; /* Center the spinner */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+

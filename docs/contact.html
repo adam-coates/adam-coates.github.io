@@ -126,7 +126,6 @@ gtag('config', 'G-0CBQ9T3TM7', { 'anonymize_ip': true});
   });
 </script>
 
-
 <script>
 const url =
   'https://script.google.com/macros/s/AKfycbxUe2Bjc82F3drXvbeoBY6YFuOuPi9QqYPRYtDssBOrbZ0N8yjQY1jDPW647Hxvf5Q7/exec';
@@ -147,6 +146,13 @@ document.addEventListener("DOMContentLoaded", () => {
         alert('Please complete the reCAPTCHA to proceed.');
         return; // Stop the submission if reCAPTCHA is not completed
       }
+
+      const submitButton = this.querySelector('button[type="submit"]');
+      const originalButtonText = submitButton.innerHTML;
+
+      // Replace button text with a spinner
+      submitButton.disabled = true;
+      submitButton.innerHTML = '<div class="loading-spinner"></div>';
 
       fetch(url, {
         method: 'POST',
@@ -174,7 +180,12 @@ document.addEventListener("DOMContentLoaded", () => {
             successMessage.style.display = 'none';
           }, 5000); // Message hides after 5 seconds
         })
-        .catch((err) => console.log('err', err));
+        .catch((err) => console.log('err', err))
+        .finally(() => {
+          // Restore the button
+          submitButton.disabled = false;
+          submitButton.innerHTML = originalButtonText;
+        });
     });
 });
 </script>
