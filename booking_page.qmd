@@ -5,9 +5,8 @@ format:
     margin: 0
 ---
 
-```{=html}
-<iframe width="1920" height="1080" src="https://koalendar.com/e/adamcoates" title="Webpage example"></iframe>
-```
 
-::: {data-id="box1" style="background: #F3F4F6; width: 600px; height: 80px; margin: 10px; position: absolute; top: 570px; left: 200px"}
-:::
+```{=html}
+<script type="text/javascript" async src="https://static.zcal.co/embed/v1/embed.js"></script>
+<div class="zcal-inline-widget"><a href="https://zcal.co/i/hk8TnbI7">30 Minute Meeting - Schedule a meeting</a></div>
+```
