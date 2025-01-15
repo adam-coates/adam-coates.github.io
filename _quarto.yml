@@ -15,8 +15,8 @@ website:
         text: CV
       - icon: github
         href: https://github.com/adam-coates
-      - icon: Uni Graz
-        href: https://neurovision.uni-graz.at
+      - href: contact.qmd
+        text: Contact
   page-footer:
     background: light
     left:

@@ -181,11 +181,6 @@ body {
   color: $component-active-color;
 }
 
-.about-entity #title-block-header.quarto-title-block.default .quarto-title .title:hover {
-  color: $primary;
-  text-shadow: 0 0 10px $primary;
-}
-
 .navbar {
   letter-spacing: 0.1em;
   background-color: $dark_gray;
@@ -353,4 +348,13 @@ p a {
       margin-right: 8px !important;  // Space between icon and text
     }
   }
+}
+
+.gsc-reactions-count,
+.gsc-comments-count {
+    color: white !important;
+}
+
+.quarto-back-to-top {
+  color: white !important;
 }

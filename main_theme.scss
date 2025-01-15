@@ -13,23 +13,23 @@
 }
 
 // Colors
-$dark_gray: #1e2020;
-$off-white: #FDFBF7;
+$dark_gray: #E1DFDF;
+$off-white: #E6E5E3;
 $gray: #64605f;
 $light-gray: #949799;
-$purple: #d3859b;// #AE8BD1;
+$purple: #408672;// #AE8BD1;
 $black: #000000;
 $dark-orange: #d8a656; //#ad7237;
 $orange: #e68c4e;
-$green: #a7b666;
+$green: #14254C;
 $bluegreen: #89b582;
 $r-studio: #f2f2f2;
 $light_black: #191a1c;
 $red: #eb6862;
 $blue: #7eada2;
 $lightblue: #3ec5ff;
-$off-white-yellow: #ebdab3;
-
+$off-white-yellow: #14254C;
+$component-active-color: #000000;
 
 // Base document colors
 $navbar-bg: $dark_gray;
@@ -153,10 +153,6 @@ body {
   //border-radius: 5.25em;
 }
 
-/* .card-attribution {
-  //padding-top: 5em;
-  padding-bottom: 3em;
-} */
 
 .description {
   font-size: 25px;
@@ -176,12 +172,7 @@ body {
 }
 
 .navbar-dark .navbar-brand:hover {
-  color: $component-active-color;
-}
-
-.about-entity #title-block-header.quarto-title-block.default .quarto-title .title:hover {
-  color: $primary;
-  text-shadow: 0 0 10px $primary;
+  color: $purple;
 }
 
 .navbar {
@@ -215,18 +206,18 @@ body {
 }
 
 .navbar-nav a.nav-link:after {
-  border-top: .1em solid $component-active-color;
+  border-top: .1em solid $purple;
 }
 
 .navbar-nav a.nav-link:hover:after {
-  border-top: .1em solid $component-active-color;
+  border-top: .1em solid $purple;
 }
 
 .navbar-dark .navbar-nav .nav-link:hover,
 .navbar-dark .navbar-nav .nav-link:focus,
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link:focus {
-  color: $component-active-color;
+  color: $purple;
 }
 
 .navbar-nav a.nav-link:hover:after {
