@@ -1,6 +1,6 @@
 ---
 format: 
-  revealjs:
+  html:
     menu: false
     margin: 0
 ---
@@ -9,4 +9,260 @@ format:
 ```{=html}
 <script type="text/javascript" async src="https://static.zcal.co/embed/v1/embed.js"></script>
 <div class="zcal-inline-widget"><a href="https://zcal.co/i/hk8TnbI7">30 Minute Meeting - Schedule a meeting</a></div>
+```
+
+
+```{=html}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enhanced Booking System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+    button {
+      background-color: #4285f4;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    button:disabled {
+      background-color: #cccccc;
+    }
+    #result {
+      margin-top: 20px;
+      padding: 10px;
+    }
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    .time-slots {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+      margin: 15px 0;
+    }
+    .time-slot {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .time-slot:hover {
+      background-color: #f0f0f0;
+    }
+    .time-slot.selected {
+      background-color: #4285f4;
+      color: white;
+    }
+    .weekend-message {
+      color: #856404;
+      background-color: #fff3cd;
+      padding: 10px;
+      border-radius: 4px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>Enhanced Booking System</h2>
+
+  <div class="form-group">
+    <label for="date">Select Date:</label>
+    <input type="date" id="date" required>
+  </div>
+
+  <div id="timeSlots" class="time-slots"></div> <!-- This is where time slots will appear -->
+
+  <div class="form-group">
+    <label for="name">Your Name:</label>
+    <input type="text" id="name" required>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Your Email:</label>
+    <input type="email" id="email" required>
+  </div>
+
+  <button onclick="submitBooking()" disabled>Book Appointment</button>
+
+  <div id="result" style="display: none;"></div>
+
+  <script>
+    let selectedSlot = null;
+
+    // Set min date to today and format it as dd/mm/yyyy
+    const dateInput = document.getElementById('date');
+    const today = new Date();
+    dateInput.min = today.toISOString().split('T')[0];
+
+    // Function to format date as dd/mm/yyyy
+    function formatDate(date) {
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    }
+
+    dateInput.addEventListener('change', function() {
+      const selectedDate = new Date(this.value);
+      const dayOfWeek = selectedDate.getDay();
+      
+      if (dayOfWeek === 0 || dayOfWeek === 6) {
+        showResult('Bookings are only available Monday through Friday.', false);
+        document.getElementById('timeSlots').innerHTML = '';
+        return;
+      }
+      
+      fetchAvailableSlots(this.value);
+    });
+
+    dateInput.addEventListener('input', function() {
+      const selectedDate = new Date(this.value);
+      const dayOfWeek = selectedDate.getDay();
+      
+      if (dayOfWeek === 0 || dayOfWeek === 6) {
+        this.setCustomValidity('Please select a weekday (Monday-Friday)');
+      } else {
+        this.setCustomValidity('');
+      }
+    });
+
+    function fetchAvailableSlots(date) {
+      const timeSlotsDiv = document.getElementById('timeSlots');
+      timeSlotsDiv.innerHTML = 'Loading available time slots...';
+      
+      // Make the API call to the Google Apps Script Web App URL
+      fetch('https://script.google.com/macros/s/AKfycbz3SOzZGbOKWckXPh4Kfv07V-v3Om_Zsz-FnjCIJfyL_uSBLZFNCWeKbLWIdpoalObZiA/exec?action=getSlots&date=' + encodeURIComponent(date))
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            if (data.message) {
+              timeSlotsDiv.innerHTML = `<div class="weekend-message">${data.message}</div>`;
+            } else {
+              displayTimeSlots(data.timeSlots); // Show time slots if available
+            }
+          } else {
+            timeSlotsDiv.innerHTML = 'Error loading time slots: ' + data.message;
+          }
+        })
+        .catch(error => {
+          timeSlotsDiv.innerHTML = 'Error fetching time slots: ' + error.message;
+        });
+    }
+
+    function displayTimeSlots(slots) {
+      const timeSlotsDiv = document.getElementById('timeSlots');
+      if (slots.length === 0) {
+        timeSlotsDiv.innerHTML = 'No available time slots for this date.';
+        return;
+      }
+      
+      timeSlotsDiv.innerHTML = '';
+      slots.forEach(slot => {
+        const startTime = new Date(slot.start);
+        const div = document.createElement('div');
+        div.className = 'time-slot';
+        div.textContent = startTime.toLocaleTimeString([], { 
+          hour: '2-digit', 
+          minute: '2-digit',
+          hour12: true 
+        });
+        div.onclick = () => selectTimeSlot(slot, div);
+        timeSlotsDiv.appendChild(div);
+      });
+    }
+
+    function selectTimeSlot(slot, element) {
+      const selected = document.querySelector('.time-slot.selected');
+      if (selected) selected.classList.remove('selected');
+      
+      element.classList.add('selected');
+      selectedSlot = slot;
+      
+      document.querySelector('button').disabled = false;
+    }
+
+    function submitBooking() {
+      if (!selectedSlot) {
+        showResult('Please select a time slot', false);
+        return;
+      }
+      
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      
+      if (!name || !email) {
+        showResult('Please fill in all fields', false);
+        return;
+      }
+      
+      const button = document.querySelector('button');
+      button.disabled = true;
+      button.textContent = 'Creating booking...';
+      
+      fetch('https://script.google.com/macros/s/AKfycbz3SOzZGbOKWckXPh4Kfv07V-v3Om_Zsz-FnjCIJfyL_uSBLZFNCWeKbLWIdpoalObZiA/exec?action=createBooking', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          startTime: selectedSlot.start,
+          name: name,
+          email: email
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        button.disabled = false;
+        button.textContent = 'Book Appointment';
+        showResult(data.message, data.success);
+        
+        if (data.success) {
+          document.getElementById('name').value = '';
+          document.getElementById('email').value = '';
+          fetchAvailableSlots(document.getElementById('date').value);
+        }
+      })
+      .catch(error => {
+        button.disabled = false;
+        button.textContent = 'Book Appointment';
+        showResult('Error: ' + error.message, false);
+      });
+    }
+
+    function showResult(message, isSuccess) {
+      const resultDiv = document.getElementById('result');
+      resultDiv.textContent = message;
+      resultDiv.style.display = 'block';
+      resultDiv.className = isSuccess ? 'success' : 'error';
+    }
+  </script>
+</body>
+</html>
 ```
