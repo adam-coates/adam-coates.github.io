@@ -31,6 +31,7 @@ website:
   google-analytics: 
     tracking-id: G-0CBQ9T3TM7
     anonymize-ip: true
+  favicon: ./images/logo.png
 format:
   html:
     page-layout: full
