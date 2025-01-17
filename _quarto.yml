@@ -5,6 +5,7 @@ project:
 website:
   title: "Adam Coates"
   navbar:
+    logo: ./images/logo.png
     title: false
     right:
       - href: index.qmd
