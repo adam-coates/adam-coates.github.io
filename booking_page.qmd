@@ -1,5 +1,4 @@
 ---
-title: "Adams booking page"
 css: "./assets/style.css"
 format:
   html:
@@ -8,15 +7,19 @@ format:
     code-tools: false
     include-in-header: "./assets/script.html"    
     toc: false
+    grid:
+      body-width: 2000px
 ---
 
+<center> 
 
-- Select a date to first see availability 
+## Adams Booking page
 
-- The select the time you want 
 
 
 
 ```{=html}
 <iframe src="https://script.google.com/macros/s/AKfycbzfxGdh2NGC-_iVBYmOATOfBNsBkcIwRcuaz3AqNOSCHI0EyLLg9iVKfbwpm7xkzRnN/exec" width="100%" height="1000px"></iframe>
 ```
+
+</center>
