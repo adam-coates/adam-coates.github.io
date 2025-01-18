@@ -6,6 +6,7 @@ page-layout: article
 css: "./assets/style.css"
 format:
   html:
+    toc: false
     include-in-header: 
       - "./assets/head.html"
       - "./assets/script.html"
