@@ -15,25 +15,18 @@ format:
 ---
 
 
-
-&nbsp;
+<center>
 
 ### Contact me {{< fa regular envelope >}}
 
-:::: {.columns}
-::: {.column width=30%}
-&nbsp;
-
-<center>
 
 
-&nbsp;
+
 
 
 Please reach out to me using the contact form {{< fa regular face-smile >}}
 
 
-&nbsp; 
 
 You can also reach me here: 
 
@@ -48,15 +41,11 @@ You can also reach me here:
 
 </center>
 
-:::
 
-::: {.column width=10%}
 
 &nbsp;
 
-:::
 
-::: {.column width=60%}
 
 <form id="contact-form">
   <label for="name">Name</label>
@@ -76,8 +65,6 @@ You can also reach me here:
 <p id="success-message" style="display: none; color: green; font-size: 16px; margin-top: 20px;">
   Contact form submitted successfully!
 </p>
-:::
-::::
 
 
 
