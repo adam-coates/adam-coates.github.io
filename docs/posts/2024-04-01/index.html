@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.7.6">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -72,12 +72,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-20113cbb85fc39cad5b8d615ed7b1347.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8d84315e6ae7d8f2232a6ca32c2f4107.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-be7fb163f91b555f3ad667bebde1ecd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-0bf694d61789d1b62da721e73009372a.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -851,8 +851,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1014,7 +1012,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -1240,10 +1237,55 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<script src="https://giscus.app/client.js" data-repo="adam-coates/adam-coates.github.io" data-repo-id="R_kgDOLbl8PA" data-category="General" data-category-id="DIC_kwDOLbl8PM4Cd2HV" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
-</script>
 <input type="hidden" id="giscus-base-theme" value="light">
-<input type="hidden" id="giscus-alt-theme" value="dark"><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<input type="hidden" id="giscus-alt-theme" value="dark">
+<script>
+function loadGiscusWhenReady() {
+  // Function to get the theme based on body class
+  const getTheme = () => {
+    const baseTheme = document.getElementById('giscus-base-theme').value;
+    const altTheme = document.getElementById('giscus-alt-theme').value;
+    return document.body.classList.contains('quarto-dark') ? altTheme : baseTheme;
+  };
+  // Create the Giscus script and add it to the desired location
+  const loadGiscus = () => {
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.async = true;
+    script.dataset.repo = "adam-coates/adam-coates.github.io";
+    script.dataset.repoId = "R_kgDOLbl8PA";
+    script.dataset.category = "General";
+    script.dataset.categoryId = "DIC_kwDOLbl8PM4Cd2HV";
+    script.dataset.mapping = "title";
+    script.dataset.reactionsEnabled = "1";
+    script.dataset.emitMetadata = "0";
+    script.dataset.inputPosition = "top";
+    script.dataset.theme = getTheme();
+    script.dataset.lang = "en";
+    script.crossOrigin = "anonymous";
+    // Append the script to the desired div instead of at the end of the body
+    document.getElementById("quarto-content").appendChild(script);
+  };
+  // MutationObserver to detect when the 'quarto-light' or 'quarto-dark' class is added to the body
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      if (mutation.type === "attributes" && mutation.attributeName === "class") {
+        if (document.body.classList.contains('quarto-light') || document.body.classList.contains('quarto-dark')) {
+          loadGiscus();
+          observer.disconnect(); // Stop observing once Giscus is loaded
+          break;
+        }
+      }
+    }
+  });
+  // Start observing the body for class attribute changes
+  observer.observe(document.body, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+}
+loadGiscusWhenReady();
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="sourceCode" id="cb10" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "A completion source for Neovim"</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "How I set up snippets and language server protocols for code completion"</span></span>
@@ -1280,9 +1322,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>Of course, with Neovim there are a bunch of different types of plugins that you can use, some of which achieve the same kind of functionailty but with slightly different features. </span>
 <span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>However, for the setup that I use, I use &lt;a href="https://github.com/hrsh7th/nvim-cmp" class="button"&gt;nvim-cmp&lt;/a&gt; which is a completion engine plugin. This means that essentially I can provide nvim-cmp a list of sources in which I want to use to carry out autocompletion. </span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>However, for the setup that I use, I use <span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> href</span><span class="op">=</span><span class="st">"https://github.com/hrsh7th/nvim-cmp"</span><span class="ot"> class</span><span class="op">=</span><span class="st">"button"</span><span class="dt">&gt;</span>nvim-cmp<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span> which is a completion engine plugin. This means that essentially I can provide nvim-cmp a list of sources in which I want to use to carry out autocompletion. </span>
 <span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>I use another plugin called &lt;a href="https://github.com/hrsh7th/cmp-nvim-lsp" class="button"&gt;cmp-nvim-lsp&lt;/a&gt; and this is specifically used for LSP completions that I will talk about in the next blog here.</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>I use another plugin called <span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> href</span><span class="op">=</span><span class="st">"https://github.com/hrsh7th/cmp-nvim-lsp"</span><span class="ot"> class</span><span class="op">=</span><span class="st">"button"</span><span class="dt">&gt;</span>cmp-nvim-lsp<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span> and this is specifically used for LSP completions that I will talk about in the next blog here.</span>
 <span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>These include: </span>
 <span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a></span>
@@ -1318,7 +1360,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a><span class="in">  },</span></span>
 <span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a>Here you'll notice that I am using &lt;a href="https://github.com/folke/lazy.nvim" class="button"&gt;Lazy.nvim&lt;/a&gt; as my neovim plugin manager of choice (a topic for another blog).</span>
+<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a>Here you'll notice that I am using <span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> href</span><span class="op">=</span><span class="st">"https://github.com/folke/lazy.nvim"</span><span class="ot"> class</span><span class="op">=</span><span class="st">"button"</span><span class="dt">&gt;</span>Lazy.nvim<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span> as my neovim plugin manager of choice (a topic for another blog).</span>
 <span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a>In this .lua file I use the plugin "nvim-cmp" as an autocompletion engine that depends upon several other plugins. For example, the "friendly-snippets" plugin is used to be able to use the community driven snippets that others have made for a whole range of coding languages. </span>
 <span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a></span>
@@ -1389,38 +1431,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb10-143"><a href="#cb10-143" aria-hidden="true" tabindex="-1"></a>If an et al. is not present, then the function splits the string based on the underscores present and will instead print out the list of names with an 'and' inbetween them. </span>
 <span id="cb10-144"><a href="#cb10-144" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-145"><a href="#cb10-145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-146"><a href="#cb10-146" aria-hidden="true" tabindex="-1"></a>&lt;center&gt;</span>
+<span id="cb10-146"><a href="#cb10-146" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb10-147"><a href="#cb10-147" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-148"><a href="#cb10-148" aria-hidden="true" tabindex="-1"></a><span class="al">![Indirect and direct in-text citations example](./citation_eg.gif)</span>{width=75%}</span>
 <span id="cb10-149"><a href="#cb10-149" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-150"><a href="#cb10-150" aria-hidden="true" tabindex="-1"></a>&lt;/center&gt;</span>
+<span id="cb10-150"><a href="#cb10-150" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb10-151"><a href="#cb10-151" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-152"><a href="#cb10-152" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-153"><a href="#cb10-153" aria-hidden="true" tabindex="-1"></a><span class="fu">### Completions from path</span></span>
 <span id="cb10-154"><a href="#cb10-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-155"><a href="#cb10-155" aria-hidden="true" tabindex="-1"></a>Completions from path are achieved through the use of the above dependency &lt;a href="https://github.com/hrsh7th/cmp-path" class="button"&gt;cmp-path&lt;/a&gt; This is relatively straightforward and allows for autocompletion of a path anywhere within the current buffer and look simply like this: </span>
+<span id="cb10-155"><a href="#cb10-155" aria-hidden="true" tabindex="-1"></a>Completions from path are achieved through the use of the above dependency <span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> href</span><span class="op">=</span><span class="st">"https://github.com/hrsh7th/cmp-path"</span><span class="ot"> class</span><span class="op">=</span><span class="st">"button"</span><span class="dt">&gt;</span>cmp-path<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span> This is relatively straightforward and allows for autocompletion of a path anywhere within the current buffer and look simply like this: </span>
 <span id="cb10-156"><a href="#cb10-156" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-157"><a href="#cb10-157" aria-hidden="true" tabindex="-1"></a>&lt;center&gt;</span>
+<span id="cb10-157"><a href="#cb10-157" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb10-158"><a href="#cb10-158" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-159"><a href="#cb10-159" aria-hidden="true" tabindex="-1"></a><span class="al">![Path completion example](./path_completion.PNG)</span>{width=50%}</span>
 <span id="cb10-160"><a href="#cb10-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-161"><a href="#cb10-161" aria-hidden="true" tabindex="-1"></a>&lt;/center&gt;</span>
+<span id="cb10-161"><a href="#cb10-161" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb10-162"><a href="#cb10-162" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-163"><a href="#cb10-163" aria-hidden="true" tabindex="-1"></a><span class="fu">### Completions from the current buffer</span></span>
 <span id="cb10-164"><a href="#cb10-164" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-165"><a href="#cb10-165" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; A buffer is just nvims fancy name for the currently opened document. </span></span>
 <span id="cb10-166"><a href="#cb10-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-167"><a href="#cb10-167" aria-hidden="true" tabindex="-1"></a>Completions from the current buffer are achieved through another dependency called &lt;a href="https://github.com/hrsh7th/cmp-buffer" class="button"&gt;cmp-buffer&lt;/a&gt; Again, this is relatively straightforward and allows for autocompletion of any words currently contained within the buffer that show up as text completion: </span>
+<span id="cb10-167"><a href="#cb10-167" aria-hidden="true" tabindex="-1"></a>Completions from the current buffer are achieved through another dependency called <span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> href</span><span class="op">=</span><span class="st">"https://github.com/hrsh7th/cmp-buffer"</span><span class="ot"> class</span><span class="op">=</span><span class="st">"button"</span><span class="dt">&gt;</span>cmp-buffer<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span> Again, this is relatively straightforward and allows for autocompletion of any words currently contained within the buffer that show up as text completion: </span>
 <span id="cb10-168"><a href="#cb10-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-169"><a href="#cb10-169" aria-hidden="true" tabindex="-1"></a>&lt;center&gt;</span>
+<span id="cb10-169"><a href="#cb10-169" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb10-170"><a href="#cb10-170" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-171"><a href="#cb10-171" aria-hidden="true" tabindex="-1"></a><span class="al">![Text completion example](./text_completion.PNG)</span>{width=50%}</span>
 <span id="cb10-172"><a href="#cb10-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-173"><a href="#cb10-173" aria-hidden="true" tabindex="-1"></a>&lt;/center&gt;</span>
+<span id="cb10-173"><a href="#cb10-173" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb10-174"><a href="#cb10-174" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-175"><a href="#cb10-175" aria-hidden="true" tabindex="-1"></a><span class="fu">### Zotero completions </span></span>
 <span id="cb10-176"><a href="#cb10-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-177"><a href="#cb10-177" aria-hidden="true" tabindex="-1"></a>As we saw above, zotero completions are an additional possibility as a source for completion. Zotero saves all references as an sqlite database. Basically each reference has its own random character &amp; number string. Then it's possible to just search this database based on the keywords from the title or the name of the authors and return a list of possible matches. This is possible with a pair of plugins. The first is a dependency to the nvim-cmp plugin called &lt;a href="https://github.com/" class="button"&gt;cmp-zotcite&lt;/a&gt; this dependency works with the completion plugin directly (nvim-cmp) to give you a popup list without having to call the omni-completion keybinding <span class="in">`ctrl+X ctrl+O`</span>. </span>
+<span id="cb10-177"><a href="#cb10-177" aria-hidden="true" tabindex="-1"></a>As we saw above, zotero completions are an additional possibility as a source for completion. Zotero saves all references as an sqlite database. Basically each reference has its own random character &amp; number string. Then it's possible to just search this database based on the keywords from the title or the name of the authors and return a list of possible matches. This is possible with a pair of plugins. The first is a dependency to the nvim-cmp plugin called <span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> href</span><span class="op">=</span><span class="st">"https://github.com/"</span><span class="ot"> class</span><span class="op">=</span><span class="st">"button"</span><span class="dt">&gt;</span>cmp-zotcite<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span> this dependency works with the completion plugin directly (nvim-cmp) to give you a popup list without having to call the omni-completion keybinding <span class="in">`ctrl+X ctrl+O`</span>. </span>
 <span id="cb10-178"><a href="#cb10-178" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-179"><a href="#cb10-179" aria-hidden="true" tabindex="-1"></a>Then there is an additional plugin that works as the backend to the dependency that really does the sqlite database search and format into a <span class="co">[</span><span class="ot">pandoc</span><span class="co">](https://pandoc.org/)</span> way. This is useful particularly in markdown-type files or for note taking since this plugin also offers a way to extract zotero annotations directly from articles. </span>
 <span id="cb10-180"><a href="#cb10-180" aria-hidden="true" tabindex="-1"></a></span>
@@ -1437,12 +1479,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb10-191"><a href="#cb10-191" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb10-192"><a href="#cb10-192" aria-hidden="true" tabindex="-1"></a>Here is an example of the annotation part of the plugin: </span>
 <span id="cb10-193"><a href="#cb10-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-194"><a href="#cb10-194" aria-hidden="true" tabindex="-1"></a>&lt;center&gt;</span>
+<span id="cb10-194"><a href="#cb10-194" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb10-195"><a href="#cb10-195" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-196"><a href="#cb10-196" aria-hidden="true" tabindex="-1"></a><span class="al">![Example of highlighting text and making annotations in Zotero](./zotero_eg.gif)</span>{width=75%}</span>
 <span id="cb10-197"><a href="#cb10-197" aria-hidden="true" tabindex="-1"></a><span class="al">![Example of importing annotations into neovim](./annotations_eg.gif)</span>{width=75%}</span>
 <span id="cb10-198"><a href="#cb10-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-199"><a href="#cb10-199" aria-hidden="true" tabindex="-1"></a>&lt;/center&gt;</span>
+<span id="cb10-199"><a href="#cb10-199" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb10-200"><a href="#cb10-200" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-201"><a href="#cb10-201" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-202"><a href="#cb10-202" aria-hidden="true" tabindex="-1"></a><span class="fu">### The rest of the lua file </span></span>
@@ -1515,11 +1557,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb10-269"><a href="#cb10-269" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb10-270"><a href="#cb10-270" aria-hidden="true" tabindex="-1"></a>This snippet is an autosnippet to automatically write out a yaml header for markdown files, as such:</span>
 <span id="cb10-271"><a href="#cb10-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-272"><a href="#cb10-272" aria-hidden="true" tabindex="-1"></a>&lt;center&gt;</span>
+<span id="cb10-272"><a href="#cb10-272" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb10-273"><a href="#cb10-273" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-274"><a href="#cb10-274" aria-hidden="true" tabindex="-1"></a><span class="al">![Front matter snippet example](./snippet_eg.gif)</span>{width=75%}</span>
 <span id="cb10-275"><a href="#cb10-275" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-276"><a href="#cb10-276" aria-hidden="true" tabindex="-1"></a>&lt;/center&gt;</span>
+<span id="cb10-276"><a href="#cb10-276" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb10-277"><a href="#cb10-277" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-278"><a href="#cb10-278" aria-hidden="true" tabindex="-1"></a><span class="in">```lua</span></span>
 <span id="cb10-279"><a href="#cb10-279" aria-hidden="true" tabindex="-1"></a><span class="in">        cmp.setup({</span></span>
@@ -1587,11 +1629,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb10-341"><a href="#cb10-341" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-342"><a href="#cb10-342" aria-hidden="true" tabindex="-1"></a>The final part of the configuration calls the sources that nvim-cmp should look for when actually carrying out the auto completion and the final few lines are just to get some nice pretty pictograms in the menu itself. </span>
 <span id="cb10-343"><a href="#cb10-343" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-344"><a href="#cb10-344" aria-hidden="true" tabindex="-1"></a>&lt;center&gt;</span>
+<span id="cb10-344"><a href="#cb10-344" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb10-345"><a href="#cb10-345" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-346"><a href="#cb10-346" aria-hidden="true" tabindex="-1"></a><span class="al">![Pictograms = python example](./pictograms.PNG)</span>{width=75%}</span>
 <span id="cb10-347"><a href="#cb10-347" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-348"><a href="#cb10-348" aria-hidden="true" tabindex="-1"></a>&lt;/center&gt;</span>
+<span id="cb10-348"><a href="#cb10-348" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb10-349"><a href="#cb10-349" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-350"><a href="#cb10-350" aria-hidden="true" tabindex="-1"></a><span class="fu">### To be continued...</span></span>
 <span id="cb10-351"><a href="#cb10-351" aria-hidden="true" tabindex="-1"></a></span>

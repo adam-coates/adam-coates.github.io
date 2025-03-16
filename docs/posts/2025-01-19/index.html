@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.7.6">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -72,12 +72,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-20113cbb85fc39cad5b8d615ed7b1347.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8d84315e6ae7d8f2232a6ca32c2f4107.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-be7fb163f91b555f3ad667bebde1ecd5.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-0bf694d61789d1b62da721e73009372a.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/all.min.css" rel="stylesheet">
 <link href="../../site_libs/quarto-contrib/fontawesome6-1.2.0/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -712,8 +712,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -875,7 +873,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
@@ -1101,10 +1098,55 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<script src="https://giscus.app/client.js" data-repo="adam-coates/adam-coates.github.io" data-repo-id="R_kgDOLbl8PA" data-category="General" data-category-id="DIC_kwDOLbl8PM4Cd2HV" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
-</script>
 <input type="hidden" id="giscus-base-theme" value="light">
-<input type="hidden" id="giscus-alt-theme" value="dark"><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<input type="hidden" id="giscus-alt-theme" value="dark">
+<script>
+function loadGiscusWhenReady() {
+  // Function to get the theme based on body class
+  const getTheme = () => {
+    const baseTheme = document.getElementById('giscus-base-theme').value;
+    const altTheme = document.getElementById('giscus-alt-theme').value;
+    return document.body.classList.contains('quarto-dark') ? altTheme : baseTheme;
+  };
+  // Create the Giscus script and add it to the desired location
+  const loadGiscus = () => {
+    const script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.async = true;
+    script.dataset.repo = "adam-coates/adam-coates.github.io";
+    script.dataset.repoId = "R_kgDOLbl8PA";
+    script.dataset.category = "General";
+    script.dataset.categoryId = "DIC_kwDOLbl8PM4Cd2HV";
+    script.dataset.mapping = "title";
+    script.dataset.reactionsEnabled = "1";
+    script.dataset.emitMetadata = "0";
+    script.dataset.inputPosition = "top";
+    script.dataset.theme = getTheme();
+    script.dataset.lang = "en";
+    script.crossOrigin = "anonymous";
+    // Append the script to the desired div instead of at the end of the body
+    document.getElementById("quarto-content").appendChild(script);
+  };
+  // MutationObserver to detect when the 'quarto-light' or 'quarto-dark' class is added to the body
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      if (mutation.type === "attributes" && mutation.attributeName === "class") {
+        if (document.body.classList.contains('quarto-light') || document.body.classList.contains('quarto-dark')) {
+          loadGiscus();
+          observer.disconnect(); // Stop observing once Giscus is loaded
+          break;
+        }
+      }
+    }
+  });
+  // Start observing the body for class attribute changes
+  observer.observe(document.body, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+}
+loadGiscusWhenReady();
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="sourceCode" id="cb4" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Finding the optimal note-taking solution"</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="an">description:</span><span class="co"> "My 2 year long story behind trying to find the most optimal note-taking system"</span></span>
@@ -1128,215 +1170,215 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="in">```{css}</span></span>
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">/*| echo: false */</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>figcaption{</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>   <span class="kw">text-align</span><span class="ch">:</span> <span class="dv">center</span> <span class="at">!important</span><span class="op">;</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>```</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>figcaption<span class="op">{</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>   text<span class="op">-</span>align<span class="op">:</span> center <span class="op">!</span>important<span class="op">;</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>### Why I take notes</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="fu">### Why I take notes</span></span>
 <span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>&lt;center<span class="op">&gt;</span> </span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">center</span><span class="dt">&gt;</span> </span>
 <span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a><span class="in">:::</span> {<span class="fu">.fancy-quote</span>}</span>
-<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>" Writing <span class="op">**</span>is<span class="op">**</span> thinking"</span>
-<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="in">:::</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>::: {.fancy-quote}</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>" Writing **is** thinking"</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>&lt;/center<span class="op">&gt;</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>Note-taking is a way in which<span class="op">,</span> in your own words<span class="op">,</span> you can record information to be later retrieved. I took notes because if something took me a long time to figure out<span class="op">,</span> I didn’t want to go through that process all over again to reach the same conclusion. Doing a PhD in Cognitive Neuroscience is quite interdisciplinary in terms of needing to know how to code<span class="op">,</span> do maths well and have good theoretical knowledge of the subject at hand. </span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>Note-taking is a way in which, in your own words, you can record information to be later retrieved. I took notes because if something took me a long time to figure out, I didn’t want to go through that process all over again to reach the same conclusion. Doing a PhD in Cognitive Neuroscience is quite interdisciplinary in terms of needing to know how to code, do maths well and have good theoretical knowledge of the subject at hand. </span>
 <span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>During my time as a PhD student<span class="op">,</span> my note-taking started with just a notebook and handwriting. However<span class="op">,</span> I noticed that after a while I had about 4 or 5 filled notebooks in just about a year and a half. Within those 4 or 5 notebooks I had no idea how to find the information that I knew I had written down somewhere but just simply couldn't find it. <span class="op">*</span>Even<span class="op">*</span> if I could find it<span class="op">,</span> it would take me far too much time to find it that in the end I could've probably searched the information again myself on Google <span class="in">(</span>of course ChatGPT hadn't existed then<span class="in">)</span>.</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>During my time as a PhD student, my note-taking started with just a notebook and handwriting. However, I noticed that after a while I had about 4 or 5 filled notebooks in just about a year and a half. Within those 4 or 5 notebooks I had no idea how to find the information that I knew I had written down somewhere but just simply couldn't find it. *Even* if I could find it, it would take me far too much time to find it that in the end I could've probably searched the information again myself on Google (of course ChatGPT hadn't existed then).</span>
 <span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>When I first heard of <span class="ex">[</span><span class="ss">Obsidian</span><span class="ex">]</span><span class="in">(</span>https<span class="in">:</span><span class="er">//obsidian.md/), back around 2021, I remember I had tried it out for about an hour and decided that I didn't like it. I couldn't get used to the UI, and I struggled to find a way that would allow me to access my notes no matter which computer I was using. Long story short, I went straight back to my usual and at the time comforting handwritten notebooks. It wasn't until I discovered [neovim](https://neovim.io/) and made my very first configuration that I started to get into digital note-taking (here is a link to my first neovim configuration commit, &lt;a href="https://github.com/adam-coates/dotfiles/commits/main/?since=2023-10-04&amp;until=2023-10-04" class="button"&gt;97ca162&lt;/a&gt;).</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>When I first heard of <span class="co">[</span><span class="ot">Obsidian</span><span class="co">](https://obsidian.md/)</span>, back around 2021, I remember I had tried it out for about an hour and decided that I didn't like it. I couldn't get used to the UI, and I struggled to find a way that would allow me to access my notes no matter which computer I was using. Long story short, I went straight back to my usual and at the time comforting handwritten notebooks. It wasn't until I discovered <span class="co">[</span><span class="ot">neovim</span><span class="co">](https://neovim.io/)</span> and made my very first configuration that I started to get into digital note-taking (here is a link to my first neovim configuration commit, <span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> href</span><span class="op">=</span><span class="st">"https://github.com/adam-coates/dotfiles/commits/main/?since=2023-10-04</span><span class="er">&amp;</span><span class="st">until=2023-10-04"</span><span class="ot"> class</span><span class="op">=</span><span class="st">"button"</span><span class="dt">&gt;</span>97ca162<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span>).</span>
 <span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>I became interested in a neovim plugin called <span class="ex">[</span><span class="ss">Vimwiki</span><span class="ex">]</span><span class="in">(</span>https<span class="in">:</span><span class="er">//github.com/vimwiki/vimwiki). Put simply, vimwiki is a wiki-like note-taking system that can be used in neovim. </span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>I became interested in a neovim plugin called <span class="co">[</span><span class="ot">Vimwiki</span><span class="co">](https://github.com/vimwiki/vimwiki)</span>. Put simply, vimwiki is a wiki-like note-taking system that can be used in neovim. </span>
 <span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>&lt;center<span class="op">&gt;</span></span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>&lt;span style="font-size<span class="in">:</span> 1<span class="fu">.25em</span>; font-style<span class="in">:</span> italic;"<span class="op">&gt;</span>Had I found the solution to my note-taking problem?&lt;/span<span class="op">&gt;</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> style</span><span class="op">=</span><span class="st">"font-size: 1.25em; font-style: italic;"</span><span class="dt">&gt;</span>Had I found the solution to my note-taking problem?<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
 <span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>&lt;/center<span class="op">&gt;</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>At the time<span class="op">,</span> I thought so. I thought this was such an <span class="op">**</span>amazing<span class="op">,</span> revolutionary<span class="op">**</span> solution. But I was so wrong! This was <span class="op">*</span>only<span class="op">*</span> the start of my never-ending <span class="in">(</span>and admittedly ever so slightly addictive<span class="in">)</span> journey with optimising my own note-taking solution. At the time<span class="op">,</span> had I just stuck with Obsidian in the first place<span class="op">,</span> I wouldn’t have gone on this 2-year obsessive journey to finding the most optimal solution.</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>At the time, I thought so. I thought this was such an **amazing, revolutionary** solution. But I was so wrong! This was *only* the start of my never-ending (and admittedly ever so slightly addictive) journey with optimising my own note-taking solution. At the time, had I just stuck with Obsidian in the first place, I wouldn’t have gone on this 2-year obsessive journey to finding the most optimal solution.</span>
 <span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="op">&amp;</span>nbsp;</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="dv">&amp;nbsp;</span></span>
 <span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>### What was dissatisfying with Vimwiki</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a><span class="fu">### What was dissatisfying with Vimwiki</span></span>
 <span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>There is actually nothing too much wrong with Vimwiki. It was a great first tool that got me into digital note-taking. I quite liked the fact that a single plugin would allow me to make notes efficiently<span class="op">,</span> all the while a plugin like <span class="ex">[</span><span class="ss">telescope</span><span class="ex">]</span><span class="in">(</span>https<span class="in">:</span><span class="er">//github.com/nvim-telescope/telescope.nvim) enabled me to do keyword searching for notes. This meant that I had solved at least one problem: information retrieval. </span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>There is actually nothing too much wrong with Vimwiki. It was a great first tool that got me into digital note-taking. I quite liked the fact that a single plugin would allow me to make notes efficiently, all the while a plugin like <span class="co">[</span><span class="ot">telescope</span><span class="co">](https://github.com/nvim-telescope/telescope.nvim)</span> enabled me to do keyword searching for notes. This meant that I had solved at least one problem: information retrieval. </span>
 <span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>However<span class="op">,</span> a similar problem arose when I was using Obsidian. I couldn't find a satisfying solution that would allow me to access my notes no matter which computer I was using. At first<span class="op">,</span> I started to sync my notes to a cloud platform. While this worked well for some time<span class="op">,</span> I noticed I ran into a few situations where my notes just were not syncing. </span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>However, a similar problem arose when I was using Obsidian. I couldn't find a satisfying solution that would allow me to access my notes no matter which computer I was using. At first, I started to sync my notes to a cloud platform. While this worked well for some time, I noticed I ran into a few situations where my notes just were not syncing. </span>
 <span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>Another problem arose out of using Vimwiki<span class="op">,</span> I couldn't find a way to open up `<span class="fu">.vimwiki</span>` files on my phone <span class="in">(</span>yes<span class="op">,</span> vimwiki has its own file extension<span class="in">)</span>. Vimwiki is quite unique in that it uses its own syntax. Although similar to Markdown<span class="op">,</span> Vimwiki had additional syntax for formatting styles beyond standard Markdown. This also meant that I couldn't really use my notes on a computer that didn't have neovim installed nor had the vimwiki plugin. </span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>Another problem arose out of using Vimwiki, I couldn't find a way to open up <span class="in">`.vimwiki`</span> files on my phone (yes, vimwiki has its own file extension). Vimwiki is quite unique in that it uses its own syntax. Although similar to Markdown, Vimwiki had additional syntax for formatting styles beyond standard Markdown. This also meant that I couldn't really use my notes on a computer that didn't have neovim installed nor had the vimwiki plugin. </span>
 <span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>There was one solution to using the `<span class="fu">.Vimwiki</span>` extension. Use Markdown instead! In my first ever configuration this is what I stuck with<span class="in">:</span>   </span>
-<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>&lt;a href="https<span class="in">:</span><span class="er">//github.com/adam-coates/dotfiles/blob/97ca1621f9044cdbc5188c989a1847f0e0112e6a/.config/nvim/lua/adam/plugins/Vimwiki.lua" class="button"&gt;vimwiki.lua&lt;/a&gt;</span></span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>There was one solution to using the <span class="in">`.Vimwiki`</span> extension. Use Markdown instead! In my first ever configuration this is what I stuck with:   </span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> href</span><span class="op">=</span><span class="st">"https://github.com/adam-coates/dotfiles/blob/97ca1621f9044cdbc5188c989a1847f0e0112e6a/.config/nvim/lua/adam/plugins/Vimwiki.lua"</span><span class="ot"> class</span><span class="op">=</span><span class="st">"button"</span><span class="dt">&gt;</span>vimwiki.lua<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span></span>
 <span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>```lua</span>
-<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>return <span class="er">{</span></span>
-<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>    "Vimwiki/vimwiki"<span class="op">,</span></span>
-<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>    init = function<span class="in">()</span></span>
-<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>    vim<span class="fu">.g.Vimwiki_list</span> = {{path = '<span class="op">~</span>/Docs/'<span class="op">,</span> syntax = 'markdown'<span class="op">,</span> ext = '<span class="fu">.md</span>'}}</span>
-<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>    end</span>
-<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>```</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="in">```lua</span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a><span class="in">return {</span></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a><span class="in">    "Vimwiki/vimwiki",</span></span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a><span class="in">    init = function()</span></span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a><span class="in">    vim.g.Vimwiki_list = {{path = '~/Docs/', syntax = 'markdown', ext = '.md'}}</span></span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a><span class="in">    end</span></span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>There were still 2 drawbacks<span class="in">:</span> </span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>There were still 2 drawbacks: </span>
 <span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>1. Syncing</span>
-<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>2. Editing my markdown files on a device without neovim <span class="in">(</span>particularly on a smartphone<span class="in">)</span></span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Syncing</span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Editing my markdown files on a device without neovim (particularly on a smartphone)</span>
 <span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>To address point two<span class="op">,</span> I had installed and tried just about every <span class="op">**</span>free<span class="op">**</span> Android app available. Absolutely none of them were satisfying to edit Markdown files on. I was for sure<span class="op">,</span> not prepared to pay for an app knowing that I would only rarely be editing Markdown files on my smartphone. </span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>To address point two, I had installed and tried just about every **free** Android app available. Absolutely none of them were satisfying to edit Markdown files on. I was for sure, not prepared to pay for an app knowing that I would only rarely be editing Markdown files on my smartphone. </span>
 <span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a><span class="op">&amp;</span>nbsp;</span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a><span class="dv">&amp;nbsp;</span></span>
 <span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>### Google Keep</span>
-<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>#### <span class="op">*</span>Almost<span class="op">*</span> a perfect solution</span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a><span class="fu">### Google Keep</span></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a><span class="fu">#### *Almost* a perfect solution</span></span>
 <span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>I had discovered a mobile app called <span class="ex">[</span><span class="ss">google keep</span><span class="ex">]</span>. At the time<span class="op">,</span> I was just about fed up with using Vimwiki and not having a solution to both my syncing problem and not being able to edit my notes on-the-go was becoming a bit of a pain. I found myself doing double work<span class="op">,</span> writing a note to myself on whatsapp or on slack and then coming home<span class="op">,</span> copying and pasting my note inside my vimwiki notes.</span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>I had discovered a mobile app called <span class="co">[</span><span class="ot">google keep</span><span class="co">]</span>. At the time, I was just about fed up with using Vimwiki and not having a solution to both my syncing problem and not being able to edit my notes on-the-go was becoming a bit of a pain. I found myself doing double work, writing a note to myself on whatsapp or on slack and then coming home, copying and pasting my note inside my vimwiki notes.</span>
 <span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>Again<span class="op">,</span> however<span class="op">,</span> Google Keep had drawbacks <span class="in">(</span>in fact there were quite a few<span class="in">):</span>  </span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a>Again, however, Google Keep had drawbacks (in fact there were quite a few):  </span>
 <span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a>1. Google Keep technically had its own syntax and was also not Markdown compliant</span>
-<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a>2. Being locked into Google's architecture </span>
-<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a>3. No way of linking notes together</span>
-<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>4. No official Google Keep API</span>
-<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>5. No official in-app way to convert Google Keep notes to other files</span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Google Keep technically had its own syntax and was also not Markdown compliant</span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Being locked into Google's architecture </span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>No way of linking notes together</span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a><span class="ss">4. </span>No official Google Keep API</span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a><span class="ss">5. </span>No official in-app way to convert Google Keep notes to other files</span>
 <span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>One of the positives though was that I could finally edit notes<span class="op">,</span> make new ones and have everything synced up across any device that I used! And this was very reliable. I had a recurring thought as I did with Vimwiki<span class="in">:</span> I thought this was such an <span class="op">**</span>amazing<span class="op">,</span> revolutionary<span class="op">**</span> solution. I thought I had finally found a note-taking solution that both <span class="op">**</span>1.<span class="op">**</span> works and <span class="op">**</span>2.<span class="op">**</span> is efficient.</span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>One of the positives though was that I could finally edit notes, make new ones and have everything synced up across any device that I used! And this was very reliable. I had a recurring thought as I did with Vimwiki: I thought this was such an **amazing, revolutionary** solution. I thought I had finally found a note-taking solution that both **1.** works and **2.** is efficient.</span>
 <span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>To solve point five<span class="op">,</span> I found a python script called <span class="ex">[</span><span class="ss">keep-it-markdown</span><span class="ex">]</span><span class="in">(</span>https<span class="in">:</span><span class="er">//github.com/djsudduth/keep-it-markdown). This essentially meant that I could convert any and all Google Keep notes to Markdown. The script was relatively easy to use and meant that I could convert my notes and back them up to a cloud provider. However, because there is no official API in Google Keep the setup of this was quite involved and technically quite challenging. Still, this solved point five and kind of point one. </span></span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>To solve point five, I found a python script called <span class="co">[</span><span class="ot">keep-it-markdown</span><span class="co">](https://github.com/djsudduth/keep-it-markdown)</span>. This essentially meant that I could convert any and all Google Keep notes to Markdown. The script was relatively easy to use and meant that I could convert my notes and back them up to a cloud provider. However, because there is no official API in Google Keep the setup of this was quite involved and technically quite challenging. Still, this solved point five and kind of point one. </span>
 <span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>Since wanting to stick to editing notes inside neovim because of the many benefits described <span class="ex">[</span><span class="ss">in my other blog post</span><span class="ex">]</span><span class="in">(</span>https<span class="in">:</span><span class="er">//adam-coates.github.io/posts/2024-03-08/) I came across a plugin called [gkeep](https://github.com/stevearc/gkeep.nvim). </span></span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>Since wanting to stick to editing notes inside neovim because of the many benefits described <span class="co">[</span><span class="ot">in my other blog post</span><span class="co">](https://adam-coates.github.io/posts/2024-03-08/)</span> I came across a plugin called <span class="co">[</span><span class="ot">gkeep</span><span class="co">](https://github.com/stevearc/gkeep.nvim)</span>. </span>
 <span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a><span class="op">&amp;</span>nbsp;</span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a><span class="dv">&amp;nbsp;</span></span>
 <span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>#### Google Keep's neovim plugin</span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Google Keep's neovim plugin</span></span>
 <span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>This plugin was again<span class="op">,</span> at the time<span class="op">,</span> I thought <span class="op">**</span>revolutionary<span class="op">**</span>. Here was my config and commit where I first started using it &lt;a href="https<span class="in">:</span><span class="er">//github.com/adam-coates/dotfiles/commits/main/?since=2023-12-13&amp;until=2023-12-14" class="button"&gt;09d3e78&lt;/a&gt; : </span></span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>This plugin was again, at the time, I thought **revolutionary**. Here was my config and commit where I first started using it <span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> href</span><span class="op">=</span><span class="st">"https://github.com/adam-coates/dotfiles/commits/main/?since=2023-12-13</span><span class="er">&amp;</span><span class="st">until=2023-12-14"</span><span class="ot"> class</span><span class="op">=</span><span class="st">"button"</span><span class="dt">&gt;</span>09d3e78<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span> : </span>
 <span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>```lua</span>
-<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a>return <span class="er">{</span></span>
-<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>    "stevearc/gkeep<span class="fu">.nvim</span>"<span class="op">,</span></span>
-<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>    opts = {}<span class="op">,</span></span>
-<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>    -- Optional dependencies</span>
-<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a>    dependencies = { "nvim-tree/nvim-web-devicons" }<span class="op">,</span></span>
-<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a>```</span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a><span class="in">```lua</span></span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a><span class="in">return {</span></span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a><span class="in">    "stevearc/gkeep.nvim",</span></span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a><span class="in">    opts = {},</span></span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a><span class="in">    -- Optional dependencies</span></span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a><span class="in">    dependencies = { "nvim-tree/nvim-web-devicons" },</span></span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a>I could edit notes in neovim<span class="op">,</span> have them automatically synced to any device and be able to edit the notes I had made on my smartphone with an app that isn't so bad to use. </span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a>I could edit notes in neovim, have them automatically synced to any device and be able to edit the notes I had made on my smartphone with an app that isn't so bad to use. </span>
 <span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a>After dealing with the setup of keep-it-markdown I felt confident in also setting up gkeep. There were many hurdles to getting this working because of Google not having an official API for Google Keep unless you paid for a Google premium account. This is something I don't want to do.</span>
 <span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a>Whilst I was using the Google Keep neovim plugin the author had archived the plugin. What this meant was that it was no longer going to receive any updates and was not going to be actively maintained. But I can understand and support their decision to archive the plugin. Not having an available API meant that the setup was really frustratingly complicated. Yet<span class="op">,</span> despite this<span class="op">,</span> I think the complicated setup make me want to use the plugin even more because it felt like a bit of an achievement to use it.</span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a>Whilst I was using the Google Keep neovim plugin the author had archived the plugin. What this meant was that it was no longer going to receive any updates and was not going to be actively maintained. But I can understand and support their decision to archive the plugin. Not having an available API meant that the setup was really frustratingly complicated. Yet, despite this, I think the complicated setup make me want to use the plugin even more because it felt like a bit of an achievement to use it.</span>
 <span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a>After a good few months with Google Keep and converting notes to Markdown using keep-it-markdown every night it became a bit apparent that this note-taking solution wasn't so streamlined and my notes inside the Google Keep app became way too cluttered and disorganised. It occurred to me<span class="in">:</span></span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a>After a good few months with Google Keep and converting notes to Markdown using keep-it-markdown every night it became a bit apparent that this note-taking solution wasn't so streamlined and my notes inside the Google Keep app became way too cluttered and disorganised. It occurred to me:</span>
 <span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a>&lt;center<span class="op">&gt;</span></span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a>&lt;span style="font-size<span class="in">:</span> 1<span class="fu">.25em</span>; font-style<span class="in">:</span> italic;"<span class="op">&gt;</span>"I need folders!"&lt;/span<span class="op">&gt;</span></span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> style</span><span class="op">=</span><span class="st">"font-size: 1.25em; font-style: italic;"</span><span class="dt">&gt;</span>"I need folders!"<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
 <span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a>&lt;/center<span class="op">&gt;</span></span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a><span class="op">&amp;</span>nbsp;</span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a><span class="dv">&amp;nbsp;</span></span>
 <span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a>### Back to the drawing board</span>
+<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a><span class="fu">### Back to the drawing board</span></span>
 <span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a>&lt;center<span class="op">&gt;</span></span>
+<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a><span class="in">:::</span> {<span class="fu">.fancy-quote</span>}</span>
+<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a>::: {.fancy-quote}</span>
 <span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a>" You don’t really know how to do something&lt;br<span class="op">&gt;</span></span>
+<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a>" You don’t really know how to do something<span class="dt">&lt;</span><span class="kw">br</span><span class="dt">&gt;</span></span>
 <span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a>unless you know how to fix it once you’ve done it wrong"</span>
 <span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a><span class="in">:::</span></span>
+<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a>&lt;/center<span class="op">&gt;</span></span>
+<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">center</span><span class="dt">&gt;</span></span>
 <span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a>Throughout this whole journey I was spending arguably too much time thinking about how I can increase my note-taking productivity. What improvements do I need to make? What problems do I actually have to solve? </span>
 <span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a>All I wanted was a note-taking system that would let me <span class="op">**</span>sync across devices<span class="op">**,</span> <span class="op">**</span>smartphone support<span class="op">**</span> and be <span class="op">**</span>organised and efficient<span class="op">**</span>. It had occurred to me that the one tool that I had been avoiding for 2 years was actually the very tool that I needed to achieve all of this and so much more<span class="op">,</span> Obsidian.</span>
+<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a>All I wanted was a note-taking system that would let me **sync across devices**, **smartphone support** and be **organised and efficient**. It had occurred to me that the one tool that I had been avoiding for 2 years was actually the very tool that I needed to achieve all of this and so much more, Obsidian.</span>
 <span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a><span class="op">&amp;</span>nbsp;</span>
+<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a><span class="dv">&amp;nbsp;</span></span>
 <span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a>### Obsidian <span class="op">+</span> neovim</span>
+<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a><span class="fu">### Obsidian + neovim</span></span>
 <span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a>At this point I was already far too familiar with neovim and was starting to get good at some of the motions inside neovim. Ultimately<span class="op">,</span> it meant that I was able to write code and notes much faster. My configuration for neovim had evolved quite a bit and was beginning to become pretty tailored to my exact needs. </span>
+<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a>At this point I was already far too familiar with neovim and was starting to get good at some of the motions inside neovim. Ultimately, it meant that I was able to write code and notes much faster. My configuration for neovim had evolved quite a bit and was beginning to become pretty tailored to my exact needs. </span>
 <span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a>I saw that a plugin for neovim had started to gain a lot of interest within the community. The plugin first came about back in July 2022 &lt;a href="https<span class="in">:</span><span class="er">//github.com/epwalsh/Obsidian.nvim/commits/main/?since=2022-12-01&amp;until=2022-12-08" class="button"&gt;fbe22e4&lt;/a&gt; and was essentially the missing link between neovim and Obsidian. The idea behind this is that you use Obsidian as a kind of backend but use neovim as the frontend. To me, this was truly **remarkable!**</span></span>
+<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a>I saw that a plugin for neovim had started to gain a lot of interest within the community. The plugin first came about back in July 2022 <span class="dt">&lt;</span><span class="kw">a</span><span class="ot"> href</span><span class="op">=</span><span class="st">"https://github.com/epwalsh/Obsidian.nvim/commits/main/?since=2022-12-01</span><span class="er">&amp;</span><span class="st">until=2022-12-08"</span><span class="ot"> class</span><span class="op">=</span><span class="st">"button"</span><span class="dt">&gt;</span>fbe22e4<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;</span> and was essentially the missing link between neovim and Obsidian. The idea behind this is that you use Obsidian as a kind of backend but use neovim as the frontend. To me, this was truly **remarkable!**</span>
 <span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a>This solved a lot of problems I had with my previous note-taking systems<span class="in">:</span> </span>
+<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a>This solved a lot of problems I had with my previous note-taking systems: </span>
 <span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a>#### What about syncing</span>
+<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a><span class="fu">#### What about syncing</span></span>
 <span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a>Syncing across devices shouldn't be so difficult however<span class="op">,</span> there are many ways that this can be done. Obsidian does have a paid service that allows syncing across devices; however<span class="op">,</span> as far as I can tell<span class="op">,</span> there is no version control. </span>
+<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a>Syncing across devices shouldn't be so difficult however, there are many ways that this can be done. Obsidian does have a paid service that allows syncing across devices; however, as far as I can tell, there is no version control. </span>
 <span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a>This is where using Git has been super handy for me. I use <span class="ex">[</span><span class="ss">Lazygit</span><span class="ex">]</span><span class="in">(</span>https<span class="in">:</span><span class="er">//github.com/jesseduffield/lazygit) with [Lazygit.nvim](https://github.com/kdheepak/lazygit.nvim) as a neovim plugin that basically means I can set a keymap to open Lazygit and run `git add .` `git commit -m` and `git push` all within a few seconds. </span></span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a>This is where using Git has been super handy for me. I use <span class="co">[</span><span class="ot">Lazygit</span><span class="co">](https://github.com/jesseduffield/lazygit)</span> with <span class="co">[</span><span class="ot">Lazygit.nvim</span><span class="co">](https://github.com/kdheepak/lazygit.nvim)</span> as a neovim plugin that basically means I can set a keymap to open Lazygit and run <span class="in">`git add .`</span> <span class="in">`git commit -m`</span> and <span class="in">`git push`</span> all within a few seconds. </span>
 <span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a>Here is my lazygit configuration<span class="in">:</span> </span>
+<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a>Here is my lazygit configuration: </span>
 <span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a>```lua</span>
-<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a>return <span class="er">{</span></span>
-<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a>    "kdheepak/lazygit<span class="fu">.nvim</span>"<span class="op">,</span></span>
-<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a>    cmd = {</span>
-<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a>        "LazyGit"<span class="op">,</span></span>
-<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a>        "LazyGitConfig"<span class="op">,</span></span>
-<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a>        "LazyGitCurrentFile"<span class="op">,</span></span>
-<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a>        "LazyGitFilter"<span class="op">,</span></span>
-<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a>        "LazyGitFilterCurrentFile"<span class="op">,</span></span>
-<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
-<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a>    dependencies = {</span>
-<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a>        "nvim-lua/plenary<span class="fu">.nvim</span>"<span class="op">,</span></span>
-<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
-<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a>    keys = {</span>
-<span id="cb4-196"><a href="#cb4-196" aria-hidden="true" tabindex="-1"></a>        { "&lt;leader<span class="op">&gt;</span>lg"<span class="op">,</span> "&lt;cmd<span class="op">&gt;</span>LazyGit&lt;cr<span class="op">&gt;</span>"<span class="op">,</span> desc = "Open lazy git" }<span class="op">,</span></span>
-<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
-<span id="cb4-198"><a href="#cb4-198" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-199"><a href="#cb4-199" aria-hidden="true" tabindex="-1"></a>```</span>
+<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a><span class="in">```lua</span></span>
+<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a><span class="in">return {</span></span>
+<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a><span class="in">    "kdheepak/lazygit.nvim",</span></span>
+<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a><span class="in">    cmd = {</span></span>
+<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a><span class="in">        "LazyGit",</span></span>
+<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a><span class="in">        "LazyGitConfig",</span></span>
+<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a><span class="in">        "LazyGitCurrentFile",</span></span>
+<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a><span class="in">        "LazyGitFilter",</span></span>
+<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a><span class="in">        "LazyGitFilterCurrentFile",</span></span>
+<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a><span class="in">    },</span></span>
+<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a><span class="in">    dependencies = {</span></span>
+<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a><span class="in">        "nvim-lua/plenary.nvim",</span></span>
+<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a><span class="in">    },</span></span>
+<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a><span class="in">    keys = {</span></span>
+<span id="cb4-196"><a href="#cb4-196" aria-hidden="true" tabindex="-1"></a><span class="in">        { "&lt;leader&gt;lg", "&lt;cmd&gt;LazyGit&lt;cr&gt;", desc = "Open lazy git" },</span></span>
+<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a><span class="in">    },</span></span>
+<span id="cb4-198"><a href="#cb4-198" aria-hidden="true" tabindex="-1"></a><span class="in">}</span></span>
+<span id="cb4-199"><a href="#cb4-199" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb4-200"><a href="#cb4-200" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-201"><a href="#cb4-201" aria-hidden="true" tabindex="-1"></a>I also use gitsigns in neovim to see if any and how many changes have been made inside my notes. </span>
 <span id="cb4-202"><a href="#cb4-202" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-203"><a href="#cb4-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-204"><a href="#cb4-204" aria-hidden="true" tabindex="-1"></a>##### Syncing on mobile</span>
+<span id="cb4-204"><a href="#cb4-204" aria-hidden="true" tabindex="-1"></a><span class="fu">##### Syncing on mobile</span></span>
 <span id="cb4-205"><a href="#cb4-205" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-206"><a href="#cb4-206" aria-hidden="true" tabindex="-1"></a>I recently switched to using iPhone for its easier compatibility with macOS. iphone is quite good because they have a native app called Shortcuts. This means on my home screen I have an icon/ button that I can push that will first automatically pull from my private notes repository on GitHub before I create a new note. </span>
 <span id="cb4-207"><a href="#cb4-207" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-208"><a href="#cb4-208" aria-hidden="true" tabindex="-1"></a>This means then that no matter if I am making changes or adding a note on both my pc and on my phone I can be sure that I can sync between the two. </span>
 <span id="cb4-209"><a href="#cb4-209" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-210"><a href="#cb4-210" aria-hidden="true" tabindex="-1"></a>This is great<span class="op">,</span> and solves the syncing problem once and for all!</span>
+<span id="cb4-210"><a href="#cb4-210" aria-hidden="true" tabindex="-1"></a>This is great, and solves the syncing problem once and for all!</span>
 <span id="cb4-211"><a href="#cb4-211" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-212"><a href="#cb4-212" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-213"><a href="#cb4-213" aria-hidden="true" tabindex="-1"></a>#### What about a mobile app</span>
+<span id="cb4-213"><a href="#cb4-213" aria-hidden="true" tabindex="-1"></a><span class="fu">#### What about a mobile app</span></span>
 <span id="cb4-214"><a href="#cb4-214" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-215"><a href="#cb4-215" aria-hidden="true" tabindex="-1"></a>I can use the Obsidian mobile app for editing markdown files on the fly {{&lt; fa solid rocket <span class="op">&gt;</span>}} </span>
+<span id="cb4-215"><a href="#cb4-215" aria-hidden="true" tabindex="-1"></a>I can use the Obsidian mobile app for editing markdown files on the fly {{&lt; fa solid rocket &gt;}} </span>
 <span id="cb4-216"><a href="#cb4-216" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-217"><a href="#cb4-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-218"><a href="#cb4-218" aria-hidden="true" tabindex="-1"></a><span class="op">&amp;</span>nbsp;</span>
+<span id="cb4-218"><a href="#cb4-218" aria-hidden="true" tabindex="-1"></a><span class="dv">&amp;nbsp;</span></span>
 <span id="cb4-219"><a href="#cb4-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-220"><a href="#cb4-220" aria-hidden="true" tabindex="-1"></a>### Full circle </span>
+<span id="cb4-220"><a href="#cb4-220" aria-hidden="true" tabindex="-1"></a><span class="fu">### Full circle </span></span>
 <span id="cb4-221"><a href="#cb4-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-222"><a href="#cb4-222" aria-hidden="true" tabindex="-1"></a>It seems as though my search for note-taking system that actually works has gone full circle <span class="in">(</span>like the Obsidian graph view <span class="er">{</span>{&lt; fa solid face-smile-wink <span class="op">&gt;</span>}})</span>
+<span id="cb4-222"><a href="#cb4-222" aria-hidden="true" tabindex="-1"></a>It seems as though my search for note-taking system that actually works has gone full circle (like the Obsidian graph view {{&lt; fa solid face-smile-wink &gt;}})</span>
 <span id="cb4-223"><a href="#cb4-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-224"><a href="#cb4-224" aria-hidden="true" tabindex="-1"></a>!<span class="ex">[</span><span class="ss">My current Obsidian graph view</span><span class="ex">]</span><span class="in">(</span>./obsidian_graph_view<span class="fu">.png</span><span class="in">)</span>{<span class="kw">width</span>=50%}</span>
+<span id="cb4-224"><a href="#cb4-224" aria-hidden="true" tabindex="-1"></a><span class="al">![My current Obsidian graph view](./obsidian_graph_view.png)</span>{width=50%}</span>
 <span id="cb4-225"><a href="#cb4-225" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-226"><a href="#cb4-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-227"><a href="#cb4-227" aria-hidden="true" tabindex="-1"></a>I started out by not liking Obsidian but by the end have really fallen in love with it {{&lt; fa solid heart <span class="op">&gt;</span>}}. Combine Obsidian<span class="op">,</span> neovim and git you end up with quite a lovely streamlined note-taking system.</span>
+<span id="cb4-227"><a href="#cb4-227" aria-hidden="true" tabindex="-1"></a>I started out by not liking Obsidian but by the end have really fallen in love with it {{&lt; fa solid heart &gt;}}. Combine Obsidian, neovim and git you end up with quite a lovely streamlined note-taking system.</span>
 <span id="cb4-228"><a href="#cb4-228" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-229"><a href="#cb4-229" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-230"><a href="#cb4-230" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-231"><a href="#cb4-231" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-232"><a href="#cb4-232" aria-hidden="true" tabindex="-1"></a>### Upcoming blog posts</span>
+<span id="cb4-232"><a href="#cb4-232" aria-hidden="true" tabindex="-1"></a><span class="fu">### Upcoming blog posts</span></span>
 <span id="cb4-233"><a href="#cb4-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-234"><a href="#cb4-234" aria-hidden="true" tabindex="-1"></a>Stay tuned! I hope to go in more detail about this note-taking setup including how I can automatically format all my notes<span class="op">,</span> automatically create a note from within the terminal and automatically sort my notes into there respective folders. </span>
+<span id="cb4-234"><a href="#cb4-234" aria-hidden="true" tabindex="-1"></a>Stay tuned! I hope to go in more detail about this note-taking setup including how I can automatically format all my notes, automatically create a note from within the terminal and automatically sort my notes into there respective folders. </span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
