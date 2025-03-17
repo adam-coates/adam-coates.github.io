@@ -58,7 +58,7 @@ You can also reach me here:
   <label for="message">Message</label>
   <textarea id="message" name="message" rows="4" placeholder="Write your message here" required></textarea>
   
-  <div class="g-recaptcha" data-sitekey="6Lfpn7YqAAAAACcsfCV3RQn3ZTFooUw-acHmwiTl"></div>
+  <!-- <div class="g-recaptcha" data-sitekey="6Lfpn7YqAAAAACcsfCV3RQn3ZTFooUw-acHmwiTl"></div> -->
   
   <button type="submit">Submit</button>
 
