@@ -163,7 +163,7 @@ gtag('config', 'G-0CBQ9T3TM7', { 'anonymize_ip': true});
 
 <script>
 const url =
-  'https://script.google.com/macros/s/AKfycbzRz2EH71XeobCOfbakTZ4k8xarjdGfHBDvQ3QlMrz5LI2QHz0vSQt55QPpHlnqWttf/exec';
+  'https://script.google.com/macros/s/AKfycbxUe2Bjc82F3drXvbeoBY6YFuOuPi9QqYPRYtDssBOrbZ0N8yjQY1jDPW647Hxvf5Q7/exec';
 
 document.addEventListener("DOMContentLoaded", () => {
   document
@@ -175,13 +175,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = Object.fromEntries(formData);
 
       // Add gCaptchaResponse to the data object
-      <!-- data.gCaptchaResponse = grecaptcha.getResponse(); -->
-      <!---->
-      <!-- if (!data.gCaptchaResponse) { -->
-      <!--   alert('Please complete the reCAPTCHA to proceed.'); -->
-      <!--   return; // Stop the submission if reCAPTCHA is not completed -->
-      <!-- } -->
-      <!---->
+      data.gCaptchaResponse = grecaptcha.getResponse();
+
+      if (!data.gCaptchaResponse) {
+        alert('Please complete the reCAPTCHA to proceed.');
+        return; // Stop the submission if reCAPTCHA is not completed
+      }
+
       const submitButton = this.querySelector('button[type="submit"]');
       const originalButtonText = submitButton.innerHTML;
 
